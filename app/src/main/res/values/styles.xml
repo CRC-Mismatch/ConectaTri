@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimaryDark">@color/menu_03</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/backgroundGray</item>
+        <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
+    </style>
+
+    <style name="AppTheme.LoginEdit" parent="AppTheme">
+        <item name="colorAccent">@color/loginGray</item>
+        <item name="colorControlHighlight">@color/darkBlueStandard</item>
+    </style>
+
+    <style name="AppTheme.AutoAdhesionEdit" parent="AppTheme">
+        <item name="colorAccent">@color/darkBlueStandard</item>
+        <item name="colorControlNormal">@color/darkBlueStandard</item>
+        <item name="colorControlActivated">@color/darkBlueStandard</item>
+        <item name="colorControlHighlight">@color/darkBlueStandard</item>
+        <item name="android:textColorHint">@color/darkBlueStandard</item>
+    </style>
+
+    <style name="AppTheme.LoginLayout" parent="AppTheme">
+        <item name="colorAccent">@color/loginLtGray</item>
+        <item name="colorControlHighlight">@color/darkBlueStandard</item>
+    </style>
+
+    <style name="AppTheme.ActionBar" parent="AppTheme">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

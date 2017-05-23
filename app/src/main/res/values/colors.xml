@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_blue">#3a739e</color>
+
+    <color name="button_top_blue">#386b9b</color>
+    <color name="button_bottom_blue">#3c91e6</color>
+    <color name="button_top_green">#739656</color>
+    <color name="button_bottom_green">#8cb369</color>
+    <color name="button_top_orange">#b47941</color>
+    <color name="button_bottom_orange">#f4a259</color>
+
+    <color name="backgroundGray">#E7ECEF</color>
+    <color name="backgroundLighterGray">#ECECEC</color>
+    <color name="backgroundLightGray">#CCCCCC</color>
+    <color name="backgroundLightBlue">#CCD0D6</color>
+    <color name="progressBackground">#D9E4E8</color>
+    <color name="appBarDark">#221C48</color>
+    <color name="appBarLight">#02788D</color>
+    <color name="navBarGray">#909395</color>
+    <color name="navPurple">#0D0C50</color>
+    <color name="navGreen">#42B552</color>
+    <color name="navGray">#999999</color>
+    <color name="icGray">#999EA1</color>
+
+    <color name="tabSelected">#518690a3</color>
+
+    <color name="textBlue">#0AA6ED</color>
+    <color name="textBlue2">#00A8FF</color>
+    <color name="textOrange">#E18344</color>
+    <color name="textGray">#4A5E5F</color>
+
+    <color name="loginGray">#858787</color>
+    <color name="loginLtGray">#A0858787</color>
+
+    <color name="darkBlue">#0A0941</color>
+    <color name="lightBlue">#00ABB6</color>
+
+    <color name="darkBlueStandard">#01327a</color>
+
+    <color name="stmtTabTextBlue">#002F78</color>
+    <color name="stmtTabTextGray">#5D778A</color>
+    <color name="stmtTabIndicatorBlue">#0D0C50</color>
+
+    <color name="cardsBarGray">#525e6e</color>
+
+    <color name="pink">#EB2B75</color>
+    <color name="red">#E42C3C</color>
+    <color name="red_orange">#f7b49f</color>
+    <color name="orange">#FAA733</color>
+    <color name="aqua">#41C0C4</color>
+    <color name="lime">#AFD261</color>
+    <color name="aqua_lime">#B5DBAD</color>
+
+
+    <color name="mainStatusBar">#0A0941</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#009933</color>
+    <color name="colorSwitchBase">#9ED5D2</color>
+    <color name="colorSwitchButton">#42B5B2</color>
+    <color name="menu_01">#42B552</color>
+    <color name="menu_02">#4DA25D</color>
+    <color name="menu_03">#427055</color>
+    <color name="menu_04">#38504C</color>
+    <color name="menu_05">#323C48</color>
+    <color name="menu_text">#FFFFFF</color>
+    <color name="graphMain">#42B552</color>
+    <color name="graphSecond">#427055</color>
+    <color name="graphBack">#323C48</color>
+    <color name="logo_green">#88D000</color>
+</resources>

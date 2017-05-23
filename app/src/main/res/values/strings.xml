@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">ConectaTri</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_user">CPF</string>
+    <string name="prompt_password">Senha</string>
+    <string name="action_sign_in">Entrar</string>
+    <string name="action_sign_in_short">Entrar</string>
+    <string name="text_login_empty_field">É necessário preencher o CPF e a senha</string>
+    <string name="text_login">Faça o login para continuar</string>
+    <string name="text_auto_adhesion">Cadastre-se</string>
+    <string name="text_login_result_success">Você já pode entrar com seus dados</string>
+    <string name="login_fingerprint_tip">Ou você pode usar sua digital agora</string>
+    <string name="login_remember">Lembrar senha</string>
+
+
+    <string name="title_activity_main">O que deseja fazer hoje?</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+</resources>
