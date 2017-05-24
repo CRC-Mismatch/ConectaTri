@@ -204,16 +204,12 @@
                         android:layout_marginTop="0dp"
                         android:clipChildren="false">
 
-                    <android.support.v4.widget.Space
-                        android:id="@+id/button_recovery_space"
-                        android:layout_width="match_parent"
-                        android:layout_height="96dp" />
-
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="72dp"
                             android:alpha="0.5"
                             android:scaleType="fitXY"
+                            android:layout_centerInParent="true"
                             android:src="@drawable/penumbra_gradient" />
 
                         <Button

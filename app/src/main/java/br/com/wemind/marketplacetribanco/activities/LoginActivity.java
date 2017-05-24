@@ -167,7 +167,6 @@ public class LoginActivity extends AppCompatActivity {
         public void onVisibilityChanged(boolean isOpen) {
             int visibility = isOpen ? View.GONE : View.VISIBLE;
             binding.loginTitle.setVisibility(visibility);
-            binding.buttonRecoverySpace.setVisibility(visibility);
             binding.buttonBottomSpace.setVisibility(visibility);
         }
     }
