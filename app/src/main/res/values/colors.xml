@@ -12,7 +12,7 @@
     <color name="toolbar_blue">#4881ac</color>
     <color name="statusbar_blue">#36678d</color>
 
-    <color name="backgroundGray">#E7ECEF</color>
+    <color name="backgroundGray">#d3dae6</color>
     <color name="backgroundLighterGray">#ECECEC</color>
     <color name="backgroundLightGray">#CCCCCC</color>
     <color name="backgroundLightBlue">#CCD0D6</color>

@@ -20,6 +20,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_activity_quote_type">Que tipo de cotação?</string>
 
 
 </resources>
