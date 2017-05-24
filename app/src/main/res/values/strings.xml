@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">ConectaTri</string>
 
     <!-- Strings related to login -->
@@ -21,6 +21,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_quote_type">Que tipo de cotação?</string>
+    <string name="title_activity_suppliers_list">SuppliersListActivity</string>
 
 
 </resources>
