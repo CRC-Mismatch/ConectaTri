@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/grp1" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_lists"
+            android:icon="@drawable/ic_list_gray"
+            android:title="Minhas Listas" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_products"
+            android:icon="@drawable/ic_shopping_basket_gray"
+            android:title="Produtos" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_suppliers"
+            android:icon="@drawable/ic_suppliers_gray"
+            android:title="Fornecedores" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_remote_quote"
+            android:icon="@drawable/ic_remote_gray"
+            android:title="Cotação Remota" />
+        <item
+            android:id="@+id/nav_manual_quote"
+            android:icon="@drawable/ic_manual_gray"
+            android:title="Cotação Manual" />
+        <item
+            android:id="@+id/nav_tutorial"
+            android:icon="@drawable/ic_info_gray"
+            android:title="Tutorial" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+    <group android:id="@+id/grp2" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_gray"
+            android:title="Configurações" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/placeholder"
+            android:title="Logout" />
+    </group>
 
 </menu>
