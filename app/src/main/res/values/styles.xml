@@ -45,5 +45,14 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="EditTextCNPJ">
+        <item name="android:inputType">number</item>
+        <item name="android:digits">1234567890./-</item>
+    </style>
+
+    <style name="LinearInputFormComponent">
+        <item name="android:layout_marginTop">16dp</item>
+    </style>
 </resources>

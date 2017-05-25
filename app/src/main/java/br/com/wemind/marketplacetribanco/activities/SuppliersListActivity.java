@@ -1,5 +1,6 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,20 +8,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SupplierAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
+import br.com.wemind.marketplacetribanco.models.Supplier;
 
 public class SuppliersListActivity extends BaseDrawerActivity {
 
+    public static final int EDIT_USER = 1;
     private ContentSuppliersListBinding cb;
     /**
      * Entire data payload received from retrieveData()
      */
-    private ArrayList<SupplierAdapter.Supplier> data;
+    private ArrayList<Supplier> data;
     private SupplierAdapter adapter;
 
     @Override
@@ -63,7 +67,11 @@ public class SuppliersListActivity extends BaseDrawerActivity {
                 b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         // FIXME: 24/05/2017 actually retrieve data
         retrieveData();
     }
@@ -74,10 +82,10 @@ public class SuppliersListActivity extends BaseDrawerActivity {
             @Override
             public void run() {
                 // Create and send dummy data
-                ArrayList<SupplierAdapter.Supplier> data = new ArrayList<>(100);
+                ArrayList<Supplier> data = new ArrayList<>(100);
 
                 for (int i = 1; i <= 100; ++i) {
-                    data.add(new SupplierAdapter.Supplier(
+                    data.add(new Supplier(
                             "Fornecedor " + i,
                             "Juvenil" + (char) ((int) ('a') - 1 + i),
                             "contato@fornecedor" + i + ".com.br",
@@ -89,7 +97,28 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         }, 2000);
     }
 
-    private void onDataReceived(ArrayList<SupplierAdapter.Supplier> data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EDIT_USER) {
+            if (resultCode == RESULT_OK) {
+                Supplier editted = data.getBundleExtra(SupplierCreateActivity.RESULT_BUNDLE)
+                        .getParcelable(SupplierCreateActivity.RESULT_SUPPLER);
+
+                if (editted != null) {
+                    // FIXME: 25/05/2017 send new data to server
+                    Toast.makeText(
+                            this,
+                            editted.getSupplierName() + " foi editado",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            } else {
+
+            }
+        }
+    }
+
+    private void onDataReceived(ArrayList<Supplier> data) {
         this.data = data;
         adapter = new SupplierAdapter(this, data);
         cb.list.setAdapter(adapter);

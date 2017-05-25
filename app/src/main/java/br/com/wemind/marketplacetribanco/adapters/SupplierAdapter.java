@@ -1,7 +1,10 @@
 package br.com.wemind.marketplacetribanco.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
+import br.com.wemind.marketplacetribanco.activities.SupplierCreateActivity;
+import br.com.wemind.marketplacetribanco.activities.SuppliersListActivity;
 import br.com.wemind.marketplacetribanco.databinding.ItemSupplierBinding;
+import br.com.wemind.marketplacetribanco.models.Supplier;
 
 public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHolder>
         implements Filterable {
@@ -44,8 +50,8 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
         final Supplier supplier = filteredData.get(position);
         vh.b.txtSupplierName.setText(supplier.getSupplierName());
         vh.b.txtContactName.setText(supplier.getContactName());
-        vh.b.txtContactEmail.setText(supplier.getContantEmail());
-        vh.b.txtContactPhone.setText(supplier.getContantPhone());
+        vh.b.txtContactEmail.setText(supplier.getContactEmail());
+        vh.b.txtContactPhone.setText(supplier.getContactPhone());
 
         // FIXME: 25/05/2017 bind event handlers
         vh.b.btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +65,13 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
         vh.b.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Edit " + supplier.getSupplierName(),
-                        Toast.LENGTH_SHORT).show();
+                Bundle toEdit = new Bundle();
+                toEdit.putParcelable(SupplierCreateActivity.INPUT_SUPPLIER, supplier);
+
+                Intent edit = new Intent(context, SupplierCreateActivity.class);
+                edit.putExtra(SupplierCreateActivity.INPUT_BUNDLE, toEdit);
+                ((Activity) context)
+                        .startActivityForResult(edit, SuppliersListActivity.EDIT_USER);
             }
         });
 
@@ -74,37 +85,6 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
     @Override
     public Filter getFilter() {
         return filter;
-    }
-
-    public static class Supplier {
-        private String name;
-        private String contactName;
-        private String contantEmail;
-        private String contantPhone;
-
-        public Supplier(String name, String contactName,
-                        String contantEmail, String contantPhone) {
-            this.name = name;
-            this.contactName = contactName;
-            this.contantEmail = contantEmail;
-            this.contantPhone = contantPhone;
-        }
-
-        public String getSupplierName() {
-            return name;
-        }
-
-        public String getContactName() {
-            return contactName;
-        }
-
-        public String getContantEmail() {
-            return contantEmail;
-        }
-
-        public String getContantPhone() {
-            return contantPhone;
-        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
