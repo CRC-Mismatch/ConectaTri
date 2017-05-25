@@ -21,10 +21,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
      * Entire data payload received from retrieveData()
      */
     private ArrayList<SupplierAdapter.Supplier> data;
-    /**
-     * Actual displayed data, after filtering
-     */
-    private ArrayList<SupplierAdapter.Supplier> filteredData = new ArrayList<>();
+    private SupplierAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +32,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         b.search.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                updateFilteredData(data);
-                cb.list.getAdapter().notifyDataSetChanged();
+                adapter.getFilter().filter("");
                 return false;
             }
         });
@@ -45,8 +41,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         b.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                updateFilteredData(searchItemsFor(query));
-                cb.list.getAdapter().notifyDataSetChanged();
+                adapter.getFilter().filter(query);
 
                 // Hide keyboard and clear focus
                 InputMethodManager imm =
@@ -73,17 +68,6 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         retrieveData();
     }
 
-    private ArrayList<SupplierAdapter.Supplier> searchItemsFor(String query) {
-        // Naive filtering
-        ArrayList<SupplierAdapter.Supplier> filtered = new ArrayList<>();
-        for (SupplierAdapter.Supplier supplier : data) {
-            if (supplier.getSupplierName().contains(query)) {
-                filtered.add(supplier);
-            }
-        }
-        return filtered;
-    }
-
     private void retrieveData() {
         // FIXME: 24/05/2017 start data retrieval here
         (new Handler()).postDelayed(new Runnable() {
@@ -107,13 +91,8 @@ public class SuppliersListActivity extends BaseDrawerActivity {
 
     private void onDataReceived(ArrayList<SupplierAdapter.Supplier> data) {
         this.data = data;
-        updateFilteredData(this.data);
-        cb.list.setAdapter(new SupplierAdapter(this, filteredData));
-    }
-
-    private void updateFilteredData(ArrayList<SupplierAdapter.Supplier> c) {
-        filteredData.clear();
-        filteredData.addAll(c);
+        adapter = new SupplierAdapter(this, data);
+        cb.list.setAdapter(adapter);
     }
 
     @Override

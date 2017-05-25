@@ -6,21 +6,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filterable;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ItemSupplierBinding;
 
-public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHolder> {
+public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHolder>
+        implements Filterable {
 
     private Context context;
-    private List<Supplier> data;
+    private ArrayList<Supplier> data;
+    private Filter filter = new Filter();
+    private ArrayList<Supplier> filteredData;
 
     public SupplierAdapter(Context context, List<Supplier> data) {
         this.context = context;
-        this.data = data;
+        this.data = new ArrayList<>(data);
+        this.filteredData = new ArrayList<>(data);
     }
 
     @Override
@@ -35,7 +41,7 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder vh, int position) {
-        final Supplier supplier = data.get(position);
+        final Supplier supplier = filteredData.get(position);
         vh.b.txtSupplierName.setText(supplier.getSupplierName());
         vh.b.txtContactName.setText(supplier.getContactName());
         vh.b.txtContactEmail.setText(supplier.getContantEmail());
@@ -62,7 +68,12 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return filteredData.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
     public static class Supplier {
@@ -102,6 +113,33 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
         public ViewHolder(ItemSupplierBinding b) {
             super(b.getRoot());
             this.b = b;
+        }
+    }
+
+    public class Filter extends android.widget.Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            // TODO: inspect this
+            // Naive filtering
+            ArrayList<Supplier> filtered = new ArrayList<>();
+            for (Supplier supplier : data) {
+                if (supplier.getSupplierName().contains(constraint)) {
+                    filtered.add(supplier);
+                }
+            }
+
+            // Pack and return results
+            FilterResults result = new FilterResults();
+            result.count = filtered.size();
+            result.values = filtered;
+            return result;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredData = (ArrayList<Supplier>) results.values;
+            notifyDataSetChanged();
         }
     }
 }
