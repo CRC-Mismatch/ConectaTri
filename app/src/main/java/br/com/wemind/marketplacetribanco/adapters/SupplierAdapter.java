@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.awt.font.TextAttribute;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -17,9 +16,9 @@ import br.com.wemind.marketplacetribanco.databinding.ItemSupplierBinding;
 public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHolder> {
 
     private Context context;
-    private List data;
+    private List<Supplier> data;
 
-    public SupplierAdapter(Context context, List data) {
+    public SupplierAdapter(Context context, List<Supplier> data) {
         this.context = context;
         this.data = data;
     }
@@ -35,24 +34,27 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder vh, final int position) {
-        // FIXME: bind data and event handlers
-        vh.b.txtSupplierName.setText("Fornecedor " + position);
-        vh.b.txtContactName.setText("Juvenildo Souza");
-        vh.b.txtContactEmail.setText("juvenildo@fornecedor" + position + ".com.br");
-        vh.b.txtContactPhone.setText("(11) 5656-000" + position);
+    public void onBindViewHolder(ViewHolder vh, int position) {
+        final Supplier supplier = data.get(position);
+        vh.b.txtSupplierName.setText(supplier.getSupplierName());
+        vh.b.txtContactName.setText(supplier.getContactName());
+        vh.b.txtContactEmail.setText(supplier.getContantEmail());
+        vh.b.txtContactPhone.setText(supplier.getContantPhone());
 
+        // FIXME: 25/05/2017 bind event handlers
         vh.b.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Delete " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Delete " + supplier.getSupplierName(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
         vh.b.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Edit " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Edit " + supplier.getSupplierName(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -60,9 +62,38 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        // FIXME: 24/05/2017
-        return 10;
-        // return data.size();
+        return data.size();
+    }
+
+    public static class Supplier {
+        private String name;
+        private String contactName;
+        private String contantEmail;
+        private String contantPhone;
+
+        public Supplier(String name, String contactName,
+                        String contantEmail, String contantPhone) {
+            this.name = name;
+            this.contactName = contactName;
+            this.contantEmail = contantEmail;
+            this.contantPhone = contantPhone;
+        }
+
+        public String getSupplierName() {
+            return name;
+        }
+
+        public String getContactName() {
+            return contactName;
+        }
+
+        public String getContantEmail() {
+            return contantEmail;
+        }
+
+        public String getContantPhone() {
+            return contantPhone;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
