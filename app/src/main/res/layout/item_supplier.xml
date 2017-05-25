@@ -6,10 +6,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="96dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:background="@android:color/white"
         android:orientation="horizontal">
 
@@ -63,24 +63,25 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/btn_edit"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:padding="8dp"
                 android:background="@android:color/white"
-                app:srcCompat="@drawable/ic_info_gray"/>
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_pencil"/>
+
             <ImageButton
                 android:id="@+id/btn_delete"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="8dp"
-                android:padding="8dp"
                 android:background="@android:color/white"
-                app:srcCompat="@drawable/ic_list_gray"/>
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_delete"/>
         </LinearLayout>
     </LinearLayout>
 </layout>
