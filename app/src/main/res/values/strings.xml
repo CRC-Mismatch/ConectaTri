@@ -30,6 +30,14 @@
     <string name="content_create_supplier_edt_contact_name">Nome do representante</string>
     <string name="content_create_supplier_edt_email">E-mail</string>
     <string name="content_create_supplier_edt_contact_phone">Telefone do representante</string>
+    <string name="title_products_list">Produtos</string>
+    <string name="content_product_create_name">Nome do produto</string>
+    <string name="content_product_create_brand">Fabricante</string>
+    <string name="content_product_create_unit">Unidade de medida</string>
+    <string name="content_product_create_quantity">Quantidade</string>
+    <string name="dialog_close_button">Fechar</string>
+    <string name="content_product_create_type">Tipo</string>
+    <string name="title_product_create_activity">Criar Produto</string>
 
 
 </resources>

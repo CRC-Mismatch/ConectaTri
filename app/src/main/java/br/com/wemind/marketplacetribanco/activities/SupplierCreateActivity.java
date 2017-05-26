@@ -9,7 +9,7 @@ import br.com.wemind.marketplacetribanco.models.Supplier;
 public class SupplierCreateActivity extends BaseCreateActivity {
 
     public static final String RESULT_BUNDLE = "test_result";
-    public static final String RESULT_SUPPLER = "result_value_supplier";
+    public static final String RESULT_SUPPLIER = "result_value_supplier";
     public static final String INPUT_SUPPLIER = "input_supplier";
     public static final String INPUT_BUNDLE = "input_bundle";
 
@@ -40,7 +40,7 @@ public class SupplierCreateActivity extends BaseCreateActivity {
     protected Intent getResultIntent() {
         Intent result = new Intent();
         Bundle userBundle = new Bundle();
-        userBundle.putParcelable(RESULT_SUPPLER, new Supplier(
+        userBundle.putParcelable(RESULT_SUPPLIER, new Supplier(
                 // this.supplierId,
                 cb.edtSupplierName.getText().toString(),
                 // cb.edtInfo.getText().toString(),

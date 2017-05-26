@@ -5,7 +5,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_blue"
+        android:background="@drawable/background"
         android:clipChildren="false"
         android:gravity="center"
         tools:context="br.com.wemind.marketplacetribanco.activities.LoginActivity">

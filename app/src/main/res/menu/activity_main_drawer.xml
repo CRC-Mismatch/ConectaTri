@@ -21,7 +21,7 @@
         <item
             android:id="@+id/nav_manual_quote"
             android:icon="@drawable/ic_manual_gray"
-            android:title="Cotação Manual" />
+            android:title="Cotação Presencial" />
         <item
             android:id="@+id/nav_tutorial"
             android:icon="@drawable/ic_info_gray"
@@ -29,6 +29,13 @@
     </group>
 
     <group android:id="@+id/grp2" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/placeholder"
+            android:title="Conheça o Tribanco" />
+    </group>
+
+    <group android:id="@+id/grp3" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_gray"

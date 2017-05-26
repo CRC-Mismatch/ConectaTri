@@ -84,7 +84,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
             finish();
 
         } else if (id == R.id.nav_products) {
-            Intent i = new Intent(this, ProductsListActivity.class);
+            Intent i = new Intent(this, SimpleProductsListActivity.class);
             startActivity(i);
             finish();
 

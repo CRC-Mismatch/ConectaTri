@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_product_name"
+                    android:layout_width="match_parent"
+                    android:textSize="24sp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_product_create_name"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_create_supplier_edt_info"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+            style="@style/LinearInputFormComponent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <br.com.wemind.marketplacetribanco.views.SelectableEditText
+                    android:id="@+id/edt_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_product_create_type"
+                    />
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_brand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_product_create_brand"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_product_create_quantity"
+                    android:inputType="numberDecimal"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_product_create_unit"
+                    android:inputType="text"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

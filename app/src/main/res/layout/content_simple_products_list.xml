@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     >
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
@@ -12,6 +11,7 @@
         android:clipToPadding="false"
         android:gravity="center"
         android:orientation="vertical"
-        tools:listitem="@layout/item_supplier">
+        android:paddingTop="8dp"
+        tools:listitem="@layout/item_simple_product">
     </android.support.v7.widget.RecyclerView>
 </layout>
