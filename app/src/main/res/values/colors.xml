@@ -60,16 +60,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#009933</color>
-    <color name="colorSwitchBase">#9ED5D2</color>
-    <color name="colorSwitchButton">#42B5B2</color>
-    <color name="menu_01">#42B552</color>
-    <color name="menu_02">#4DA25D</color>
-    <color name="menu_03">#427055</color>
-    <color name="menu_04">#38504C</color>
-    <color name="menu_05">#323C48</color>
-    <color name="menu_text">#FFFFFF</color>
-    <color name="graphMain">#42B552</color>
-    <color name="graphSecond">#427055</color>
-    <color name="graphBack">#323C48</color>
     <color name="logo_green">#88D000</color>
+
+    <color name="indicator_blue">#54c7fd</color>
+    <color name="indicator_yellow">#ffcc00</color>
+    <color name="indicator_green">#40db5b</color>
 </resources>
