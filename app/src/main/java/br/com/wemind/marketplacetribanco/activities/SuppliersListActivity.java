@@ -19,7 +19,7 @@ import br.com.wemind.marketplacetribanco.models.Supplier;
 
 public class SuppliersListActivity extends BaseDrawerActivity {
 
-    public static final int EDIT_USER = 1;
+    public static final int EDIT_SUPPLIER = 1;
     private ContentSuppliersListBinding cb;
     /**
      * Entire data payload received from retrieveData()
@@ -100,7 +100,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EDIT_USER) {
+        if (requestCode == EDIT_SUPPLIER) {
             if (resultCode == RESULT_OK) {
                 Supplier edited = data.getBundleExtra(SupplierCreateActivity.RESULT_BUNDLE)
                         .getParcelable(SupplierCreateActivity.RESULT_SUPPLIER);

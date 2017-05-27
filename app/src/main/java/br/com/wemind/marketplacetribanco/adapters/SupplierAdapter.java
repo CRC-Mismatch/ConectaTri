@@ -71,7 +71,7 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
                 Intent edit = new Intent(context, SupplierCreateActivity.class);
                 edit.putExtra(SupplierCreateActivity.INPUT_BUNDLE, toEdit);
                 ((Activity) context)
-                        .startActivityForResult(edit, SuppliersListActivity.EDIT_USER);
+                        .startActivityForResult(edit, SuppliersListActivity.EDIT_SUPPLIER);
             }
         });
 
