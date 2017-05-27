@@ -89,7 +89,8 @@ public class SuppliersListActivity extends BaseDrawerActivity {
                             "Fornecedor " + i,
                             "Juvenil" + (char) ((int) ('a') - 1 + i),
                             "contato@fornecedor" + i + ".com.br",
-                            "(11) 5666-666" + i
+                            "11",
+                            "5666-666" + i
                     ));
                 }
                 onDataReceived(data);

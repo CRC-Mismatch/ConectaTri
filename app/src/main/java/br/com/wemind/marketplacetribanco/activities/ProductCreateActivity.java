@@ -39,6 +39,12 @@ public class ProductCreateActivity extends BaseCreateActivity {
     }
 
     @Override
+    protected boolean validateForm() {
+        // FIXME: implement
+        return true;
+    }
+
+    @Override
     protected Intent getResultIntent() {
         Intent result = new Intent();
         Bundle userBundle = new Bundle();

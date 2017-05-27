@@ -47,15 +47,26 @@ public abstract class BaseCreateActivity extends AppCompatActivity {
 
         if (R.id.action_menu_save == id) {
             // User pressed "Save",
-            // pack result and return to caller activity
-            Intent i = getResultIntent();
-            setResult(RESULT_OK, i);
-            finish();
+            if (validateForm()) {
+                // pack result and return to caller activity
+                Intent i = getResultIntent();
+                setResult(RESULT_OK, i);
+                finish();
+            }
             return true;
         }
 
         return false;
     }
+
+    /**
+     * This method is called when the user presses the "Save" button. Use it to
+     * validate the form.
+     * If this returns <em>true</em>, getResultIntent() will be called next.
+     *
+     * @return <em>true</em> if form is valid; <em>false</em> otherwise
+     */
+    protected abstract boolean validateForm();
 
     /**
      * Packs the results into an Intent to be sent back to the caller activity

@@ -22,22 +22,25 @@ public class Supplier implements Parcelable {
     private String contactEmail;
     private String contactPhone;
     // TODO: cnpj
-    private String cnpj = "1212312341231";
+    private String cnpj = "12123123412312";
     // TODO: info
     private String info = "Apenas um fornecedor";
+    private String contactPhoneDdd;
 
-    public Supplier(String name, String contactName,
-                    String contantEmail, String contantPhone) {
+    public Supplier(String name, String contactName, String contactEmail,
+                    String contactPhoneDdd, String contactPhone) {
         this.name = name;
         this.contactName = contactName;
-        this.contactEmail = contantEmail;
-        this.contactPhone = contantPhone;
+        this.contactEmail = contactEmail;
+        this.contactPhoneDdd = contactPhoneDdd;
+        this.contactPhone = contactPhone;
     }
 
     protected Supplier(Parcel in) {
         name = in.readString();
         contactName = in.readString();
         contactEmail = in.readString();
+        contactPhoneDdd = in.readString();
         contactPhone = in.readString();
     }
 
@@ -67,6 +70,7 @@ public class Supplier implements Parcelable {
         dest.writeString(name);
         dest.writeString(contactName);
         dest.writeString(contactEmail);
+        dest.writeString(contactPhoneDdd);
         dest.writeString(contactPhone);
     }
 
@@ -76,5 +80,9 @@ public class Supplier implements Parcelable {
 
     public String getInfo() {
         return info;
+    }
+
+    public String getContactPhoneDdd() {
+        return contactPhoneDdd;
     }
 }
