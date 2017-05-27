@@ -3,7 +3,7 @@
 
     <group android:id="@+id/grp1" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_lists"
+            android:id="@+id/nav_listings"
             android:icon="@drawable/ic_list_gray"
             android:title="Minhas Listas" />
         <item

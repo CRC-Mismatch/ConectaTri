@@ -42,6 +42,16 @@
     <string name="error_field_required">Campo obrigatório</string>
     <string name="error_invalid_email">Endereço de e-mail inválido</string>
     <string name="error_invalid_cnpj">CNPJ inválido</string>
+    <string name="item_listing_seasonal">• Lista sazonal</string>
+    <string name="item_listing_weekly">• Lista semanal</string>
+    <string name="item_listing_common">• Lista comum</string>
+    <string name="title_activity_listings_list">Minhas Listas</string>
+    <string name="title_activity_listing_create">ListingCreateActivity</string>
+    <string name="content_create_listing_edt_info">Informações</string>
+    <string name="content_create_listing_edt_name">Nome da lista</string>
+    <string name="content_create_listing_edt_description">Descrição</string>
+    <string name="content_create_listing_btn_products">Produtos</string>
+    <string name="content_create_listing_btn_quantity">Quantidade</string>
 
 
 </resources>

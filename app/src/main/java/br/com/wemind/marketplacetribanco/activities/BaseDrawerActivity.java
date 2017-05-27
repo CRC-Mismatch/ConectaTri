@@ -77,9 +77,9 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
     }
 
     private void goToNavDrawerItem(int id) {
-        if (id == R.id.nav_lists) {
-            // TEST CODE, REMOVE THIS
-            Intent i = new Intent(this, MainActivity.class);
+        // FIXME: 27/05/2017 There's no option to go to the home panel
+        if (id == R.id.nav_listings) {
+            Intent i = new Intent(this, ListingsListActivity.class);
             startActivity(i);
             finish();
 
