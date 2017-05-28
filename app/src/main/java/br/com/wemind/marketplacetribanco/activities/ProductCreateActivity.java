@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import br.com.wemind.marketplacetribanco.databinding.ContentProductCreateBinding;
+import br.com.wemind.marketplacetribanco.dummy.DummyProductTypes;
 import br.com.wemind.marketplacetribanco.models.Product;
 
 public class ProductCreateActivity extends BaseCreateActivity {
@@ -21,13 +22,15 @@ public class ProductCreateActivity extends BaseCreateActivity {
 
         cb = ContentProductCreateBinding
                 .inflate(getLayoutInflater(), b.contentFrame, true);
+
+        cb.edtType.setItems(DummyProductTypes.list);
         Intent input = getIntent();
         if (input.getBundleExtra(INPUT_BUNDLE) != null) {
             Product product =
                     input.getBundleExtra(INPUT_BUNDLE).getParcelable(INPUT_PRODUCT);
 
             if (product != null) {
-                // supplierId = supplier.getId();
+                // productId = product.getId();
                 cb.edtProductName.setText(product.getSimpleDescription());
                 cb.edtInfo.setText(product.getFullDescription());
                 cb.edtType.setText(product.getCategory());

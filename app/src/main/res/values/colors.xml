@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background_blue">#3a739e</color>
+    <color name="fab_blue">#3c91e6</color>
 
     <color name="button_top_blue">#386b9b</color>
     <color name="button_bottom_blue">#3c91e6</color>

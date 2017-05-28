@@ -48,7 +48,7 @@
             android:name=".activities.SupplierCreateActivity"
             android:label="@string/title_activity_supplier_create"
             android:parentActivityName=".activities.SuppliersListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.WhiteBackground">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.wemind.marketplacetribanco.activities.SuppliersListActivity"/>
@@ -57,7 +57,7 @@
             android:name=".activities.ProductCreateActivity"
             android:label="@string/title_product_create_activity"
             android:parentActivityName=".activities.SimpleProductsListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.WhiteBackground">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.wemind.marketplacetribanco.activities.SimpleProductsListActivity"/>
