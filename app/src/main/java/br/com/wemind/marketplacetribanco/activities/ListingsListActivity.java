@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -19,7 +20,8 @@ import br.com.wemind.marketplacetribanco.models.Product;
 
 public class ListingsListActivity extends BaseDrawerActivity {
 
-    public static final int EDIT_LISTING = 1;
+    public static final int CREATE_LISTING = 1;
+    public static final int EDIT_LISTING = 2;
     private ContentListingsListBinding cb;
     private ListingsAdapter adapter;
     private ArrayList<Listing> data;
@@ -27,6 +29,16 @@ public class ListingsListActivity extends BaseDrawerActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
+        b.fab.setVisibility(View.VISIBLE);
+        b.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ListingsListActivity.this, ListingCreateActivity.class);
+                startActivityForResult(i, CREATE_LISTING);
+            }
+        });
 
         // Setup response to search query
         // Reset filtered data when user closes search view
@@ -100,7 +112,25 @@ public class ListingsListActivity extends BaseDrawerActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EDIT_LISTING) {
+        if (requestCode == CREATE_LISTING) {
+            if (resultCode == RESULT_OK) {
+                Listing edited = data.getBundleExtra(ListingCreateActivity.RESULT_BUNDLE)
+                        .getParcelable(ListingCreateActivity.RESULT_LISTING);
+
+                if (edited != null) {
+                    // FIXME: 25/05/2017 send new data to server
+                    Toast.makeText(
+                            this,
+                            edited.getName() + " foi adicionado",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            } else {
+                // FIXME: 27/05/2017 handle cancellation
+
+            }
+        }
+        else if (requestCode == EDIT_LISTING) {
             if (resultCode == RESULT_OK) {
                 Listing edited = data.getBundleExtra(ListingCreateActivity.RESULT_BUNDLE)
                         .getParcelable(ListingCreateActivity.RESULT_LISTING);
