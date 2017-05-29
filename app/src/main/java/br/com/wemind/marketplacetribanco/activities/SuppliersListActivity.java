@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import br.com.wemind.marketplacetribanco.models.Supplier;
 public class SuppliersListActivity extends BaseDrawerActivity {
 
     public static final int EDIT_SUPPLIER = 1;
+    private static final int CREATE_SUPPLIER = 2;
     private ContentSuppliersListBinding cb;
     /**
      * Entire data payload received from retrieveData()
@@ -30,6 +32,18 @@ public class SuppliersListActivity extends BaseDrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Setup FAB
+        b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
+        b.fab.setVisibility(View.VISIBLE);
+        b.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SuppliersListActivity.this,
+                        SupplierCreateActivity.class);
+                startActivityForResult(i, CREATE_SUPPLIER);
+            }
+        });
 
         // Setup response to search query
         // Reset filtered data when user closes search view
@@ -110,6 +124,22 @@ public class SuppliersListActivity extends BaseDrawerActivity {
                     Toast.makeText(
                             this,
                             edited.getSupplierName() + " foi editado",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            } else {
+
+            }
+        } else if (requestCode == CREATE_SUPPLIER) {
+            if (resultCode == RESULT_OK) {
+                Supplier edited = data.getBundleExtra(SupplierCreateActivity.RESULT_BUNDLE)
+                        .getParcelable(SupplierCreateActivity.RESULT_SUPPLIER);
+
+                if (edited != null) {
+                    // FIXME: 25/05/2017 send new data to server
+                    Toast.makeText(
+                            this,
+                            edited.getSupplierName() + " foi adicionado",
                             Toast.LENGTH_SHORT
                     ).show();
                 }

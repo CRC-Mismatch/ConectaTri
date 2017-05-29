@@ -33,18 +33,22 @@ public class SupplierCreateActivity extends BaseCreateActivity {
                 new FormattingTextWatcher(new Formatting.CnpjFormatter()));
 
         Intent input = getIntent();
-        Supplier supplier =
-                input.getBundleExtra(INPUT_BUNDLE).getParcelable(INPUT_SUPPLIER);
+        Bundle inputBundle = input.getBundleExtra(INPUT_BUNDLE);
 
-        if (supplier != null) {
-            supplierId = supplier.getId();
-            cb.edtCnpj.setText(supplier.getCnpj());
-            cb.edtSupplierName.setText(supplier.getSupplierName());
-            cb.edtInfo.setText(supplier.getInfo());
-            cb.edtContactName.setText(supplier.getContactName());
-            cb.edtContactEmail.setText(supplier.getContactEmail());
-            cb.edtContactPhoneDdd.setText(supplier.getContactPhoneDdd());
-            cb.edtContactPhone.setText(supplier.getContactPhone());
+        if (inputBundle != null) {
+            Supplier supplier =
+                    inputBundle.getParcelable(INPUT_SUPPLIER);
+
+            if (supplier != null) {
+                supplierId = supplier.getId();
+                cb.edtCnpj.setText(supplier.getCnpj());
+                cb.edtSupplierName.setText(supplier.getSupplierName());
+                cb.edtInfo.setText(supplier.getInfo());
+                cb.edtContactName.setText(supplier.getContactName());
+                cb.edtContactEmail.setText(supplier.getContactEmail());
+                cb.edtContactPhoneDdd.setText(supplier.getContactPhoneDdd());
+                cb.edtContactPhone.setText(supplier.getContactPhone());
+            }
         }
     }
 
