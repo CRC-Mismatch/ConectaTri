@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -36,6 +39,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
         toggle.syncState();
 
         b.navView.setNavigationItemSelectedListener(this);
+
+        b.search.setLayoutParams(new Toolbar.LayoutParams(Gravity.END));
     }
 
     @Override
@@ -78,23 +83,19 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
 
     private void goToNavDrawerItem(int id) {
         // FIXME: 27/05/2017 There's no option to go to the home panel
+        // FIXME: 28/05/2017 Removed finish() calls so going back will end up in home
         if (id == R.id.nav_listings) {
             Intent i = new Intent(this, ListingsListActivity.class);
             startActivity(i);
-            finish();
-
         } else if (id == R.id.nav_products) {
             Intent i = new Intent(this, SimpleProductsListActivity.class);
             startActivity(i);
-            finish();
-
         } else if (id == R.id.nav_suppliers) {
             Intent i = new Intent(this, SuppliersListActivity.class);
             startActivity(i);
-            finish();
-
         } else if (id == R.id.nav_remote_quote) {
-
+            Intent i = new Intent(this, RemoteQuotesActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_manual_quote) {
 
         } else if (id == R.id.nav_tutorial) {
@@ -102,7 +103,9 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_logout) {
-
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+            finish();
         }
     }
 

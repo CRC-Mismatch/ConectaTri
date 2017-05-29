@@ -12,6 +12,7 @@ public class MainActivity extends BaseDrawerActivity
 
     private ContentMainBinding cb;
 
+    // FIXME: 28/05/2017 Going back from drawer activities ends up with empty content
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

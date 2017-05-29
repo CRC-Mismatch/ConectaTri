@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="br.com.wemind.marketplacetribanco">
+    package="br.com.wemind.marketplacetribanco">
 
     <application
         android:allowBackup="true"
@@ -15,18 +15,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.QuoteTypeActivity"
             android:label="@string/title_activity_quote_type"
@@ -34,20 +34,30 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.wemind.marketplacetribanco.activities.MainActivity"/>
+                android:value="br.com.wemind.marketplacetribanco.activities.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.RemoteQuotesActivity"
+            android:label="@string/title_remote_quotes"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.wemind.marketplacetribanco.activities.MainActivity" />
         </activity>
         <activity
             android:name=".activities.SuppliersListActivity"
             android:label="@string/title_activity_suppliers_list"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SuppliersSelectActivity"
             android:label="@string/title_activity_suppliers_list"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SimpleProductsListActivity"
             android:label="@string/title_products_list"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SupplierCreateActivity"
             android:label="@string/title_activity_supplier_create"
@@ -55,7 +65,7 @@
             android:theme="@style/AppTheme.WhiteBackground">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.wemind.marketplacetribanco.activities.SuppliersListActivity"/>
+                android:value="br.com.wemind.marketplacetribanco.activities.SuppliersListActivity" />
         </activity>
         <activity
             android:name=".activities.ProductCreateActivity"
@@ -64,13 +74,13 @@
             android:theme="@style/AppTheme.WhiteBackground">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.wemind.marketplacetribanco.activities.SimpleProductsListActivity"/>
+                android:value="br.com.wemind.marketplacetribanco.activities.SimpleProductsListActivity" />
         </activity>
         <activity
             android:name=".activities.ListingsListActivity"
             android:label="@string/title_activity_listings_list"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.ListingCreateActivity"
             android:label="@string/title_activity_listing_create"
@@ -78,13 +88,13 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.wemind.marketplacetribanco.activities.ListingsListActivity"/>
+                android:value="br.com.wemind.marketplacetribanco.activities.ListingsListActivity" />
         </activity>
         <activity
             android:name=".activities.ListingsSelectActivity"
             android:label="@string/title_activity_listings_list"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
