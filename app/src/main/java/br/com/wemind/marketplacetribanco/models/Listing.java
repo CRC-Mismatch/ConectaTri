@@ -22,23 +22,34 @@ public class Listing implements Parcelable {
             return new Listing[size];
         }
     };
+    private long id;
     private int type;
     private String name;
     private ArrayList<Product> products;
+    private ArrayList<Supplier> suppliers;
     private String description;
 
-    public Listing(String name, int type, ArrayList<Product> products) {
+    public Listing(long id, String name, int type, ArrayList<Product> products, ArrayList<Supplier> suppliers) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.products = products;
+        this.suppliers = suppliers;
     }
 
     protected Listing(Parcel in) {
+        id = in.readLong();
         name = in.readString();
         type = in.readInt();
         products = new ArrayList<>();
         in.readTypedList(products, Product.CREATOR);
+        suppliers = new ArrayList<>();
+        in.readTypedList(suppliers, Supplier.CREATOR);
         description = in.readString();
+    }
+
+    public long getId() {
+        return id;
     }
 
     public int getType() {
@@ -56,9 +67,11 @@ public class Listing implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
         dest.writeString(name);
         dest.writeInt(type);
         dest.writeTypedList(products);
+        dest.writeTypedList(suppliers);
         dest.writeString(description);
     }
 
@@ -68,5 +81,19 @@ public class Listing implements Parcelable {
 
     public ArrayList<Product> getProducts() {
         return products;
+    }
+
+    public ArrayList<Supplier> getSuppliers() {
+        return suppliers;
+    }
+
+    public Listing setSuppliers(ArrayList<Supplier> suppliers) {
+        this.suppliers = suppliers;
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Listing && ((Listing)obj).id == id;
     }
 }

@@ -1,35 +1,47 @@
 package br.com.wemind.marketplacetribanco.activities;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.view.Menu;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import br.com.wemind.marketplacetribanco.R;
-import br.com.wemind.marketplacetribanco.adapters.SupplierAdapter;
-import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
+import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
+import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
+import br.com.wemind.marketplacetribanco.models.Listing;
+import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
-public class SuppliersListActivity extends BaseDrawerActivity {
+public class ListingsSelectActivity extends BaseDrawerActivity {
 
-    public static final int EDIT_USER = 1;
-    private ContentSuppliersListBinding cb;
-    /**
-     * Entire data payload received from retrieveData()
-     */
-    private ArrayList<Supplier> data;
-    private SupplierAdapter adapter;
+    public static final String SELECTED_LIST = "SELECTED_LIST";
+
+    private ContentListingsListBinding cb;
+    private ListingsAdapter adapter;
+    private ArrayList<Listing> data;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_continue));
+        b.fab.setVisibility(View.VISIBLE);
+        // FIXME: Implement real list manipulation
+        b.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ListingsSelectActivity.this, SuppliersSelectActivity.class);
+                i.putParcelableArrayListExtra(SELECTED_LIST, adapter.getSelectedList());
+                startActivity(i);
+            }
+        });
 
         // Setup response to search query
         // Reset filtered data when user closes search view
@@ -63,8 +75,8 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         // End of search view setup
 
         // Setup content view
-        cb = DataBindingUtil.inflate(getLayoutInflater(), R.layout.content_suppliers_list,
-                b.contentFrame, true);
+        cb = ContentListingsListBinding
+                .inflate(getLayoutInflater(), b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -82,15 +94,24 @@ public class SuppliersListActivity extends BaseDrawerActivity {
             @Override
             public void run() {
                 // Create and send dummy data
-                ArrayList<Supplier> data = new ArrayList<>(100);
+                ArrayList<Listing> data = new ArrayList<>(100);
+                ArrayList<Product> dummyProducts = new ArrayList<>(100);
+                ArrayList<Supplier> dummySuppliers = new ArrayList<>(5);
+
+                for (int i = 0; i < 100; ++i) {
+                    dummyProducts.add(new Product());
+                }
+
+                for (int i = 0; i < 5; ++i) {
+                    dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "11", "4645-6452"));
+                }
 
                 for (int i = 1; i <= 100; ++i) {
-                    data.add(new Supplier(i,
-                            "Fornecedor " + i,
-                            "Juvenil" + (char) ((int) ('a') - 1 + i),
-                            "contato@fornecedor" + i + ".com.br",
-                            "11",
-                            "5666-666" + i
+                    data.add(new Listing(i,
+                            "Lista " + i,
+                            1 + (1001 % (3 + i) % 3),
+                            dummyProducts,
+                            dummySuppliers
                     ));
                 }
                 onDataReceived(data);
@@ -98,42 +119,14 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         }, 2000);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EDIT_USER) {
-            if (resultCode == RESULT_OK) {
-                Supplier edited = data.getBundleExtra(SupplierCreateActivity.RESULT_BUNDLE)
-                        .getParcelable(SupplierCreateActivity.RESULT_SUPPLIER);
-
-                if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getSupplierName() + " foi editado",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-            } else {
-
-            }
-        }
-    }
-
-    private void onDataReceived(ArrayList<Supplier> data) {
+    private void onDataReceived(ArrayList<Listing> data) {
         this.data = data;
-        adapter = new SupplierAdapter(this, data);
+        adapter = new ListingsAdapter(this, data, true);
         cb.list.setAdapter(adapter);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        return true;
-    }
-
-    @Override
     protected int getSelfNavDrawerItem() {
-        return R.id.nav_suppliers;
+        return R.id.nav_listings;
     }
 }

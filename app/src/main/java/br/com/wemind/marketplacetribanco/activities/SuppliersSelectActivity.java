@@ -7,29 +7,47 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
+import br.com.wemind.marketplacetribanco.adapters.SelectionSupplierAdapter;
 import br.com.wemind.marketplacetribanco.adapters.SupplierAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
+import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
-public class SuppliersListActivity extends BaseDrawerActivity {
+public class SuppliersSelectActivity extends BaseDrawerActivity {
 
     public static final int EDIT_USER = 1;
     private ContentSuppliersListBinding cb;
+
     /**
-     * Entire data payload received from retrieveData()
+     * Data received from parent activity
      */
-    private ArrayList<Supplier> data;
-    private SupplierAdapter adapter;
+    private ArrayList<Listing> data;
+    private Set<Supplier> suppliers;
+    private SelectionSupplierAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_continue));
+        b.fab.setVisibility(View.VISIBLE);
+        b.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Implement Products selection
+            }
+        });
 
         // Setup response to search query
         // Reset filtered data when user closes search view
@@ -67,35 +85,15 @@ public class SuppliersListActivity extends BaseDrawerActivity {
                 b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // FIXME: 24/05/2017 actually retrieve data
-        retrieveData();
-    }
+        suppliers = new TreeSet<>();
+        data = getIntent().getParcelableArrayListExtra(ListingsSelectActivity.SELECTED_LIST);
+        for (Listing l : data) {
+            suppliers.addAll(l.getSuppliers());
+        }
+        adapter = new SelectionSupplierAdapter(this, Arrays.asList(suppliers.toArray(new Supplier[0])));
 
-    private void retrieveData() {
-        // FIXME: 24/05/2017 start data retrieval here
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Create and send dummy data
-                ArrayList<Supplier> data = new ArrayList<>(100);
-
-                for (int i = 1; i <= 100; ++i) {
-                    data.add(new Supplier(i,
-                            "Fornecedor " + i,
-                            "Juvenil" + (char) ((int) ('a') - 1 + i),
-                            "contato@fornecedor" + i + ".com.br",
-                            "11",
-                            "5666-666" + i
-                    ));
-                }
-                onDataReceived(data);
-            }
-        }, 2000);
+        cb.list.setAdapter(adapter);
     }
 
     @Override
@@ -117,12 +115,6 @@ public class SuppliersListActivity extends BaseDrawerActivity {
 
             }
         }
-    }
-
-    private void onDataReceived(ArrayList<Supplier> data) {
-        this.data = data;
-        adapter = new SupplierAdapter(this, data);
-        cb.list.setAdapter(adapter);
     }
 
     @Override

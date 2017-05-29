@@ -17,6 +17,8 @@ public class SupplierCreateActivity extends BaseCreateActivity {
     public static final String INPUT_SUPPLIER = "input_supplier";
     public static final String INPUT_BUNDLE = "input_bundle";
 
+    public long supplierId;
+
     private ContentSupplierCreateBinding cb;
 
     @Override
@@ -35,7 +37,7 @@ public class SupplierCreateActivity extends BaseCreateActivity {
                 input.getBundleExtra(INPUT_BUNDLE).getParcelable(INPUT_SUPPLIER);
 
         if (supplier != null) {
-            // supplierId = supplier.getId();
+            supplierId = supplier.getId();
             cb.edtCnpj.setText(supplier.getCnpj());
             cb.edtSupplierName.setText(supplier.getSupplierName());
             cb.edtInfo.setText(supplier.getInfo());
@@ -102,7 +104,7 @@ public class SupplierCreateActivity extends BaseCreateActivity {
         Intent result = new Intent();
         Bundle userBundle = new Bundle();
         userBundle.putParcelable(RESULT_SUPPLIER, new Supplier(
-                // this.supplierId,
+                this.supplierId,
                 cb.edtSupplierName.getText().toString(),
                 // cb.edtInfo.getText().toString(),
                 cb.edtContactName.getText().toString(),

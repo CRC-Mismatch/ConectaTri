@@ -27,12 +27,16 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
     private Context context;
     private ArrayList<Listing> data;
     private ArrayList<Listing> filteredData;
+    private ArrayList<Listing> selectedData;
     private Filter filter = new Filter();
+    private boolean selection;
 
-    public ListingsAdapter(Context context, List<Listing> data) {
+    public ListingsAdapter(Context context, List<Listing> data, boolean selection) {
         this.context = context;
         this.data = new ArrayList<>(data);
         this.filteredData = new ArrayList<>(data);
+        if (selection) this.selectedData = new ArrayList<>();
+        this.selection = selection;
     }
 
     @Override
@@ -65,26 +69,45 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         holder.itemCount.setText(String.valueOf(listing.getProducts().size()));
 
         // FIXME: bind event handlers
-        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Delete " + listing.getName(),
-                        Toast.LENGTH_SHORT).show();
+        if (selection) {
+            if (selectedData.contains(listing)) {
+                holder.v.setSelected(true);
             }
-        });
+            holder.v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.isSelected()) {
+                        selectedData.remove(listing);
+                        v.setSelected(false);
+                    } else {
+                        selectedData.add(listing);
+                        v.setSelected(true);
+                    }
+                }
+            });
+            holder.btnDelete.setVisibility(View.GONE);
+            holder.btnEdit.setVisibility(View.GONE);
+        } else {
+            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Delete " + listing.getName(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle toEdit = new Bundle();
+                    toEdit.putParcelable(ListingCreateActivity.INPUT_LISTING, listing);
 
-        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle toEdit = new Bundle();
-                toEdit.putParcelable(ListingCreateActivity.INPUT_LISTING, listing);
-
-                Intent edit = new Intent(context, ListingCreateActivity.class);
-                edit.putExtra(ListingCreateActivity.INPUT_BUNDLE, toEdit);
-                ((Activity) context)
-                        .startActivityForResult(edit, ListingsListActivity.EDIT_LISTING);
-            }
-        });
+                    Intent edit = new Intent(context, ListingCreateActivity.class);
+                    edit.putExtra(ListingCreateActivity.INPUT_BUNDLE, toEdit);
+                    ((Activity) context)
+                            .startActivityForResult(edit, ListingsListActivity.EDIT_LISTING);
+                }
+            });
+        }
     }
 
     @Override
@@ -95,6 +118,10 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
     @Override
     public Filter getFilter() {
         return filter;
+    }
+
+    public ArrayList<Listing> getSelectedList() {
+        return selectedData;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

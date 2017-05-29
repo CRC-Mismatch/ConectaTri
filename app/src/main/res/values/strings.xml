@@ -52,6 +52,7 @@
     <string name="content_create_listing_edt_description">Descrição</string>
     <string name="content_create_listing_btn_products">Produtos</string>
     <string name="content_create_listing_btn_quantity">Quantidade</string>
+    <string name="title_suppliers">Fornecedores</string>
 
 
 </resources>
