@@ -14,7 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.activities.ListingCreateActivity;
@@ -27,7 +30,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
     private Context context;
     private ArrayList<Listing> data;
     private ArrayList<Listing> filteredData;
-    private ArrayList<Listing> selectedData;
+    private Set<Listing> selectedData;
     private Filter filter = new Filter();
     private boolean selection;
 
@@ -35,7 +38,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         this.context = context;
         this.data = new ArrayList<>(data);
         this.filteredData = new ArrayList<>(data);
-        if (selection) this.selectedData = new ArrayList<>();
+        if (selection) this.selectedData = new TreeSet<>();
         this.selection = selection;
     }
 
@@ -72,6 +75,8 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         if (selection) {
             if (selectedData.contains(listing)) {
                 holder.v.setSelected(true);
+            } else {
+                holder.v.setSelected(false);
             }
             holder.v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,7 +126,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
     }
 
     public ArrayList<Listing> getSelectedList() {
-        return selectedData;
+        return new ArrayList<>(selectedData);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

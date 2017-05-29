@@ -91,7 +91,7 @@ public class SuppliersSelectActivity extends BaseDrawerActivity {
         for (Listing l : data) {
             suppliers.addAll(l.getSuppliers());
         }
-        adapter = new SelectionSupplierAdapter(this, Arrays.asList(suppliers.toArray(new Supplier[0])));
+        adapter = new SelectionSupplierAdapter(this, new ArrayList<>(suppliers));
 
         cb.list.setAdapter(adapter);
     }

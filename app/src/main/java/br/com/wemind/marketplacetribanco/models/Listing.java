@@ -3,11 +3,12 @@ package br.com.wemind.marketplacetribanco.models;
 import android.app.ProgressDialog;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Listing implements Parcelable {
+public class Listing implements Parcelable, Comparable {
     public static final int TYPE_COMMON = 1;
     public static final int TYPE_SEASONAL = 2;
     public static final int TYPE_WEEKLY = 3;
@@ -95,5 +96,14 @@ public class Listing implements Parcelable {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Listing && ((Listing)obj).id == id;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        if (o instanceof Listing) {
+            return (int) (id - ((Listing)o).id);
+        } else {
+            throw new ClassCastException();
+        }
     }
 }

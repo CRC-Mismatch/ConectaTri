@@ -125,7 +125,7 @@ public class SelectionSupplierAdapter extends RecyclerView.Adapter<SelectionSupp
     }
 
     public ArrayList<Supplier> getSelectedData() {
-        return new ArrayList<>(Arrays.asList(selectedData.toArray(new Supplier[0])));
+        return new ArrayList<>(selectedData);
     }
 
     @Override
