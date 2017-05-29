@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:checked="true" />
+            android:checked="true"
+            android:theme="@style/AppTheme.Switch"/>
 
         <TextView
             android:layout_width="wrap_content"

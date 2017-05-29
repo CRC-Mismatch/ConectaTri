@@ -36,6 +36,12 @@
         <item name="android:background">@color/toolbar_blue</item>
     </style>
 
+    <style name="AppTheme.Switch" parent="AppTheme">
+        <item name="colorSwitchThumbNormal">#777</item>
+        <item name="colorControlHighlight">#3000</item>
+        <item name="colorControlActivated">@color/toolbar_blue</item>
+    </style>
+
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
