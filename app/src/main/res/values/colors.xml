@@ -66,4 +66,5 @@
     <color name="indicator_blue">#54c7fd</color>
     <color name="indicator_yellow">#ffcc00</color>
     <color name="indicator_green">#40db5b</color>
+    <color name="indicator_orange">#faa733</color>
 </resources>

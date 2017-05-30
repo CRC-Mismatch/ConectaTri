@@ -2,22 +2,22 @@
 <menu>
     <item
         id="main_start_quote"
-        icon="placeholder"
+        icon="ic_start"
         title="Iniciar\nCotação"
         onClick="br.com.wemind.marketplacetribanco.activities.QuoteTypeActivity"/>
     <item
         id="main_track_quote"
-        icon="placeholder"
+        icon="ic_check"
         title="Cotação em\nAndamento"
         onClick=""/>
     <item
         id="main_list_create"
-        icon="placeholder"
+        icon="ic_new_listing"
         title="Criar\nLista"
         onClick=""/>
     <item
         id="main_my_lists"
-        icon="placeholder"
+        icon="ic_listing"
         title="Minhas\nListas"
         onClick=""/>
 </menu>
