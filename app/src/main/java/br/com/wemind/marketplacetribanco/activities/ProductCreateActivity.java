@@ -31,7 +31,7 @@ public class ProductCreateActivity extends BaseCreateActivity {
 
             if (product != null) {
                 // productId = product.getId();
-                cb.edtProductName.setText(product.getSimpleDescription());
+                cb.edtProductName.setText(product.getName());
                 cb.edtInfo.setText(product.getFullDescription());
                 cb.edtType.setText(product.getCategory());
                 cb.edtBrand.setText(product.getBrand());
@@ -52,7 +52,7 @@ public class ProductCreateActivity extends BaseCreateActivity {
         Intent result = new Intent();
         Bundle userBundle = new Bundle();
         userBundle.putParcelable(RESULT_PRODUCT, new Product()
-                .setSimpleDescription(cb.edtProductName.getText().toString())
+                .setName(cb.edtProductName.getText().toString())
                 .setFullDescription(cb.edtInfo.getText().toString())
                 .setCategory(cb.edtInfo.getText().toString())
                 .setBrand(cb.edtBrand.getText().toString())

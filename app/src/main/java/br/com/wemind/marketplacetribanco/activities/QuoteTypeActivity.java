@@ -33,6 +33,16 @@ public class QuoteTypeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        b.btnCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(QuoteTypeActivity.this, QuotesListActivity.class);
+                i.putExtra(QuotesListActivity.REMOTE_ONLY, true);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
 }

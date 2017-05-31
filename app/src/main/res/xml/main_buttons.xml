@@ -9,15 +9,15 @@
         id="main_track_quote"
         icon="ic_check"
         title="Cotação em\nAndamento"
-        onClick=""/>
+        onClick="br.com.wemind.marketplacetribanco.activities.QuotesListActivity"/>
     <item
         id="main_list_create"
         icon="ic_new_listing"
         title="Criar\nLista"
-        onClick=""/>
+        onClick="br.com.wemind.marketplacetribanco.activities.ListingCreateActivity"/>
     <item
         id="main_my_lists"
         icon="ic_listing"
         title="Minhas\nListas"
-        onClick=""/>
+        onClick="br.com.wemind.marketplacetribanco.activities.ListingsListActivity"/>
 </menu>

@@ -54,6 +54,7 @@
     <string name="content_create_listing_btn_quantity">Quantidade</string>
     <string name="title_suppliers">Fornecedores</string>
     <string name="title_remote_quotes">Cotações Remotas</string>
+    <string name="title_quotes_list">Cotações</string>
 
 
 </resources>

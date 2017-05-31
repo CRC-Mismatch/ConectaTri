@@ -51,7 +51,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/placeholder" />
+                            app:srcCompat="@drawable/ic_start" />
                     </FrameLayout>
                 </RelativeLayout>
 
@@ -92,7 +92,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/placeholder" />
+                            app:srcCompat="@drawable/ic_check" />
                     </FrameLayout>
                 </RelativeLayout>
 

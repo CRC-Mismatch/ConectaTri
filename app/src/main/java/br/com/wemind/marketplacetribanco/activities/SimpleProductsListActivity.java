@@ -17,7 +17,6 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SimpleProductAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentSimpleProductsListBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
-import br.com.wemind.marketplacetribanco.models.Supplier;
 
 public class SimpleProductsListActivity extends BaseDrawerActivity {
 
@@ -98,7 +97,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
                 ArrayList<Product> data = new ArrayList<>(100);
 
                 for (int i = 1; i <= 100; ++i) {
-                    data.add(new Product().setSimpleDescription("Produto " + i));
+                    data.add(new Product().setName("Produto " + i));
                 }
                 onDataReceived(data);
             }
@@ -118,7 +117,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
                     // FIXME: 25/05/2017 send new data to server
                     Toast.makeText(
                             this,
-                            edited.getSimpleDescription() + " foi editado",
+                            edited.getName() + " foi editado",
                             Toast.LENGTH_SHORT
                     ).show();
                 }
@@ -134,7 +133,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
                     // FIXME: 25/05/2017 send new data to server
                     Toast.makeText(
                             this,
-                            edited.getSimpleDescription() + " foi adicionado",
+                            edited.getName() + " foi adicionado",
                             Toast.LENGTH_SHORT
                     ).show();
                 }

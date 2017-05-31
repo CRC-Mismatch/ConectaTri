@@ -30,10 +30,12 @@ public class QuoteSupplier implements Parcelable {
 
     private QuoteSupplier(Parcel in) {
         this.id = in.readLong();
+        this.supplier = in.readParcelable(Supplier.class.getClassLoader());
         this.products = in.createTypedArrayList(QuoteProduct.CREATOR);
     }
 
     private long id;
+    private Supplier supplier;
     private List<QuoteProduct> products;
 
     public long getId() {
@@ -62,6 +64,7 @@ public class QuoteSupplier implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
+        dest.writeParcelable(supplier, 0);
         dest.writeTypedList(products);
     }
 }

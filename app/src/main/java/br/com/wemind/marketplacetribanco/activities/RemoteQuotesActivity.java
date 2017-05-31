@@ -30,6 +30,15 @@ public class RemoteQuotesActivity extends BaseDrawerActivity {
                 finish();
             }
         });
+        cb.btnCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RemoteQuotesActivity.this, QuotesListActivity.class);
+                i.putExtra(QuotesListActivity.REMOTE_ONLY, true);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
     @Override

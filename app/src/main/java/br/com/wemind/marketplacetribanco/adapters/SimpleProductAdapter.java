@@ -1,27 +1,18 @@
 package br.com.wemind.marketplacetribanco.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
-import br.com.wemind.marketplacetribanco.activities.SupplierCreateActivity;
-import br.com.wemind.marketplacetribanco.activities.SuppliersListActivity;
 import br.com.wemind.marketplacetribanco.databinding.ItemSimpleProductBinding;
-import br.com.wemind.marketplacetribanco.databinding.ItemSupplierBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
-import br.com.wemind.marketplacetribanco.models.Supplier;
 
 public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdapter.ViewHolder> implements Filterable {
 
@@ -49,7 +40,7 @@ public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdap
     @Override
     public void onBindViewHolder(SimpleProductAdapter.ViewHolder vh, int position) {
         final Product product= filteredData.get(position);
-        vh.b.product.setText(product.getSimpleDescription());
+        vh.b.product.setText(product.getName());
     }
 
     @Override
@@ -79,7 +70,7 @@ public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdap
             // Naive filtering
             ArrayList<Product> filtered = new ArrayList<>();
             for (Product product : data) {
-                if (product.getSimpleDescription().contains(constraint)) {
+                if (product.getName().contains(constraint)) {
                     filtered.add(product);
                 }
             }

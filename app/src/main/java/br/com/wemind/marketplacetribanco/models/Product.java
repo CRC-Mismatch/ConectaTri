@@ -23,9 +23,9 @@ public class Product implements Parcelable {
     public Product() {}
 
     private Product(Parcel in) {
-        //this.id = in.readLong();
+        this.id = in.readLong();
         this.EAN = in.readString();
-        this.simpleDescription = in.readString();
+        this.name = in.readString();
         this.fullDescription = in.readString();
         this.department = in.readString();
         this.section = in.readString();
@@ -37,17 +37,26 @@ public class Product implements Parcelable {
     }
 
     // TODO: we'll also need a unique id for each product
-    //private long id;
+    private long id;
     private String EAN;
     private String department;
     private String section;
     private String category;
     private String subCategory;
     private String fullDescription;
-    private String simpleDescription;
+    private String name;
     private String brand;
     private double quantity;
     private String unit;
+
+    public long getId() {
+        return id;
+    }
+
+    public Product setId(long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getEAN() {
         return EAN;
@@ -103,12 +112,12 @@ public class Product implements Parcelable {
         return this;
     }
 
-    public String getSimpleDescription() {
-        return simpleDescription;
+    public String getName() {
+        return name;
     }
 
-    public Product setSimpleDescription(String simpleDescription) {
-        this.simpleDescription = simpleDescription;
+    public Product setName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -146,9 +155,9 @@ public class Product implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        //dest.writeLong(id)
+        dest.writeLong(id);
         dest.writeString(EAN);
-        dest.writeString(simpleDescription);
+        dest.writeString(name);
         dest.writeString(fullDescription);
         dest.writeString(department);
         dest.writeString(section);

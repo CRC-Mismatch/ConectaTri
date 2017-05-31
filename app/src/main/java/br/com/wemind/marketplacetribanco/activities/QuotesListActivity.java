@@ -14,22 +14,28 @@ import java.util.ArrayList;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
+import br.com.wemind.marketplacetribanco.adapters.QuotesAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
+import br.com.wemind.marketplacetribanco.models.Quote;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
 public class QuotesListActivity extends BaseDrawerActivity {
 
     public static final int CREATE_LISTING = 1;
     public static final int EDIT_LISTING = 2;
+    public static final String REMOTE_ONLY = "REMOTE_ONLY";
     private ContentListingsListBinding cb;
-    private ListingsAdapter adapter;
-    private ArrayList<Listing> data;
+    private QuotesAdapter adapter;
+    private ArrayList<Quote> data = new ArrayList<>();
+    private boolean remoteOnly;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        remoteOnly = getIntent().getBooleanExtra(REMOTE_ONLY, false);
 
         // Setup response to search query
         // Reset filtered data when user closes search view
@@ -82,20 +88,20 @@ public class QuotesListActivity extends BaseDrawerActivity {
             @Override
             public void run() {
                 // Create and send dummy data
-                ArrayList<Product> dummyProducts = new ArrayList<>(100);
+                ArrayList<Product> dummyProducts = new ArrayList<>(50);
                 ArrayList<Supplier> dummySuppliers = new ArrayList<>(5);
 
-                for (int i = 0; i < 100; ++i) {
-                    dummyProducts.add(new Product());
+                for (int i = 0; i < 50; ++i) {
+                    dummyProducts.add(new Product().setId(i).setName("Produto " + i));
                 }
 
                 for (int i = 0; i < 5; ++i) {
                     dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "11", "4645-6452"));
                 }
 
-                for (int i = 1; i <= 100; ++i) {
-                    data.add(new Listing(i,
-                            "Lista " + i,
+                for (int i = 1; i <= 10; ++i) {
+                    data.add(new Quote(i,
+                            "Cotação " + i,
                             1 + (1001 % (2 + i) % 2),
                             dummyProducts,
                             dummySuppliers
@@ -146,9 +152,9 @@ public class QuotesListActivity extends BaseDrawerActivity {
         }
     }
 
-    private void onDataReceived(ArrayList<Listing> data) {
+    private void onDataReceived(ArrayList<Quote> data) {
         this.data = data;
-        adapter = new ListingsAdapter(this, data, false);
+        adapter = new QuotesAdapter(this, data);
         cb.list.setAdapter(adapter);
     }
 

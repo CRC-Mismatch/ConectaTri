@@ -26,10 +26,12 @@ public class QuoteProduct implements Parcelable {
 
     private QuoteProduct(Parcel in) {
         this.id = in.readLong();
+        this.product = in.readParcelable(Product.class.getClassLoader());
         this.price = in.readDouble();
     }
 
     private long id;
+    private Product product;
     private double price;
 
     public long getId() {
@@ -38,6 +40,15 @@ public class QuoteProduct implements Parcelable {
 
     public QuoteProduct setId(long id) {
         this.id = id;
+        return this;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public QuoteProduct setProduct(Product product) {
+        this.product = product;
         return this;
     }
 
@@ -58,6 +69,7 @@ public class QuoteProduct implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
+        dest.writeParcelable(product, 0);
         dest.writeDouble(price);
     }
 }

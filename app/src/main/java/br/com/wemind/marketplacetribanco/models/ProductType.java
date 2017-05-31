@@ -5,8 +5,17 @@ package br.com.wemind.marketplacetribanco.models;
  */
 
 public class ProductType implements Listable {
-    //private int id;
+    private long id;
     private String type;
+
+    public long getId() {
+        return id;
+    }
+
+    public ProductType setId(long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getType() {
         return type;
