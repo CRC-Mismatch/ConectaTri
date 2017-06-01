@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -30,6 +31,7 @@ public class QuoteProductActivity extends AppCompatActivity {
         b.productEan.setText(product.getProduct().getEAN());
         b.productType.setText(product.getProduct().getCategory());
         b.quotes.setAdapter(new QuoteSupplierAdapter(this, product));
+        b.quotes.setLayoutManager(new LinearLayoutManager(this));
     }
 
 }

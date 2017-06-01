@@ -23,7 +23,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="48dp">
             <RelativeLayout
                 android:id="@+id/product"
                 android:layout_alignParentTop="true"
@@ -67,9 +68,12 @@
                         android:layout_height="wrap_content"
                         android:text="Tipo do produto"/>
                 </LinearLayout>
-                
+
             </RelativeLayout>
             <android.support.v7.widget.RecyclerView
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:clipToPadding="false"
                 android:id="@+id/quotes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

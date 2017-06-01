@@ -39,7 +39,8 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
     public void onBindViewHolder(QuoteSupplierAdapter.ViewHolder vh, int position) {
         final QuoteSupplier quoteSupplier = data.get(position);
         vh.b.price.setText(context.getString(R.string.money, quoteSupplier.getPrice()));
-
+        vh.b.qty.setText(String.valueOf(quoteSupplier.getQuantity()));
+        vh.b.supplier.setText(quoteSupplier.getSupplier().getSupplierName());
     }
 
     @Override
