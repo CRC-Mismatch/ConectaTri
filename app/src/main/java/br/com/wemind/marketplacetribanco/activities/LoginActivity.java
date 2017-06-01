@@ -43,8 +43,12 @@ public class LoginActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
 
-        binding.user.addTextChangedListener(new FormattingTextWatcher(new Formatting.CpfFormatter()));
+        binding.user.addTextChangedListener(new FormattingTextWatcher(new Formatting.CnpjFormatter()));
         binding.user.setText(getPreferences(MODE_PRIVATE).getString(SAVED_USER, ""));
+
+        //TEST CODE
+        binding.user.setText("12345678912");
+        binding.password.setText("123456");
 
         binding.password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

@@ -87,7 +87,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:digits="1234567890.-"
+                                android:digits="1234567890./-"
                                 android:hint="@string/prompt_user"
                                 android:inputType="numberDecimal|numberSigned"
                                 android:letterSpacing="0.03"

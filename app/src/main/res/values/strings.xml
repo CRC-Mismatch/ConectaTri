@@ -2,7 +2,7 @@
     <string name="app_name">ConectaTri</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_user">CPF</string>
+    <string name="prompt_user">CNPJ</string>
     <string name="prompt_password">Senha</string>
     <string name="action_sign_in">Entrar</string>
     <string name="action_sign_in_short">Entrar</string>
