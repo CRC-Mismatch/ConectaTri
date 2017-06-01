@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,7 +18,7 @@ import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
-public class ListingsSelectActivity extends BaseDrawerActivity {
+public class ListingsSelectActivity extends BaseSelectActivity {
 
     public static final String SELECTED_LIST = "SELECTED_LIST";
 
@@ -123,10 +122,5 @@ public class ListingsSelectActivity extends BaseDrawerActivity {
         this.data = data;
         adapter = new ListingsAdapter(this, data, true);
         cb.list.setAdapter(adapter);
-    }
-
-    @Override
-    protected int getSelfNavDrawerItem() {
-        return R.id.nav_listings;
     }
 }
