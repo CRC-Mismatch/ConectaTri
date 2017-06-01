@@ -57,6 +57,7 @@
     <string name="title_quotes_list">Cotações</string>
     <string name="title_quote_products">Produtos Cotados</string>
     <string name="title_activity_quote_product">Produto Cotado</string>
+    <string name="title_activity_products_select">Selecionar Produtos</string>
 
 
     <string name="money">R$ %1$,.2f</string>

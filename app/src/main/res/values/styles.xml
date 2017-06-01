@@ -70,4 +70,8 @@
     <style name="LinearInputFormComponent">
         <item name="android:layout_marginTop">16dp</item>
     </style>
+
+    <style name="DarkCheckBox" parent="AppTheme">
+        <item name="colorAccent">@color/textGray</item>
+    </style>
 </resources>

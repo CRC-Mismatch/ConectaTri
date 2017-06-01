@@ -2,12 +2,13 @@ package br.com.wemind.marketplacetribanco.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 /**
  * Created by kmkraiker on 25/05/2017.
  */
 
-public class Product implements Parcelable {
+public class Product implements Parcelable, Comparable {
     public static final Creator<Product> CREATOR = new Creator<Product>() {
         @Override
         public Product createFromParcel(Parcel in) {
@@ -19,8 +20,21 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
+    // TODO: we'll also need a unique id for each product
+    private long id;
+    private String EAN;
+    private String department;
+    private String section;
+    private String category;
+    private String subCategory;
+    private String fullDescription;
+    private String name;
+    private String brand;
+    private double quantity;
+    private String unit;
 
-    public Product() {}
+    public Product() {
+    }
 
     private Product(Parcel in) {
         this.id = in.readLong();
@@ -35,19 +49,6 @@ public class Product implements Parcelable {
         this.quantity = in.readDouble();
         this.unit = in.readString();
     }
-
-    // TODO: we'll also need a unique id for each product
-    private long id;
-    private String EAN;
-    private String department;
-    private String section;
-    private String category;
-    private String subCategory;
-    private String fullDescription;
-    private String name;
-    private String brand;
-    private double quantity;
-    private String unit;
 
     public long getId() {
         return id;
@@ -166,5 +167,19 @@ public class Product implements Parcelable {
         dest.writeString(brand);
         dest.writeDouble(quantity);
         dest.writeString(unit);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Product && ((Product) obj).getId() == id;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        if (o instanceof Product) {
+            return (int) (id - ((Product) o).getId());
+        } else {
+            throw new ClassCastException(o.toString());
+        }
     }
 }
