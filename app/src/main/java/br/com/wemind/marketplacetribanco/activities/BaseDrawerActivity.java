@@ -81,6 +81,14 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        // fade back the main content
+        b.contentFrame.setAlpha(1);
+    }
+
     private void goToNavDrawerItem(int id) {
         // FIXME: 27/05/2017 There's no option to go to the home panel
         // FIXME: 28/05/2017 Removed finish() calls so going back will end up in home
