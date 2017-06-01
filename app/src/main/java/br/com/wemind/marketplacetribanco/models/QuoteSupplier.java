@@ -25,18 +25,21 @@ public class QuoteSupplier implements Parcelable {
     };
 
     public QuoteSupplier() {
-        this.products = new ArrayList<>();
     }
 
     private QuoteSupplier(Parcel in) {
         this.id = in.readLong();
+        this.product = in.readParcelable(Product.class.getClassLoader());
         this.supplier = in.readParcelable(Supplier.class.getClassLoader());
-        this.products = in.createTypedArrayList(QuoteProduct.CREATOR);
+        this.price = in.readDouble();
+        this.quantity = in.readInt();
     }
 
     private long id;
+    private Product product;
     private Supplier supplier;
-    private List<QuoteProduct> products;
+    private double price;
+    private int quantity;
 
     public long getId() {
         return id;
@@ -47,12 +50,39 @@ public class QuoteSupplier implements Parcelable {
         return this;
     }
 
-    public List<QuoteProduct> getProducts() {
-        return products;
+    public Product getProduct() {
+        return product;
     }
 
-    public QuoteSupplier setProducts(List<QuoteProduct> products) {
-        this.products = products;
+    public QuoteSupplier setProduct(Product product) {
+        this.product = product;
+        return this;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public QuoteSupplier setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+        return this;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public QuoteSupplier setPrice(double price) {
+        this.price = price;
+        return this;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public QuoteSupplier setQuantity(int quantity) {
+        this.quantity = quantity;
         return this;
     }
 
@@ -64,7 +94,9 @@ public class QuoteSupplier implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
+        dest.writeParcelable(product, 0);
         dest.writeParcelable(supplier, 0);
-        dest.writeTypedList(products);
+        dest.writeDouble(price);
+        dest.writeInt(quantity);
     }
 }

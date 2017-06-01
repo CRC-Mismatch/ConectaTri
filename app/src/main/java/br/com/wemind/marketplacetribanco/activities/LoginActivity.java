@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.user.setText(getPreferences(MODE_PRIVATE).getString(SAVED_USER, ""));
 
         //TEST CODE
-        binding.user.setText("12345678912");
+        binding.user.setText("12345678123456");
         binding.password.setText("123456");
 
         binding.password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void attemptLogin() {
-        if (binding.user.getText().toString().equals("123.456.789-12") && binding.password.getText().toString().equals("123456")) {
+        if (binding.user.getText().toString().equals("12.345.678/1234-56") && binding.password.getText().toString().equals("123456")) {
             showProgress(true);
             Timer t = new Timer();
             t.schedule(new LoginPlaceholder(), 2000);

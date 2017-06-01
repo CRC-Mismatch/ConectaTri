@@ -3,6 +3,7 @@ package br.com.wemind.marketplacetribanco.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,17 +23,19 @@ public class QuoteProduct implements Parcelable {
         }
     };
 
-    public QuoteProduct() {}
+    public QuoteProduct() {
+        suppliers = new ArrayList<>();
+    }
 
     private QuoteProduct(Parcel in) {
         this.id = in.readLong();
         this.product = in.readParcelable(Product.class.getClassLoader());
-        this.price = in.readDouble();
+        this.suppliers = in.createTypedArrayList(QuoteSupplier.CREATOR);
     }
 
     private long id;
     private Product product;
-    private double price;
+    private List<QuoteSupplier> suppliers;
 
     public long getId() {
         return id;
@@ -52,12 +55,12 @@ public class QuoteProduct implements Parcelable {
         return this;
     }
 
-    public double getPrice() {
-        return price;
+    public List<QuoteSupplier> getSuppliers() {
+        return suppliers;
     }
 
-    public QuoteProduct setPrice(double price) {
-        this.price = price;
+    public QuoteProduct setSuppliers(List<QuoteSupplier> suppliers) {
+        this.suppliers = suppliers;
         return this;
     }
 
@@ -70,6 +73,6 @@ public class QuoteProduct implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeParcelable(product, 0);
-        dest.writeDouble(price);
+        dest.writeTypedList(suppliers);
     }
 }

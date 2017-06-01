@@ -55,6 +55,11 @@
     <string name="title_suppliers">Fornecedores</string>
     <string name="title_remote_quotes">Cotações Remotas</string>
     <string name="title_quotes_list">Cotações</string>
+    <string name="title_quote_products">Produtos Cotados</string>
+    <string name="title_activity_quote_product">Produto Cotado</string>
+
+
+    <string name="money">R$ %1$,.2f</string>
 
 
 </resources>

@@ -19,6 +19,7 @@ import java.util.List;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.activities.ListingCreateActivity;
 import br.com.wemind.marketplacetribanco.activities.ListingsListActivity;
+import br.com.wemind.marketplacetribanco.activities.QuoteProductsListActivity;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Quote;
 
@@ -60,6 +61,15 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         final Quote quote = filteredData.get(position);
         holder.listingName.setText(quote.getName());
         holder.itemCount.setText(String.valueOf(quote.getSuppliers().size()));
+
+        holder.v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, QuoteProductsListActivity.class);
+                i.putExtra(QuoteProductsListActivity.QUOTE, quote);
+                context.startActivity(i);
+            }
+        });
 
         // FIXME: bind event handlers
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {

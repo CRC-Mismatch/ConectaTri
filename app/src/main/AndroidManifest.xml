@@ -36,7 +36,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.wemind.marketplacetribanco.activities.MainActivity" />
         </activity>
-
         <activity
             android:name=".activities.RemoteQuotesActivity"
             android:label="@string/title_remote_quotes"
@@ -99,6 +98,14 @@
             android:name=".activities.QuotesListActivity"
             android:label="@string/title_quotes_list"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.QuoteProductsListActivity"
+            android:label="@string/title_quote_products"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.QuoteProductActivity"
+            android:label="@string/title_activity_quote_product"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
