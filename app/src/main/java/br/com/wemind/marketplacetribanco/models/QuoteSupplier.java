@@ -2,6 +2,7 @@ package br.com.wemind.marketplacetribanco.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.List;
  * Created by kmkraiker on 25/05/2017.
  */
 
-public class QuoteSupplier implements Parcelable {
+public class QuoteSupplier implements Parcelable, Comparable {
     public static final Creator<QuoteSupplier> CREATOR = new Creator<QuoteSupplier>() {
         @Override
         public QuoteSupplier createFromParcel(Parcel in) {
@@ -98,5 +99,12 @@ public class QuoteSupplier implements Parcelable {
         dest.writeParcelable(supplier, 0);
         dest.writeDouble(price);
         dest.writeInt(quantity);
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        QuoteSupplier that = (QuoteSupplier) o;
+        if (this.quantity == 0 || this.price == 0) return -1;
+        return (int) Math.round(this.price - that.price);
     }
 }

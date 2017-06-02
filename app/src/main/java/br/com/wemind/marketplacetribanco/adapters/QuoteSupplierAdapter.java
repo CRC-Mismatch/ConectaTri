@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Filterable;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -28,6 +30,12 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
     public QuoteSupplierAdapter(Context context, QuoteProduct product) {
         this.context = context;
         this.data = new ArrayList<>(product.getSuppliers());
+        Collections.sort(this.data, new Comparator<QuoteSupplier>() {
+            @Override
+            public int compare(QuoteSupplier o1, QuoteSupplier o2) {
+                return o1.compareTo(o2);
+            }
+        });
     }
 
     @Override
