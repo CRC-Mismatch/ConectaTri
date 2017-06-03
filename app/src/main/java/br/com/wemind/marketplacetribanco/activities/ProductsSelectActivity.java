@@ -7,8 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -18,37 +20,15 @@ import br.com.wemind.marketplacetribanco.models.Product;
 
 public class ProductsSelectActivity extends BaseSelectActivity {
 
-    public static final String SELECTED_LIST = "select_list";
     public static final String INPUT_PRODUCTS = "input_products";
     public static final String INPUT_SELECTED = "input_selected";
     public static final String INPUT_BUNDLE = "input_bundle";
     public static final String RESULT_BUNDLE = "result_bundle";
-    public static final String RESULT_SELECTED = "result_selected";
+    public static final String SELECTED_LIST = "result_selected";
     private ProductsSelectAdapter adapter;
     private ContentProductsSelectBinding cb;
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Product> selected = new ArrayList<>();
-
-    @Override
-    public void onBackPressed() {
-        packForFinish();
-
-        super.onBackPressed();
-    }
-
-    private void packForFinish() {
-        if (adapter != null) {
-            selected = adapter.getSelectedList();
-        }
-
-        Bundle b = new Bundle();
-        b.putParcelableArrayList(RESULT_SELECTED, selected);
-
-        Intent i = new Intent();
-        i.putExtra(RESULT_BUNDLE, b);
-
-        setResult(RESULT_OK, i);
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,24 +38,22 @@ public class ProductsSelectActivity extends BaseSelectActivity {
         Intent i = getIntent();
         if (i != null) {
             Bundle bundleExtra = i.getBundleExtra(INPUT_BUNDLE);
+
             ArrayList<Product> inputSelected =
                     bundleExtra.getParcelableArrayList(INPUT_SELECTED);
-
             if (inputSelected != null) {
                 selected = new ArrayList<>(inputSelected);
+            }
+
+            ArrayList<Product> inputProducts =
+                    bundleExtra.getParcelableArrayList(INPUT_PRODUCTS);
+            if (inputProducts != null) {
+                products = new ArrayList<>(inputProducts);
             }
         }
 
         b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_continue));
         b.fab.setVisibility(View.VISIBLE);
-        // FIXME: Implement real list manipulation
-        b.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                packForFinish();
-                finish();
-            }
-        });
 
         // Setup response to search query
         // Reset filtered data when user closes search view
@@ -115,6 +93,37 @@ public class ProductsSelectActivity extends BaseSelectActivity {
         cb.list.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ProductsSelectAdapter(this, products, new TreeSet<>(selected));
         cb.list.setAdapter(adapter);
+    }
+
+    @Override
+    protected void packResultIntent() {
+        if (adapter != null) {
+            selected = adapter.getSelectedList();
+        }
+
+        Bundle b1 = new Bundle();
+        b1.putParcelableArrayList(SELECTED_LIST, selected);
+
+        Intent i = new Intent();
+        i.putExtra(RESULT_BUNDLE, b1);
+
+        setResult(RESULT_OK, i);
+    }
+
+    @Override
+    protected boolean mayContinue() {
+        List selected = adapter.getSelectedList();
+        if (selected.size() <= 0) {
+            // The user hasn't selected any suppliers,
+            // show error
+            Toast.makeText(this,
+                    getString(R.string.error_selection_required),
+                    Toast.LENGTH_SHORT
+            ).show();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override

@@ -93,7 +93,7 @@ public class ListingCreateActivity extends BaseCreateActivity {
         if (REQUEST_SELECT_PRODUCTS == requestCode) {
             if (RESULT_OK == resultCode) {
                 this.products = data.getBundleExtra(ProductsSelectActivity.RESULT_BUNDLE)
-                    .getParcelableArrayList(ProductsSelectActivity.RESULT_SELECTED);
+                    .getParcelableArrayList(ProductsSelectActivity.SELECTED_LIST);
 
                 if (products == null) {
                     products = new ArrayList<>();

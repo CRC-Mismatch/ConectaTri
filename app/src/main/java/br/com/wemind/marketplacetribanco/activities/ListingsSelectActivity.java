@@ -6,12 +6,10 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
 
-import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
@@ -21,6 +19,7 @@ import br.com.wemind.marketplacetribanco.models.Supplier;
 public class ListingsSelectActivity extends BaseSelectActivity {
 
     public static final String SELECTED_LIST = "SELECTED_LIST";
+    public static final String RESULT_BUNDLE = "result_bundle";
 
     private ContentListingsListBinding cb;
     private ListingsAdapter adapter;
@@ -29,18 +28,6 @@ public class ListingsSelectActivity extends BaseSelectActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_continue));
-        b.fab.setVisibility(View.VISIBLE);
-        // FIXME: Implement real list manipulation
-        b.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ListingsSelectActivity.this, SuppliersSelectActivity.class);
-                i.putParcelableArrayListExtra(SELECTED_LIST, adapter.getSelectedList());
-                startActivity(i);
-            }
-        });
 
         // Setup response to search query
         // Reset filtered data when user closes search view
@@ -81,6 +68,22 @@ public class ListingsSelectActivity extends BaseSelectActivity {
     }
 
     @Override
+    protected void packResultIntent() {
+        Bundle result = new Bundle();
+        result.putParcelableArrayList(SELECTED_LIST, adapter.getSelectedList());
+
+        Intent i = new Intent();
+        i.putExtra(RESULT_BUNDLE, result);
+
+        setResult(RESULT_OK, i);
+    }
+
+    @Override
+    protected boolean mayContinue() {
+        return true;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         // FIXME: 24/05/2017 actually retrieve data
@@ -94,18 +97,21 @@ public class ListingsSelectActivity extends BaseSelectActivity {
             public void run() {
                 // Create and send dummy data
                 ArrayList<Listing> data = new ArrayList<>(100);
-                ArrayList<Product> dummyProducts = new ArrayList<>(100);
                 ArrayList<Supplier> dummySuppliers = new ArrayList<>(5);
-
-                for (int i = 0; i < 100; ++i) {
-                    dummyProducts.add(new Product());
-                }
 
                 for (int i = 0; i < 5; ++i) {
                     dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "11", "4645-6452"));
                 }
 
                 for (int i = 1; i <= 100; ++i) {
+                    ArrayList<Product> dummyProducts = new ArrayList<>();
+                    for (int j = 0; j < i; ++j) {
+                        Product p = new Product();
+                        p.setId(j);
+                        p.setName("Produto " + j);
+                        dummyProducts.add(p);
+                    }
+
                     data.add(new Listing(i,
                             "Lista " + i,
                             1 + (1001 % (3 + i) % 3),

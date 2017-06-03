@@ -3,7 +3,6 @@ package br.com.wemind.marketplacetribanco.activities;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -12,21 +11,22 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SelectionSupplierAdapter;
-import br.com.wemind.marketplacetribanco.adapters.SupplierAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
-public class SuppliersSelectActivity extends BaseDrawerActivity {
+public class SuppliersSelectActivity extends BaseSelectActivity {
 
-    public static final int EDIT_USER = 1;
+    public static final String RESULT_BUNDLE = "result_bundle";
+    public static final String SELECTED_LIST = "selected_list";
+    public static final String INPUT_BUNDLE = "input_bundle";
+    public static final String INPUT_SUPPLIERS = "input_suppliers";
     private ContentSuppliersListBinding cb;
 
     /**
@@ -39,15 +39,6 @@ public class SuppliersSelectActivity extends BaseDrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_continue));
-        b.fab.setVisibility(View.VISIBLE);
-        b.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: Implement Products selection
-            }
-        });
 
         // Setup response to search query
         // Reset filtered data when user closes search view
@@ -86,34 +77,38 @@ public class SuppliersSelectActivity extends BaseDrawerActivity {
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
 
-        suppliers = new TreeSet<>();
-        data = getIntent().getParcelableArrayListExtra(ListingsSelectActivity.SELECTED_LIST);
-        for (Listing l : data) {
-            suppliers.addAll(l.getSuppliers());
-        }
+        suppliers = new TreeSet<>(getIntent().getBundleExtra(INPUT_BUNDLE)
+                .<Supplier>getParcelableArrayList(INPUT_SUPPLIERS));
+
         adapter = new SelectionSupplierAdapter(this, new ArrayList<>(suppliers));
 
         cb.list.setAdapter(adapter);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EDIT_USER) {
-            if (resultCode == RESULT_OK) {
-                Supplier edited = data.getBundleExtra(SupplierCreateActivity.RESULT_BUNDLE)
-                        .getParcelable(SupplierCreateActivity.RESULT_SUPPLIER);
+    protected void packResultIntent() {
+        Bundle resultBundle = new Bundle();
+        resultBundle.putParcelableArrayList(SELECTED_LIST, adapter.getSelectedData());
 
-                if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getSupplierName() + " foi editado",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-            } else {
+        Intent i = new Intent();
+        i.putExtra(RESULT_BUNDLE, resultBundle);
 
-            }
+        setResult(RESULT_OK, i);
+    }
+
+    @Override
+    protected boolean mayContinue() {
+        List selected = adapter.getSelectedData();
+        if (selected.size() <= 0) {
+            // The user hasn't selected any suppliers,
+            // show error
+            Toast.makeText(this,
+                    getString(R.string.error_selection_required),
+                    Toast.LENGTH_SHORT
+            ).show();
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -122,10 +117,5 @@ public class SuppliersSelectActivity extends BaseDrawerActivity {
         super.onCreateOptionsMenu(menu);
 
         return true;
-    }
-
-    @Override
-    protected int getSelfNavDrawerItem() {
-        return R.id.nav_suppliers;
     }
 }

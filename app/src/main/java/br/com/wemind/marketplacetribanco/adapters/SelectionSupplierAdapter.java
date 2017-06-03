@@ -1,35 +1,27 @@
 package br.com.wemind.marketplacetribanco.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
-import br.com.wemind.marketplacetribanco.activities.SupplierCreateActivity;
-import br.com.wemind.marketplacetribanco.activities.SuppliersListActivity;
-import br.com.wemind.marketplacetribanco.databinding.ItemSupplierBinding;
 import br.com.wemind.marketplacetribanco.databinding.ItemSupplierSelectBinding;
 import br.com.wemind.marketplacetribanco.databinding.ItemSuppliersSelectHeaderBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
-public class SelectionSupplierAdapter extends RecyclerView.Adapter<SelectionSupplierAdapter.ViewHolder>
+public class SelectionSupplierAdapter extends
+        RecyclerView.Adapter<SelectionSupplierAdapter.ViewHolder>
         implements Filterable {
 
     private static final int HEADER = 0;
@@ -95,7 +87,7 @@ public class SelectionSupplierAdapter extends RecyclerView.Adapter<SelectionSupp
                 }
             });
         } else {
-            final Supplier supplier = filteredData.get(position-1);
+            final Supplier supplier = filteredData.get(position - 1);
             vh.ib.txtSupplierName.setText(supplier.getSupplierName());
             vh.ib.txtContactName.setText(supplier.getContactName());
             vh.ib.txtContactEmail.setText(supplier.getContactEmail());
@@ -105,9 +97,11 @@ public class SelectionSupplierAdapter extends RecyclerView.Adapter<SelectionSupp
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        if (!selectedData.contains(supplier)) selectedData.add(supplier);
+                        if (!selectedData.contains(supplier))
+                            selectedData.add(supplier);
                     } else {
-                        if (selectedData.contains(supplier)) selectedData.remove(supplier);
+                        if (selectedData.contains(supplier))
+                            selectedData.remove(supplier);
                     }
                 }
             });
@@ -116,7 +110,7 @@ public class SelectionSupplierAdapter extends RecyclerView.Adapter<SelectionSupp
 
     @Override
     public int getItemCount() {
-        return filteredData.size()+1;
+        return filteredData.size() + 1;
     }
 
     @Override
