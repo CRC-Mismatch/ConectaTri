@@ -22,20 +22,18 @@ public class QuoteProduct implements Parcelable {
             return new QuoteProduct[size];
         }
     };
+    private long id;
+    private Product product;
+    private List<QuoteSupplier> suppliers;
 
     public QuoteProduct() {
         suppliers = new ArrayList<>();
     }
-
     private QuoteProduct(Parcel in) {
         this.id = in.readLong();
         this.product = in.readParcelable(Product.class.getClassLoader());
         this.suppliers = in.createTypedArrayList(QuoteSupplier.CREATOR);
     }
-
-    private long id;
-    private Product product;
-    private List<QuoteSupplier> suppliers;
 
     public long getId() {
         return id;

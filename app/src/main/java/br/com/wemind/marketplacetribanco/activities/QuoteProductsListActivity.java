@@ -74,4 +74,14 @@ public class QuoteProductsListActivity extends BaseSelectActivity {
         cb.list.setLayoutManager(new LinearLayoutManager(this));
         cb.list.setAdapter(new QuoteProductAdapter(this, getIntent().<Quote>getParcelableExtra(QUOTE)));
     }
+
+    @Override
+    protected void packResultIntent() {
+
+    }
+
+    @Override
+    protected boolean mayContinue() {
+        return false;
+    }
 }

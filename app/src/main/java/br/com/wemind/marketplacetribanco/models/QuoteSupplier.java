@@ -4,10 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Created by kmkraiker on 25/05/2017.
  */
@@ -24,10 +20,14 @@ public class QuoteSupplier implements Parcelable, Comparable {
             return new QuoteSupplier[size];
         }
     };
+    private long id;
+    private Product product;
+    private Supplier supplier;
+    private double price;
+    private int quantity;
 
     public QuoteSupplier() {
     }
-
     private QuoteSupplier(Parcel in) {
         this.id = in.readLong();
         this.product = in.readParcelable(Product.class.getClassLoader());
@@ -35,12 +35,6 @@ public class QuoteSupplier implements Parcelable, Comparable {
         this.price = in.readDouble();
         this.quantity = in.readInt();
     }
-
-    private long id;
-    private Product product;
-    private Supplier supplier;
-    private double price;
-    private int quantity;
 
     public long getId() {
         return id;

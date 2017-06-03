@@ -28,7 +28,8 @@ public class QuoteTypeActivity extends AppCompatActivity {
         b.btnRemoteQuote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(QuoteTypeActivity.this, ListingsSelectActivity.class);
+                Intent i = new Intent(
+                        QuoteTypeActivity.this, QuoteCreationFlowController.class);
                 startActivity(i);
                 finish();
             }

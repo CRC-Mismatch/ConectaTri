@@ -21,7 +21,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_quote_type">Que tipo de cotação?</string>
-    <string name="title_activity_suppliers_list">SuppliersListActivity</string>
+    <string name="title_activity_suppliers_list">Selecionar Fornecedor</string>
     <string name="menu_save">SALVAR</string>
     <string name="title_activity_supplier_create">SupplierCreateActivity</string>
     <string name="content_create_supplier_edt_supplier_name">Nome do fornecedor</string>
@@ -61,6 +61,7 @@
 
 
     <string name="money">R$ %1$,.2f</string>
+    <string name="error_selection_required">É necessário selecionar ao menos um item da lista</string>
 
 
 </resources>
