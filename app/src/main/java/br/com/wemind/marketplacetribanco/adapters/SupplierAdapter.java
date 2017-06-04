@@ -49,14 +49,9 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
     public void onBindViewHolder(ViewHolder vh, int position) {
         final Supplier supplier = filteredData.get(position);
         vh.b.txtSupplierName.setText(supplier.getSupplierName());
-
-        // TODO: 03/06/2017 - Call Supplier Rep List
-        vh.b.getRoot().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        vh.b.txtContactName.setText(supplier.getContactName());
+        vh.b.txtContactEmail.setText(supplier.getContactEmail());
+        vh.b.txtContactPhone.setText(supplier.getContactPhone());
 
         // FIXME: 25/05/2017 bind event handlers
         vh.b.btnDelete.setOnClickListener(new View.OnClickListener() {

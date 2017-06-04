@@ -17,7 +17,6 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SupplierAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
-import br.com.wemind.marketplacetribanco.models.SupplierRep;
 
 public class SuppliersListActivity extends BaseDrawerActivity {
 
@@ -98,21 +97,14 @@ public class SuppliersListActivity extends BaseDrawerActivity {
             public void run() {
                 // Create and send dummy data
                 ArrayList<Supplier> data = new ArrayList<>(100);
-                ArrayList<SupplierRep> reps = new ArrayList<>(5);
-
-                for (int i = 1; i <= 5; ++i) {
-                    reps.add(new SupplierRep(i,
-                            "Representante " + i,
-                            "email@provedor.com",
-                            "11",
-                            "5666-666" + i
-                    ));
-                }
 
                 for (int i = 1; i <= 100; ++i) {
                     data.add(new Supplier(i,
                             "Fornecedor " + i,
-                            reps
+                            "Juvenil" + (char) ((int) ('a') - 1 + i),
+                            "contato@fornecedor" + i + ".com.br",
+                            "11",
+                            "5666-666" + i
                     ));
                 }
                 onDataReceived(data);

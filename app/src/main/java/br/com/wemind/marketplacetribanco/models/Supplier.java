@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import java.util.List;
-
 public class Supplier implements Parcelable, Comparable {
     public static final Creator<Supplier> CREATOR = new Creator<Supplier>() {
         @Override
@@ -21,24 +19,32 @@ public class Supplier implements Parcelable, Comparable {
     // TODO: we'll also need a unique id for each supplier
     private long id;
     private String name;
+    private String contactName;
+    private String contactEmail;
+    private String contactPhone;
     // TODO: cnpj
     private String cnpj = "12123123412312";
     // TODO: info
     private String info = "Apenas um fornecedor";
-    private List<SupplierRep> representatives;
+    private String contactPhoneDdd;
 
-    public Supplier(long id, String name, List<SupplierRep> representatives) {
+    public Supplier(long id, String name, String contactName, String contactEmail,
+                    String contactPhoneDdd, String contactPhone) {
         this.id = id;
         this.name = name;
-        this.representatives = representatives;
+        this.contactName = contactName;
+        this.contactEmail = contactEmail;
+        this.contactPhoneDdd = contactPhoneDdd;
+        this.contactPhone = contactPhone;
     }
 
     protected Supplier(Parcel in) {
         id = in.readLong();
         name = in.readString();
-        cnpj = in.readString();
-        info = in.readString();
-        representatives = in.createTypedArrayList(SupplierRep.CREATOR);
+        contactName = in.readString();
+        contactEmail = in.readString();
+        contactPhoneDdd = in.readString();
+        contactPhone = in.readString();
     }
 
     public long getId() {
@@ -54,6 +60,18 @@ public class Supplier implements Parcelable, Comparable {
         return name;
     }
 
+    public String getContactName() {
+        return contactName;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -63,9 +81,10 @@ public class Supplier implements Parcelable, Comparable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(name);
-        dest.writeString(cnpj);
-        dest.writeString(info);
-        dest.writeTypedList(representatives);
+        dest.writeString(contactName);
+        dest.writeString(contactEmail);
+        dest.writeString(contactPhoneDdd);
+        dest.writeString(contactPhone);
     }
 
     public String getCnpj() {
@@ -74,6 +93,10 @@ public class Supplier implements Parcelable, Comparable {
 
     public String getInfo() {
         return info;
+    }
+
+    public String getContactPhoneDdd() {
+        return contactPhoneDdd;
     }
 
     @Override

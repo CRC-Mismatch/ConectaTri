@@ -44,6 +44,10 @@ public class SupplierCreateActivity extends BaseCreateActivity {
                 cb.edtCnpj.setText(supplier.getCnpj());
                 cb.edtSupplierName.setText(supplier.getSupplierName());
                 cb.edtInfo.setText(supplier.getInfo());
+                cb.edtContactName.setText(supplier.getContactName());
+                cb.edtContactEmail.setText(supplier.getContactEmail());
+                cb.edtContactPhoneDdd.setText(supplier.getContactPhoneDdd());
+                cb.edtContactPhone.setText(supplier.getContactPhone());
             }
         }
     }
@@ -69,6 +73,19 @@ public class SupplierCreateActivity extends BaseCreateActivity {
 
         errorOccurred |= _setErrorIfEmpty(cb.edtSupplierName);
         errorOccurred |= _setErrorIfEmpty(cb.edtInfo);
+        errorOccurred |= _setErrorIfEmpty(cb.edtContactName);
+
+        errorOccurred |= _setErrorIfEmpty(cb.edtContactEmail);
+        // Check if email address contains @ symbol
+        if (cb.edtContactEmail.length() > 0
+                && !cb.edtContactEmail.getText().toString().contains("@")) {
+            errorOccurred = true;
+            cb.edtContactEmail.setError(getString(R.string.error_invalid_email));
+            cb.edtContactEmail.requestFocus();
+        }
+
+        errorOccurred |= _setErrorIfEmpty(cb.edtContactPhoneDdd);
+        errorOccurred |= _setErrorIfEmpty(cb.edtContactPhone);
 
         return !errorOccurred;
     }
@@ -92,8 +109,12 @@ public class SupplierCreateActivity extends BaseCreateActivity {
         Bundle userBundle = new Bundle();
         userBundle.putParcelable(RESULT_SUPPLIER, new Supplier(
                 this.supplierId,
-                cb.edtSupplierName.getText().toString()
-                // cb.edtInfo.getText().toString()
+                cb.edtSupplierName.getText().toString(),
+                // cb.edtInfo.getText().toString(),
+                cb.edtContactName.getText().toString(),
+                cb.edtContactEmail.getText().toString(),
+                cb.edtContactPhoneDdd.getText().toString(),
+                cb.edtContactPhone.getText().toString()
         ));
         result.putExtra(RESULT_BUNDLE, userBundle);
         return result;
