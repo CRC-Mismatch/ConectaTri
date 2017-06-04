@@ -22,7 +22,7 @@ public class QuoteSupplier implements Parcelable, Comparable {
     };
     private long id;
     private Product product;
-    private Supplier supplier;
+    private SupplierRep supplierRep;
     private double price;
     private int quantity;
 
@@ -31,7 +31,7 @@ public class QuoteSupplier implements Parcelable, Comparable {
     private QuoteSupplier(Parcel in) {
         this.id = in.readLong();
         this.product = in.readParcelable(Product.class.getClassLoader());
-        this.supplier = in.readParcelable(Supplier.class.getClassLoader());
+        this.supplierRep = in.readParcelable(SupplierRep.class.getClassLoader());
         this.price = in.readDouble();
         this.quantity = in.readInt();
     }
@@ -54,12 +54,12 @@ public class QuoteSupplier implements Parcelable, Comparable {
         return this;
     }
 
-    public Supplier getSupplier() {
-        return supplier;
+    public SupplierRep getSupplierRep() {
+        return supplierRep;
     }
 
-    public QuoteSupplier setSupplier(Supplier supplier) {
-        this.supplier = supplier;
+    public QuoteSupplier setSupplierRep(SupplierRep supplierRep) {
+        this.supplierRep = supplierRep;
         return this;
     }
 
@@ -90,7 +90,7 @@ public class QuoteSupplier implements Parcelable, Comparable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeParcelable(product, 0);
-        dest.writeParcelable(supplier, 0);
+        dest.writeParcelable(supplierRep, 0);
         dest.writeDouble(price);
         dest.writeInt(quantity);
     }

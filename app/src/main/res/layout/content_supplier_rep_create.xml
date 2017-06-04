@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_cnpj"
+                    style="@style/EditTextCNPJ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_create_supplier_edt_cnpj"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@+id/sup_name"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_supplier_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_create_supplier_edt_supplier_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="24sp"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_create_supplier_edt_info"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_contact_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_create_supplier_edt_contact_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_contact_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_create_supplier_edt_email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                    style="@style/LinearInputFormComponent"
+                    android:layout_width="56dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edt_contact_phone_ddd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/content_create_supplier_edt_contact_phone_ddd"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:maxLength="4"
+                        android:maxLines="1"/>
+                </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+
+                <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                    style="@style/LinearInputFormComponent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp">
+
+                    <EditText
+                        android:id="@+id/edt_contact_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/content_create_supplier_edt_contact_phone"
+                        android:inputType="phone"
+                        android:maxLines="1"/>
+                </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

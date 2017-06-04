@@ -28,24 +28,24 @@ public class Quote implements Parcelable {
     private String name;
     private int type;
     private List<Product> products;
-    private List<Supplier> suppliers;
+    private List<SupplierRep> supplierReps;
     private List<QuoteProduct> quoteProducts;
 
     public Quote() {
     }
-    public Quote(long id, String name, int type, List<Product> products, List<Supplier> suppliers) {
+    public Quote(long id, String name, int type, List<Product> products, List<SupplierRep> supplierReps) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.products = products;
-        this.suppliers = suppliers;
+        this.supplierReps = supplierReps;
         this.quoteProducts = new ArrayList<>();
 
         // FIXME: Remove from final version
         for (Product product : products) {
             QuoteProduct qP = new QuoteProduct().setProduct(product);
-            for (Supplier supplier : suppliers) {
-                QuoteSupplier qS = new QuoteSupplier().setProduct(product).setSupplier(supplier).setPrice(Math.round(Math.random() * 100000) / 100.0).setQuantity((int) Math.round(Math.random() * 100));
+            for (SupplierRep supplierRep : supplierReps) {
+                QuoteSupplier qS = new QuoteSupplier().setProduct(product).setSupplierRep(supplierRep).setPrice(Math.round(Math.random() * 100000) / 100.0).setQuantity((int) Math.round(Math.random() * 100));
                 qP.getSuppliers().add(qS);
             }
             quoteProducts.add(qP);
@@ -56,7 +56,7 @@ public class Quote implements Parcelable {
         this.name = in.readString();
         this.type = in.readInt();
         this.products = in.createTypedArrayList(Product.CREATOR);
-        this.suppliers = in.createTypedArrayList(Supplier.CREATOR);
+        this.supplierReps = in.createTypedArrayList(SupplierRep.CREATOR);
         this.quoteProducts = in.createTypedArrayList(QuoteProduct.CREATOR);
     }
 
@@ -96,12 +96,12 @@ public class Quote implements Parcelable {
         return this;
     }
 
-    public List<Supplier> getSuppliers() {
-        return suppliers;
+    public List<SupplierRep> getSupplierReps() {
+        return supplierReps;
     }
 
-    public Quote setSuppliers(List<Supplier> suppliers) {
-        this.suppliers = suppliers;
+    public Quote setSuppliers(List<SupplierRep> supplierReps) {
+        this.supplierReps = supplierReps;
         return this;
     }
 
@@ -125,7 +125,7 @@ public class Quote implements Parcelable {
         dest.writeString(name);
         dest.writeInt(type);
         dest.writeTypedList(products);
-        dest.writeTypedList(suppliers);
+        dest.writeTypedList(supplierReps);
         dest.writeTypedList(quoteProducts);
     }
 }
