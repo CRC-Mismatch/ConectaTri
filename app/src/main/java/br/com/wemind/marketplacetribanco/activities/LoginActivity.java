@@ -9,24 +9,29 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import br.com.wemind.marketplacetribanco.R;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.objects.AccessToken;
+import br.com.wemind.marketplacetribanco.api.objects.Login;
 import br.com.wemind.marketplacetribanco.databinding.ActivityLoginBinding;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -101,11 +106,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void attemptLogin() {
-        if (binding.user.getText().toString().equals("12.345.678/1234-56") && binding.password.getText().toString().equals("123456")) {
-            showProgress(true);
-            Timer t = new Timer();
-            t.schedule(new LoginPlaceholder(), 2000);
-        }
+        Api.api.login(new Login.Request.Builder()
+                .setEmail(binding.user.getText().toString().replaceAll("[^0-9]", ""))
+                .setPassword(binding.password.getText().toString())
+                .build()
+        ).enqueue(new LoginCallback());
     }
 
     private void showProgress(final boolean show) {
@@ -146,7 +151,8 @@ public class LoginActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent summaryActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent summaryActivityIntent =
+                        new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(summaryActivityIntent);
                 finish();
             }
@@ -172,6 +178,33 @@ public class LoginActivity extends AppCompatActivity {
             int visibility = isOpen ? View.GONE : View.VISIBLE;
             binding.loginTitle.setVisibility(visibility);
             binding.buttonBottomSpace.setVisibility(visibility);
+        }
+    }
+
+    private class LoginCallback extends Callback<Login.Response> {
+
+        public LoginCallback() {
+            super(LoginActivity.this);
+        }
+
+        @Override
+        public void onSuccess(Login.Response response) {
+            AccessToken at = new AccessToken();
+            at.setToken(response.getToken());
+            Api.setAccessToken(at);
+
+            Toast.makeText(context, response.getToken(), Toast.LENGTH_SHORT).show();
+            finishLogin();
+        }
+
+        @Override
+        public void onError(Call<Login.Response> call,
+                            Response<Login.Response> response) {
+            // TODO: 07/06/2017
+            Toast.makeText(context,
+                    "Invalid credentials",
+                    Toast.LENGTH_SHORT
+            ).show();
         }
     }
 }

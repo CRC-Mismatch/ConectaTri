@@ -70,6 +70,7 @@
     <string name="title_quote_create_activity">Criar cotação</string>
     <string name="btn_activity_sign_up_submit">Enviar</string>
     <string name="error_invalid_dates">A data de início deve ser anterior à data de término</string>
+    <string name="text_connection_failed">Não foi possível comunicar-se com o servidor</string>
 
 
 </resources>

@@ -4,11 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
 /**
  * Created by kmkraiker on 25/05/2017.
  */
 
-public class Product implements Parcelable, Comparable {
+public class Product implements Parcelable, Comparable, Serializable {
     public static final Creator<Product> CREATOR = new Creator<Product>() {
         @Override
         public Product createFromParcel(Parcel in) {
@@ -21,16 +25,27 @@ public class Product implements Parcelable, Comparable {
         }
     };
     // TODO: we'll also need a unique id for each product
+    @SerializedName("id")
     private long id;
+    @SerializedName("ean")
     private String EAN;
+    @SerializedName("department")
     private String department;
+    @SerializedName("section")
     private String section;
+    @SerializedName("category")
     private String category;
+    @SerializedName("subCategory")
     private String subCategory;
+    @SerializedName("fullDescription")
     private String fullDescription;
+    @SerializedName("name")
     private String name;
+    @SerializedName("brand")
     private String brand;
+    @SerializedName("quantity")
     private double quantity;
+    @SerializedName("unit")
     private String unit;
 
     public Product() {
