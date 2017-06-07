@@ -24,7 +24,6 @@ public class Product implements Parcelable, Comparable, Serializable {
             return new Product[size];
         }
     };
-    // TODO: we'll also need a unique id for each product
     @SerializedName("id")
     private long id;
     @SerializedName("ean")

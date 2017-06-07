@@ -4,7 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-public class Supplier implements Parcelable, Comparable {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Supplier implements Parcelable, Comparable, Serializable {
     public static final Creator<Supplier> CREATOR = new Creator<Supplier>() {
         @Override
         public Supplier createFromParcel(Parcel in) {
@@ -16,17 +20,23 @@ public class Supplier implements Parcelable, Comparable {
             return new Supplier[size];
         }
     };
-    // TODO: we'll also need a unique id for each supplier
+    @SerializedName("id")
     private long id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("contactName")
     private String contactName;
+    @SerializedName("contactEmail")
     private String contactEmail;
+    @SerializedName("contactPhone")
     private String contactPhone;
-    // TODO: cnpj
+    // TODO cnpj
+    @SerializedName("cnpj")
     private String cnpj = "12123123412312";
-    // TODO: info
-    private String info = "Apenas um fornecedor";
+    @SerializedName("contactPhoneDdd")
     private String contactPhoneDdd;
+
+    public Supplier() {}
 
     public Supplier(long id, String name, String contactName, String contactEmail,
                     String contactPhoneDdd, String contactPhone) {
@@ -89,10 +99,6 @@ public class Supplier implements Parcelable, Comparable {
 
     public String getCnpj() {
         return cnpj;
-    }
-
-    public String getInfo() {
-        return info;
     }
 
     public String getContactPhoneDdd() {

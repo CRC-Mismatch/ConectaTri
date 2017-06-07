@@ -43,7 +43,6 @@ public class SupplierCreateActivity extends BaseCreateActivity {
                 supplierId = supplier.getId();
                 cb.edtCnpj.setText(supplier.getCnpj());
                 cb.edtSupplierName.setText(supplier.getSupplierName());
-                cb.edtInfo.setText(supplier.getInfo());
                 cb.edtContactName.setText(supplier.getContactName());
                 cb.edtContactEmail.setText(supplier.getContactEmail());
                 cb.edtContactPhoneDdd.setText(supplier.getContactPhoneDdd());
@@ -72,7 +71,6 @@ public class SupplierCreateActivity extends BaseCreateActivity {
         }
 
         errorOccurred |= _setErrorIfEmpty(cb.edtSupplierName);
-        errorOccurred |= _setErrorIfEmpty(cb.edtInfo);
         errorOccurred |= _setErrorIfEmpty(cb.edtContactName);
 
         errorOccurred |= _setErrorIfEmpty(cb.edtContactEmail);
