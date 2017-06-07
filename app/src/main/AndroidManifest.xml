@@ -111,8 +111,11 @@
             android:label="@string/title_activity_products_select"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.QuoteCreateActivity">
-        </activity>
+        <activity
+            android:name=".activities.QuoteCreateActivity"
+            android:label="@string/title_quote_create_activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.QuoteCreationFlowController">
         </activity>
     </application>
