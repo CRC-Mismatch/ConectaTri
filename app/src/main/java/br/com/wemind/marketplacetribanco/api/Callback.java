@@ -1,14 +1,14 @@
 package br.com.wemind.marketplacetribanco.api;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.objects.Status;
 import retrofit2.Call;
 
-public abstract class Callback<T extends Status>
-        implements retrofit2.Callback<T> {
+public abstract class Callback<T> implements retrofit2.Callback<T> {
 
     protected final Context context;
     protected Call<T> newCall;
@@ -18,7 +18,7 @@ public abstract class Callback<T extends Status>
         context = null;
     }
 
-    public Callback(Context context) {
+    public Callback(@NonNull Context context) {
         this.context = context;
     }
 
