@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -83,7 +84,7 @@ public class QuoteCreateActivity extends BaseCreateActivity {
                                 calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
                                 calendar.set(Calendar.MINUTE, selectedMinute);
                                 cb.edtTimeFrom
-                                        .setText(selectedHour + ":" + selectedMinute);
+                                        .setText(formatHour(selectedHour, selectedMinute));
                             }
                         }, hour, minute, true);
                 timePickerDialog.show();
@@ -106,13 +107,20 @@ public class QuoteCreateActivity extends BaseCreateActivity {
                                 calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
                                 calendar.set(Calendar.MINUTE, selectedMinute);
                                 cb.edtTimeUntil
-                                        .setText(selectedHour + ":" + selectedMinute);
+                                        .setText(formatHour(selectedHour, selectedMinute));
                             }
                         }, hour, minute, true);
                 timePickerDialog.show();
             }
         });
 
+    }
+
+    @NonNull
+    private static String formatHour(int selectedHour, int selectedMinute) {
+        return String.format("%02d", selectedHour)
+                + ":"
+                + String.format("%02d", selectedMinute);
     }
 
     private void updateDateEditText(Calendar calendar, EditText target) {
