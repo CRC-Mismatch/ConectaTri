@@ -19,7 +19,6 @@ import android.widget.Toast;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
-import java.util.Timer;
 import java.util.TimerTask;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -41,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final int REQUEST_AUTO_ADHESION = 1;
 
     ActivityLoginBinding binding;
+    private Call ongoingLogin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,11 +106,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void attemptLogin() {
-        Api.api.login(new Login.Request.Builder()
-                .setEmail(binding.user.getText().toString().replaceAll("[^0-9]", ""))
-                .setPassword(binding.password.getText().toString())
-                .build()
-        ).enqueue(new LoginCallback());
+
+        // If a call is already underway, do nothing
+        if (ongoingLogin == null) {
+            Call<Login.Response> loginCall = Api.api.login(
+                    new Login.Request.Builder()
+                            .setEmail(binding.user.getText().toString().replaceAll("[^0-9]", ""))
+                            .setPassword(binding.password.getText().toString())
+                            .build());
+
+            ongoingLogin = loginCall;
+            loginCall.enqueue(new LoginCallback());
+        }
     }
 
     private void showProgress(final boolean show) {
@@ -194,6 +201,8 @@ public class LoginActivity extends AppCompatActivity {
             Api.setAccessToken(at);
 
             Toast.makeText(context, response.getToken(), Toast.LENGTH_SHORT).show();
+
+            ongoingLogin = null;
             finishLogin();
         }
 
@@ -202,9 +211,11 @@ public class LoginActivity extends AppCompatActivity {
                             Response<Login.Response> response) {
             // TODO: 07/06/2017
             Toast.makeText(context,
-                    "Invalid credentials",
+                    "Code " + response.code() + " " + response.message(),
                     Toast.LENGTH_SHORT
             ).show();
+
+            ongoingLogin = null;
         }
     }
 }

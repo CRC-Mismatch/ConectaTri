@@ -1,12 +1,13 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +15,12 @@ import android.view.Gravity;
 import android.view.MenuItem;
 
 import br.com.wemind.marketplacetribanco.R;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.objects.Status;
 import br.com.wemind.marketplacetribanco.databinding.ActivityBaseDrawerBinding;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Base class for all activities which require the side navigation drawer
@@ -111,11 +117,36 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_logout) {
-            Intent i = new Intent(this, LoginActivity.class);
-            startActivity(i);
-            finish();
+            // Try to log out.
+            Api.api.logout().enqueue(new LogoutCallback(this));
         }
     }
 
     protected abstract int getSelfNavDrawerItem();
+
+    private static class LogoutCallback extends Callback<String> {
+
+        public LogoutCallback(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(String response) {
+            finish();
+        }
+
+        @Override
+        public void onError(Call<String> call, Response<String> response) {
+            finish();
+        }
+
+        private void finish() {
+            Activity activity = (Activity) this.context;
+            if (activity != null) {
+                Intent i = new Intent(activity, LoginActivity.class);
+                activity.startActivity(i);
+                activity.finish();
+            }
+        }
+    }
 }
