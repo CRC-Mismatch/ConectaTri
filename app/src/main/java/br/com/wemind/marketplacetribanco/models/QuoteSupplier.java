@@ -23,7 +23,7 @@ public class QuoteSupplier implements Parcelable, Comparable {
     private long id;
     private Product product;
     private Supplier supplier;
-    private double price;
+    private String price;
     private int quantity;
 
     public QuoteSupplier() {
@@ -32,7 +32,7 @@ public class QuoteSupplier implements Parcelable, Comparable {
         this.id = in.readLong();
         this.product = in.readParcelable(Product.class.getClassLoader());
         this.supplier = in.readParcelable(Supplier.class.getClassLoader());
-        this.price = in.readDouble();
+        this.price = in.readString();
         this.quantity = in.readInt();
     }
 
@@ -64,11 +64,11 @@ public class QuoteSupplier implements Parcelable, Comparable {
     }
 
     public double getPrice() {
-        return price;
+        return Double.valueOf(price);
     }
 
     public QuoteSupplier setPrice(double price) {
-        this.price = price;
+        this.price = String.valueOf(price);
         return this;
     }
 
@@ -91,14 +91,14 @@ public class QuoteSupplier implements Parcelable, Comparable {
         dest.writeLong(id);
         dest.writeParcelable(product, 0);
         dest.writeParcelable(supplier, 0);
-        dest.writeDouble(price);
+        dest.writeString(price);
         dest.writeInt(quantity);
     }
 
     @Override
     public int compareTo(@NonNull Object o) {
         QuoteSupplier that = (QuoteSupplier) o;
-        if (this.quantity == 0 || this.price == 0) return -1;
-        return (int) Math.round(this.price - that.price);
+        if (this.quantity == 0 || this.price == null) return -1;
+        return (int) Math.round(Double.valueOf(this.price) - Double.valueOf(that.price));
     }
 }
