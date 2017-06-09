@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingCreateBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
+import br.com.wemind.marketplacetribanco.models.ListingProduct;
 import br.com.wemind.marketplacetribanco.models.Product;
 
 public class ListingCreateActivity extends BaseCreateActivity {
@@ -43,7 +44,8 @@ public class ListingCreateActivity extends BaseCreateActivity {
         if (listing != null) {
             name = listing.getName();
             description = listing.getDescription();
-            products = listing.getProducts();
+            for (ListingProduct p : listing.getProducts())
+            products.add(p.getProduct());
         }
 
 

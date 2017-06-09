@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
+import br.com.wemind.marketplacetribanco.models.ListingProduct;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
@@ -104,12 +105,12 @@ public class ListingsSelectActivity extends BaseSelectActivity {
                 }
 
                 for (int i = 1; i <= 100; ++i) {
-                    ArrayList<Product> dummyProducts = new ArrayList<>();
+                    ArrayList<ListingProduct> dummyProducts = new ArrayList<>();
                     for (int j = 0; j < i; ++j) {
                         Product p = new Product();
                         p.setId(j);
                         p.setName("Produto " + j);
-                        dummyProducts.add(p);
+                        dummyProducts.add(new ListingProduct(j, p, (int)Math.round(Math.random()*1000) % 300));
                     }
 
                     data.add(new Listing(i,

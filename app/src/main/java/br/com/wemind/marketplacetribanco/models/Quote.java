@@ -27,7 +27,6 @@ public class Quote implements Parcelable {
     private long id;
     private String name;
     private int type;
-    private List<Product> products;
     private List<Supplier> suppliers;
     private List<QuoteProduct> quoteProducts;
 
@@ -37,7 +36,6 @@ public class Quote implements Parcelable {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.products = products;
         this.suppliers = suppliers;
         this.quoteProducts = new ArrayList<>();
 
@@ -55,7 +53,6 @@ public class Quote implements Parcelable {
         this.id = in.readLong();
         this.name = in.readString();
         this.type = in.readInt();
-        this.products = in.createTypedArrayList(Product.CREATOR);
         this.suppliers = in.createTypedArrayList(Supplier.CREATOR);
         this.quoteProducts = in.createTypedArrayList(QuoteProduct.CREATOR);
     }
@@ -87,15 +84,6 @@ public class Quote implements Parcelable {
         return this;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public Quote setProducts(List<Product> products) {
-        this.products = products;
-        return this;
-    }
-
     public List<Supplier> getSuppliers() {
         return suppliers;
     }
@@ -124,7 +112,6 @@ public class Quote implements Parcelable {
         dest.writeLong(id);
         dest.writeString(name);
         dest.writeInt(type);
-        dest.writeTypedList(products);
         dest.writeTypedList(suppliers);
         dest.writeTypedList(quoteProducts);
     }

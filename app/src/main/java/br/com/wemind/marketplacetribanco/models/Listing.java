@@ -26,11 +26,11 @@ public class Listing implements Parcelable, Comparable {
     private long id;
     private int type;
     private String name;
-    private ArrayList<Product> products;
+    private ArrayList<ListingProduct> products;
     private ArrayList<Supplier> suppliers;
     private String description;
 
-    public Listing(long id, String name, int type, ArrayList<Product> products, ArrayList<Supplier> suppliers) {
+    public Listing(long id, String name, int type, ArrayList<ListingProduct> products, ArrayList<Supplier> suppliers) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -43,7 +43,7 @@ public class Listing implements Parcelable, Comparable {
         name = in.readString();
         type = in.readInt();
         products = new ArrayList<>();
-        in.readTypedList(products, Product.CREATOR);
+        in.readTypedList(products, ListingProduct.CREATOR);
         suppliers = new ArrayList<>();
         in.readTypedList(suppliers, Supplier.CREATOR);
         description = in.readString();
@@ -80,7 +80,7 @@ public class Listing implements Parcelable, Comparable {
         return description;
     }
 
-    public ArrayList<Product> getProducts() {
+    public ArrayList<ListingProduct> getProducts() {
         return products;
     }
 

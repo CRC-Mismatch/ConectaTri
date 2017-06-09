@@ -16,6 +16,7 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
+import br.com.wemind.marketplacetribanco.models.ListingProduct;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
@@ -93,11 +94,11 @@ public class ListingsListActivity extends BaseDrawerActivity {
             public void run() {
                 // Create and send dummy data
                 ArrayList<Listing> data = new ArrayList<>(100);
-                ArrayList<Product> dummyProducts = new ArrayList<>(100);
+                ArrayList<ListingProduct> dummyProducts = new ArrayList<>(100);
                 ArrayList<Supplier> dummySuppliers = new ArrayList<>(5);
 
-                for (int i = 0; i < 100; ++i) {
-                    dummyProducts.add(new Product());
+                for (int i = 1; i <= 100; ++i) {
+                    dummyProducts.add(new ListingProduct(i, new Product(), (int)Math.round(Math.random()*1000) % 300));
                 }
 
                 for (int i = 0; i < 5; ++i) {

@@ -156,6 +156,7 @@ public class QuoteCreateActivity extends BaseCreateActivity {
         Quote quote = new Quote();
         quote.setName(cb.edtName.getText().toString());
         quote.setSuppliers(new ArrayList<Supplier>());
+        //FIXME
         quote.setProducts(new ArrayList<Product>());
 
         Bundle b = new Bundle();
