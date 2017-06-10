@@ -22,6 +22,7 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ContentQuoteCreateBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Quote;
+import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
 public class QuoteCreateActivity extends BaseCreateActivity {
@@ -49,7 +50,8 @@ public class QuoteCreateActivity extends BaseCreateActivity {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH));
 
-        cb = DataBindingUtil.setContentView(this, R.layout.content_quote_create);
+        cb = ContentQuoteCreateBinding.inflate(getLayoutInflater(), b.contentFrame, true);
+
         cb.btnDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,15 +136,15 @@ public class QuoteCreateActivity extends BaseCreateActivity {
         // TODO: 02/06/2017
         // Check for empty name field
         if (cb.edtName.length() <= 0) {
-            Toast.makeText(this,
-                    getString(R.string.error_field_required), Toast.LENGTH_SHORT).show();
+            cb.edtName.setError(getString(R.string.error_field_required));
+            cb.edtName.requestFocus();
             return false;
         }
 
         // Check for valid dates
         // Check if start date < end date
         if (dates.get(cb.edtDateFrom).getTimeInMillis()
-                > dates.get(cb.edtDateUntil).getTimeInMillis()) {
+                >= dates.get(cb.edtDateUntil).getTimeInMillis()) {
             Toast.makeText(this,
                     getString(R.string.error_invalid_dates), Toast.LENGTH_SHORT).show();
             return false;
@@ -156,8 +158,7 @@ public class QuoteCreateActivity extends BaseCreateActivity {
         Quote quote = new Quote();
         quote.setName(cb.edtName.getText().toString());
         quote.setSuppliers(new ArrayList<Supplier>());
-        //FIXME
-        quote.setProducts(new ArrayList<Product>());
+        quote.setQuoteProducts(new ArrayList<QuoteProduct>());
 
         Bundle b = new Bundle();
         b.putParcelable(RESULT_QUOTE, quote);
