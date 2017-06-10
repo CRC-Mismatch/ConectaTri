@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -17,9 +16,13 @@ import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SelectionSupplierAdapter;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Supplier;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class SuppliersSelectActivity extends BaseSelectActivity {
 
@@ -97,6 +100,18 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (suppliers == null || suppliers.size() <= 0) {
+            // Disable FAB while data is not ready
+            b.fab.setEnabled(false);
+
+            Api.api.getAllSuppliers().enqueue(new GetSuppliersCallback());
+        }
+    }
+
+    @Override
     protected boolean mayContinue() {
         List selected = adapter.getSelectedData();
         if (selected.size() <= 0) {
@@ -117,5 +132,30 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
         super.onCreateOptionsMenu(menu);
 
         return true;
+    }
+
+    private void onDataReceived(List<Supplier> data) {
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+
+        // Data's ready, enable FAB
+        b.fab.setEnabled(true);
+    }
+
+    private class GetSuppliersCallback extends Callback<List<Supplier>> {
+        public GetSuppliersCallback() {
+            super(SuppliersSelectActivity.this);
+        }
+
+        @Override
+        public void onSuccess(List<Supplier> response) {
+            onDataReceived(response);
+        }
+
+        @Override
+        public void onError(Call<List<Supplier>> call, Response<List<Supplier>> response) {
+            setResult(RESULT_CANCELED);
+            finish();
+        }
     }
 }

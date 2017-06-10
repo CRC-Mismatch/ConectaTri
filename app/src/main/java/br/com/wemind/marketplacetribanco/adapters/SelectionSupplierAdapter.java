@@ -108,6 +108,11 @@ public class SelectionSupplierAdapter extends
         }
     }
 
+    public void setData(List<Supplier> data) {
+        this.data = new ArrayList<>(data);
+        filteredData = new ArrayList<>(data);
+    }
+
     @Override
     public int getItemCount() {
         return filteredData.size() + 1;

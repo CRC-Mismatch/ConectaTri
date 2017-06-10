@@ -1,7 +1,9 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
@@ -15,8 +17,12 @@ import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ProductsSelectAdapter;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentProductsSelectBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class ProductsSelectActivity extends BaseSelectActivity {
 
@@ -131,9 +137,15 @@ public class ProductsSelectActivity extends BaseSelectActivity {
         super.onResume();
 
         if (products == null || products.size() == 0) {
-            // TODO: 01/06/2017 start query to get product list from DB
+            // Disable FAB while data hasn't been retrieved
+            b.fab.setEnabled(false);
 
-            // TODO: remove this after implementation
+            // If no products are passed in as parameters,
+            // get products from DB
+            // FIXME: 09/06/2017 use API search method instead
+            Api.api.getAllProducts().enqueue(new GetProductsCallback());
+
+            /*// TODO: remove this after implementation
             ArrayList<Product> dummyList = new ArrayList<>();
             for (int i = 0; i < 800; i++) {
                 Product p = new Product();
@@ -145,7 +157,36 @@ public class ProductsSelectActivity extends BaseSelectActivity {
             products = dummyList;
             adapter.setData(products);
             adapter.notifyDataSetChanged();
-            // ---------
+            // ---------*/
         }
+    }
+
+    private class GetProductsCallback extends Callback<List<Product>> {
+        public GetProductsCallback() {
+            super(ProductsSelectActivity.this);
+        }
+
+        @Override
+        public void onSuccess(List<Product> response) {
+            onDataReceived(response);
+        }
+
+        @Override
+        public void onError(Call<List<Product>> call, Response<List<Product>> response) {
+
+        }
+    }
+
+    private void onDataReceived(List<Product> data) {
+        if (data == null) {
+            data = new ArrayList<>();
+        }
+
+        products = new ArrayList<>(data);
+        adapter.setData(products);
+        adapter.notifyDataSetChanged();
+
+        // Data's ready, enable fab
+        b.fab.setEnabled(true);
     }
 }

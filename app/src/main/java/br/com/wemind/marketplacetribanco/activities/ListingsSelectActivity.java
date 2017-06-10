@@ -92,6 +92,9 @@ public class ListingsSelectActivity extends BaseSelectActivity {
     }
 
     private void retrieveData() {
+        // Disable FAB while data hasn't been retrieved
+        b.fab.setEnabled(false);
+
         // FIXME: 24/05/2017 start data retrieval here
         (new Handler()).postDelayed(new Runnable() {
             @Override
@@ -129,5 +132,8 @@ public class ListingsSelectActivity extends BaseSelectActivity {
         this.data = data;
         adapter = new ListingsAdapter(this, data, true);
         cb.list.setAdapter(adapter);
+
+        // Disable FAB while data hasn't been retrieved
+        b.fab.setEnabled(true);
     }
 }
