@@ -80,8 +80,15 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
 
-        suppliers = new TreeSet<>(getIntent().getBundleExtra(INPUT_BUNDLE)
-                .<Supplier>getParcelableArrayList(INPUT_SUPPLIERS));
+        Bundle inputBundle = getIntent().getBundleExtra(INPUT_BUNDLE);
+        if (inputBundle != null) {
+            ArrayList<Supplier> inputSuppliers =
+                    inputBundle.getParcelableArrayList(INPUT_SUPPLIERS);
+
+            if (inputSuppliers != null) {
+                suppliers = new TreeSet<>(inputSuppliers);
+            }
+        }
 
         adapter = new SelectionSupplierAdapter(this, new ArrayList<>(suppliers));
 
