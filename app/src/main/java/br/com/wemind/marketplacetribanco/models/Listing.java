@@ -1,14 +1,15 @@
 package br.com.wemind.marketplacetribanco.models;
 
-import android.app.ProgressDialog;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.google.gson.annotations.SerializedName;
 
-public class Listing implements Parcelable, Comparable {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Listing implements Parcelable, Comparable, Serializable {
     public static final int TYPE_COMMON = 1;
     public static final int TYPE_SEASONAL = 2;
     public static final int TYPE_WEEKLY = 3;
@@ -23,14 +24,22 @@ public class Listing implements Parcelable, Comparable {
             return new Listing[size];
         }
     };
+
+    @SerializedName("id")
     private long id;
+    @SerializedName("type")
     private int type;
+    @SerializedName("name")
     private String name;
+    @SerializedName("listingProducts")
     private ArrayList<ListingProduct> products;
+    @SerializedName("suppliers")
     private ArrayList<Supplier> suppliers;
+    @SerializedName("description")
     private String description;
 
-    public Listing(long id, String name, int type, ArrayList<ListingProduct> products, ArrayList<Supplier> suppliers) {
+    public Listing(long id, String name, int type, ArrayList<ListingProduct> products,
+                   ArrayList<Supplier> suppliers) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -95,13 +104,13 @@ public class Listing implements Parcelable, Comparable {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Listing && ((Listing)obj).id == id;
+        return obj instanceof Listing && ((Listing) obj).id == id;
     }
 
     @Override
     public int compareTo(@NonNull Object o) {
         if (o instanceof Listing) {
-            return (int) (id - ((Listing)o).id);
+            return (int) (id - ((Listing) o).id);
         } else {
             throw new ClassCastException();
         }

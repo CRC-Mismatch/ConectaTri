@@ -4,9 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
 
-public class ListingProduct implements Parcelable, Comparable {
+import java.io.Serializable;
+
+public class ListingProduct implements Parcelable, Comparable, Serializable {
     public static final Creator<ListingProduct> CREATOR = new Creator<ListingProduct>() {
         @Override
         public ListingProduct createFromParcel(Parcel in) {
@@ -18,8 +20,11 @@ public class ListingProduct implements Parcelable, Comparable {
             return new ListingProduct[size];
         }
     };
+    @SerializedName("id")
     private long id;
+    @SerializedName("product")
     private Product product;
+    @SerializedName("quantity")
     private int quantity;
 
     public ListingProduct(long id, Product product, int quantity) {
@@ -75,13 +80,13 @@ public class ListingProduct implements Parcelable, Comparable {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof ListingProduct && ((ListingProduct)obj).id == id;
+        return obj instanceof ListingProduct && ((ListingProduct) obj).id == id;
     }
 
     @Override
     public int compareTo(@NonNull Object o) {
         if (o instanceof ListingProduct) {
-            return (int) (id - ((ListingProduct)o).id);
+            return (int) (id - ((ListingProduct) o).id);
         } else {
             throw new ClassCastException();
         }

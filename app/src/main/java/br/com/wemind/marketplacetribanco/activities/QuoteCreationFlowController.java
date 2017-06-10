@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.models.Listing;
+import br.com.wemind.marketplacetribanco.models.ListingProduct;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
@@ -61,6 +62,7 @@ public class QuoteCreationFlowController extends AppCompatActivity {
                 }
             }
 
+            TreeSet<ListingProduct> listingProducts = new TreeSet<>();
             TreeSet<Product> products = new TreeSet<>();
             if (listings.size() <= 0) {
                 // If list is empty, get all products from database so the user
@@ -70,10 +72,14 @@ public class QuoteCreationFlowController extends AppCompatActivity {
                 Toast.makeText(this, "Not implemented yet!", Toast.LENGTH_SHORT).show();
                 throw new RuntimeException("Not implemented yet!");
             } else {
-                // If the use selected at least one listing, get the products from
+                // If the user selected at least one listing, get the products from
                 // each listing
                 for (Listing li : listings) {
-                    products.addAll(li.getProducts());
+                    listingProducts.addAll(li.getProducts());
+                }
+
+                for (ListingProduct lp : listingProducts) {
+                    products.add(lp.getProduct());
                 }
             }
             // Request that the user review the product list
@@ -123,7 +129,9 @@ public class QuoteCreationFlowController extends AppCompatActivity {
                     Toast.LENGTH_LONG
             ).show();
 
-            finish();
+
+            Intent i = new Intent(this, QuoteCreateActivity.class);
+            startActivity(i);
         }
     }
 }
