@@ -52,7 +52,7 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
         vh.b.txtContactName.setText(supplier.getContactName());
         vh.b.txtContactEmail.setText(supplier.getContactEmail());
         vh.b.txtContactPhone.setText(supplier.getContactPhone());
-        
+
         final long id = data.get(position).getId();
         vh.b.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override

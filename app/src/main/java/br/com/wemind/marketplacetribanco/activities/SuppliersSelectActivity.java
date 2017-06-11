@@ -160,7 +160,8 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
         }
 
         @Override
-        public void onError(Call<List<Supplier>> call, Response<List<Supplier>> response) {
+        public void onError(Call<List<Supplier>> call,
+                            Response<List<Supplier>> response) {
             setResult(RESULT_CANCELED);
             finish();
         }

@@ -3,7 +3,6 @@ package br.com.wemind.marketplacetribanco.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -146,12 +145,9 @@ public class SuppliersListActivity extends BaseDrawerActivity {
                         .getParcelable(SupplierCreateActivity.RESULT_SUPPLIER);
 
                 if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getSupplierName() + " foi adicionado",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Api.api.addSupplier(edited).enqueue(
+                            new CreateSupplierCallback(this)
+                    );
                 }
             } else {
 
@@ -260,7 +256,27 @@ public class SuppliersListActivity extends BaseDrawerActivity {
 
         @Override
         public void onError(Call<Supplier> call, Response<Supplier> response) {
+            refreshData();
+        }
+    }
 
+    private class CreateSupplierCallback extends Callback<Supplier> {
+        public CreateSupplierCallback(@NonNull Context context) {
+            super(context);
+        }
+
+        private void refreshData() {
+            retrieveData();
+        }
+
+        @Override
+        public void onSuccess(Supplier response) {
+            refreshData();
+        }
+
+        @Override
+        public void onError(Call<Supplier> call, Response<Supplier> response) {
+            refreshData();
         }
     }
 }
