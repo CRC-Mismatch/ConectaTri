@@ -174,5 +174,6 @@ public class QuoteCreationFlowController extends AppCompatActivity {
 
         Intent i = new Intent(this, QuoteCreateActivity.class);
         startActivityForResult(i, REQUEST_FINISH_CREATION);
+        currentStep = REQUEST_FINISH_CREATION;
     }
 }
