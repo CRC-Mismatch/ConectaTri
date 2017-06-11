@@ -1,9 +1,13 @@
 package br.com.wemind.marketplacetribanco.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filterable;
 
@@ -11,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
+import br.com.wemind.marketplacetribanco.activities.ProductCreateActivity;
+import br.com.wemind.marketplacetribanco.activities.SimpleProductsListActivity;
 import br.com.wemind.marketplacetribanco.databinding.ItemSimpleProductBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
 
@@ -28,19 +34,33 @@ public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdap
     }
 
     @Override
-    public SimpleProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SimpleProductAdapter.ViewHolder((ItemSimpleProductBinding) DataBindingUtil.inflate(
-                LayoutInflater.from(context),
-                R.layout.item_simple_product,
-                parent,
-                false
-        ));
+    public SimpleProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                              int viewType) {
+        return new SimpleProductAdapter.ViewHolder(
+                (ItemSimpleProductBinding) DataBindingUtil.inflate(
+                        LayoutInflater.from(context),
+                        R.layout.item_simple_product,
+                        parent,
+                        false
+                ));
     }
 
     @Override
     public void onBindViewHolder(SimpleProductAdapter.ViewHolder vh, int position) {
-        final Product product= filteredData.get(position);
+        final Product product = filteredData.get(position);
         vh.b.product.setText(product.getName());
+        vh.b.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle b = new Bundle();
+                b.putParcelable(ProductCreateActivity.INPUT_PRODUCT, product);
+
+                Intent i = new Intent(context, ProductCreateActivity.class);
+                i.putExtra(ProductCreateActivity.INPUT_BUNDLE, b);
+                ((Activity) context).startActivityForResult(i,
+                        SimpleProductsListActivity.EDIT_PRODUCT);
+            }
+        });
     }
 
     @Override

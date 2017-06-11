@@ -1,9 +1,10 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -12,11 +13,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SimpleProductAdapter;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentSimpleProductsListBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class SimpleProductsListActivity extends BaseDrawerActivity {
 
@@ -84,13 +90,13 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // FIXME: 24/05/2017 actually retrieve data
         retrieveData();
     }
 
     private void retrieveData() {
-        // FIXME: 24/05/2017 start data retrieval here
-        (new Handler()).postDelayed(new Runnable() {
+        Api.api.getAllProducts().enqueue(new GetProductsCallback(this));
+
+        /*(new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 // Create and send dummy data
@@ -101,9 +107,8 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
                 }
                 onDataReceived(data);
             }
-        }, 2000);
+        }, 2000);*/
     }
-
 
 
     @Override
@@ -114,12 +119,9 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
                         .getParcelable(ProductCreateActivity.RESULT_PRODUCT);
 
                 if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getName() + " foi editado",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Api.api.editProduct(edited, edited.getId()).enqueue(
+                            new EditProductCallback(this)
+                    );
                 }
             } else {
 
@@ -130,12 +132,9 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
                         .getParcelable(ProductCreateActivity.RESULT_PRODUCT);
 
                 if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getName() + " foi adicionado",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Api.api.addProduct(edited).enqueue(
+                            new CreateProductCallback(this)
+                    );
                 }
             } else {
 
@@ -159,5 +158,65 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
     @Override
     protected int getSelfNavDrawerItem() {
         return R.id.nav_products;
+    }
+
+    private class GetProductsCallback extends Callback<List<Product>> {
+        public GetProductsCallback(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(List<Product> response) {
+            onDataReceived(new ArrayList<>(response));
+        }
+
+        @Override
+        public void onError(Call<List<Product>> call, Response<List<Product>> response) {
+            Toast.makeText(context,
+                    getString(R.string.text_connection_failed),
+                    Toast.LENGTH_SHORT
+            ).show();
+            finish();
+        }
+    }
+
+    private class EditProductCallback extends Callback<Product> {
+        public EditProductCallback(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(Product response) {
+            refreshData();
+        }
+
+        @Override
+        public void onError(Call<Product> call, Response<Product> response) {
+            refreshData();
+        }
+
+        private void refreshData() {
+            retrieveData();
+        }
+    }
+
+    private class CreateProductCallback extends Callback<Product> {
+        public CreateProductCallback(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(Product response) {
+            refreshData();
+        }
+
+        @Override
+        public void onError(Call<Product> call, Response<Product> response) {
+            refreshData();
+        }
+
+        private void refreshData() {
+            retrieveData();
+        }
     }
 }

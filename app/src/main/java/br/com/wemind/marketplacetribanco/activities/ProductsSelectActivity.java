@@ -173,7 +173,11 @@ public class ProductsSelectActivity extends BaseSelectActivity {
 
         @Override
         public void onError(Call<List<Product>> call, Response<List<Product>> response) {
-
+            Toast.makeText(context,
+                    getString(R.string.text_connection_failed),
+                    Toast.LENGTH_SHORT
+            ).show();
+            finish();
         }
     }
 

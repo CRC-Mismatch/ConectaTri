@@ -2,10 +2,13 @@ package br.com.wemind.marketplacetribanco.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 
+import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ContentProductCreateBinding;
 import br.com.wemind.marketplacetribanco.dummy.DummyProductTypes;
 import br.com.wemind.marketplacetribanco.models.Product;
+import br.com.wemind.marketplacetribanco.utils.Formatting;
 
 public class ProductCreateActivity extends BaseCreateActivity {
 
@@ -15,6 +18,7 @@ public class ProductCreateActivity extends BaseCreateActivity {
     public static final String INPUT_BUNDLE = "input_bundle";
 
     private ContentProductCreateBinding cb;
+    private long productId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +34,9 @@ public class ProductCreateActivity extends BaseCreateActivity {
                     input.getBundleExtra(INPUT_BUNDLE).getParcelable(INPUT_PRODUCT);
 
             if (product != null) {
-                // productId = product.getId();
+                productId = product.getId();
                 cb.edtProductName.setText(product.getName());
-                cb.edtInfo.setText(product.getFullDescription());
+                cb.edtDescription.setText(product.getFullDescription());
                 cb.edtType.setText(product.getCategory());
                 cb.edtBrand.setText(product.getBrand());
                 cb.edtQuantity.setText(String.format("%,.2f", product.getQuantity()));
@@ -43,8 +47,27 @@ public class ProductCreateActivity extends BaseCreateActivity {
 
     @Override
     protected boolean validateForm() {
-        // FIXME: implement
-        return true;
+        boolean errorOccurred = false;
+
+        errorOccurred |= _setErrorIfEmpty(cb.edtProductName);
+        errorOccurred |= _setErrorIfEmpty(cb.edtBrand);
+        errorOccurred |= _setErrorIfEmpty(cb.edtUnit);
+        errorOccurred |= _setErrorIfEmpty(cb.edtQuantity);
+
+        return !errorOccurred;
+    }
+
+    /**
+     * @param et
+     * @return true if error occurred; false otherwise
+     */
+    private boolean _setErrorIfEmpty(EditText et) {
+        if (et.length() <= 0) {
+            et.setError(getString(R.string.error_field_required));
+            et.requestFocus();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -53,8 +76,8 @@ public class ProductCreateActivity extends BaseCreateActivity {
         Bundle userBundle = new Bundle();
         userBundle.putParcelable(RESULT_PRODUCT, new Product()
                 .setName(cb.edtProductName.getText().toString())
-                .setFullDescription(cb.edtInfo.getText().toString())
-                .setCategory(cb.edtInfo.getText().toString())
+                .setFullDescription(cb.edtDescription.getText().toString())
+                .setCategory(cb.edtDescription.getText().toString())
                 .setBrand(cb.edtBrand.getText().toString())
                 .setQuantity(Double.valueOf(cb.edtQuantity.getText().toString()))
                 .setUnit(cb.edtUnit.getText().toString()));

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -19,10 +19,22 @@
                 <EditText
                     android:id="@+id/edt_product_name"
                     android:layout_width="match_parent"
-                    android:textSize="24sp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/content_product_create_name"/>
+                    android:hint="@string/content_product_create_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textSize="24sp"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/content_create_listing_edt_info"
+                android:textSize="19sp"
+                android:textStyle="italic"/>
 
             <br.com.wemind.marketplacetribanco.views.TextInputLayout
                 style="@style/LinearInputFormComponent"
@@ -30,16 +42,21 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/edt_info"
+                    android:id="@+id/edt_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/content_create_supplier_edt_info"/>
+                    android:hint="@string/content_product_create_description"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    />
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
+
             <br.com.wemind.marketplacetribanco.views.TextInputLayout
-            style="@style/LinearInputFormComponent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <br.com.wemind.marketplacetribanco.views.SelectableEditText
                     android:id="@+id/edt_type"
                     android:layout_width="match_parent"
@@ -57,7 +74,9 @@
                     android:id="@+id/edt_brand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/content_product_create_brand"/>
+                    android:hint="@string/content_product_create_brand"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
             <br.com.wemind.marketplacetribanco.views.TextInputLayout
@@ -70,6 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/content_product_create_quantity"
+                    android:imeOptions="actionNext"
                     android:inputType="numberDecimal"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
@@ -83,8 +103,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/content_product_create_unit"
+                    android:imeOptions="actionNext"
                     android:inputType="text"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 </layout>
