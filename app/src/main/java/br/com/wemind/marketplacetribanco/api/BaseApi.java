@@ -33,16 +33,16 @@ public interface BaseApi {
     Call<List<Product>> getAllProducts();
 
     @GET(PRODUCT + "/{id}")
-    Call<Product> getProduct(@Path("id") Integer id);
+    Call<Product> getProduct(@Path("id") Long id);
 
     @POST(PRODUCT)
     Call<Product> addProduct(@Body Product product);
 
     @PUT(PRODUCT + "/{id}")
-    Call<Product> editProduct(@Body Product product, @Path("id") Integer id);
+    Call<Product> editProduct(@Body Product product, @Path("id") Long id);
 
     @DELETE(PRODUCT + "/{id}")
-    Call<Product> deleteProduct(@Path("id") Integer id);
+    Call<Product> deleteProduct(@Path("id") Long id);
     /*
      * END OF PRODUCT
      */
@@ -54,16 +54,16 @@ public interface BaseApi {
     Call<List<Supplier>> getAllSuppliers();
 
     @GET(SUPPLIER + "/{id}")
-    Call<Supplier> getSupplier(@Path("id") Integer id);
+    Call<Supplier> getSupplier(@Path("id") Long id);
 
     @POST(SUPPLIER)
     Call<Supplier> addSupplier(@Body Supplier supplier);
 
     @PUT(SUPPLIER + "/{id}")
-    Call<Supplier> editSupplier(@Body Supplier supplier, @Path("id") Integer id);
+    Call<Supplier> editSupplier(@Body Supplier supplier, @Path("id") Long id);
 
     @DELETE(SUPPLIER + "/{id}")
-    Call<Supplier> deleteSupplier(@Path("id") Integer id);
+    Call<Supplier> deleteSupplier(@Path("id") Long id);
     /*
      * END OF SUPPLIER
      */

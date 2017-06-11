@@ -30,13 +30,13 @@ public class Supplier implements Parcelable, Comparable, Serializable {
     private String contactEmail;
     @SerializedName("contactPhone")
     private String contactPhone;
-    // TODO cnpj
     @SerializedName("cnpj")
-    private String cnpj = "12123123412312";
+    private String cnpj;
     @SerializedName("contactPhoneDdd")
     private String contactPhoneDdd;
 
-    public Supplier() {}
+    public Supplier() {
+    }
 
     public Supplier(long id, String name, String contactName, String contactEmail,
                     String contactPhoneDdd, String contactPhone) {
@@ -57,6 +57,14 @@ public class Supplier implements Parcelable, Comparable, Serializable {
         contactPhone = in.readString();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
@@ -74,12 +82,40 @@ public class Supplier implements Parcelable, Comparable, Serializable {
         return contactName;
     }
 
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
     public String getContactEmail() {
         return contactEmail;
     }
 
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
     public String getContactPhone() {
         return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getContactPhoneDdd() {
+        return contactPhoneDdd;
+    }
+
+    public void setContactPhoneDdd(String contactPhoneDdd) {
+        this.contactPhoneDdd = contactPhoneDdd;
     }
 
     @Override
@@ -97,14 +133,6 @@ public class Supplier implements Parcelable, Comparable, Serializable {
         dest.writeString(contactPhone);
     }
 
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public String getContactPhoneDdd() {
-        return contactPhoneDdd;
-    }
-
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Supplier && ((Supplier) obj).id == id;
@@ -113,7 +141,7 @@ public class Supplier implements Parcelable, Comparable, Serializable {
     @Override
     public int compareTo(@NonNull Object o) {
         if (o instanceof Supplier) {
-            return (int) (id - ((Supplier)o).id);
+            return (int) (id - ((Supplier) o).id);
         } else {
             throw new ClassCastException();
         }

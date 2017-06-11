@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ import java.util.List;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.activities.SupplierCreateActivity;
 import br.com.wemind.marketplacetribanco.activities.SuppliersListActivity;
+import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.databinding.ItemSupplierBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 
@@ -52,13 +52,13 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
         vh.b.txtContactName.setText(supplier.getContactName());
         vh.b.txtContactEmail.setText(supplier.getContactEmail());
         vh.b.txtContactPhone.setText(supplier.getContactPhone());
-
-        // FIXME: 25/05/2017 bind event handlers
+        
+        final long id = data.get(position).getId();
         vh.b.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Delete " + supplier.getSupplierName(),
-                        Toast.LENGTH_SHORT).show();
+                Api.api.deleteSupplier(id).enqueue(
+                        ((SuppliersListActivity) context).new DeleteSupplierCallback());
             }
         });
 

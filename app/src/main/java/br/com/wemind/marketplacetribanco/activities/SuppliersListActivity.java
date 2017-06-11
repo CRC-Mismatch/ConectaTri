@@ -1,9 +1,12 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -11,12 +14,18 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SupplierAdapter;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class SuppliersListActivity extends BaseDrawerActivity {
 
@@ -86,12 +95,17 @@ public class SuppliersListActivity extends BaseDrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // FIXME: 24/05/2017 actually retrieve data
+
+        // Disable FAB while data isn't ready
+        b.fab.setEnabled(false);
+
         retrieveData();
     }
 
     private void retrieveData() {
-        // FIXME: 24/05/2017 start data retrieval here
+        Api.api.getAllSuppliers().enqueue(new GetSuppliersCallback());
+
+        /*// Dummy data retrieval
         (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -109,7 +123,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
                 }
                 onDataReceived(data);
             }
-        }, 2000);
+        }, 2000);*/
     }
 
     @Override
@@ -120,12 +134,8 @@ public class SuppliersListActivity extends BaseDrawerActivity {
                         .getParcelable(SupplierCreateActivity.RESULT_SUPPLIER);
 
                 if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getSupplierName() + " foi editado",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Api.api.editSupplier(edited, edited.getId())
+                            .enqueue(new EditSupplierCallback(this));
                 }
             } else {
 
@@ -153,6 +163,9 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         this.data = data;
         adapter = new SupplierAdapter(this, data);
         cb.list.setAdapter(adapter);
+
+        // Data's ready, enable FAB
+        b.fab.setEnabled(true);
     }
 
     @Override
@@ -165,5 +178,89 @@ public class SuppliersListActivity extends BaseDrawerActivity {
     @Override
     protected int getSelfNavDrawerItem() {
         return R.id.nav_suppliers;
+    }
+
+    public class DeleteSupplierCallback extends Callback<Supplier> {
+
+        public DeleteSupplierCallback() {
+            super(SuppliersListActivity.this);
+        }
+
+        @Override
+        public void onSuccess(final Supplier response) {
+            refreshData();
+
+            // Show UNDO Snackbar
+            Snackbar sb = Snackbar
+                    .make(b.contentFrame, R.string.text_supplier_deleted, Snackbar.LENGTH_LONG);
+            sb.setAction(R.string.text_undo, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Re-add deleted supplier
+                    try {
+                        Api.api.addSupplier(response).execute();
+                        refreshData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            sb.show();
+        }
+
+        @Override
+        public void onError(Call<Supplier> call, final Response<Supplier> response) {
+            refreshData();
+        }
+
+        private void refreshData() {
+            if (context != null) {
+                ((SuppliersListActivity) context).retrieveData();
+            }
+        }
+    }
+
+    private class GetSuppliersCallback extends Callback<List<Supplier>> {
+        public GetSuppliersCallback() {
+            super(SuppliersListActivity.this);
+        }
+
+        @Override
+        public void onSuccess(List<Supplier> response) {
+            onDataReceived(new ArrayList<>(response));
+        }
+
+        @Override
+        public void onError(Call<List<Supplier>> call,
+                            Response<List<Supplier>> response) {
+            Toast.makeText(
+                    context,
+                    getString(R.string.text_connection_failed),
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            finish();
+        }
+    }
+
+    private class EditSupplierCallback extends Callback<Supplier> {
+        public EditSupplierCallback(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(Supplier response) {
+            refreshData();
+        }
+
+        private void refreshData() {
+            // Refresh suppliers list
+            retrieveData();
+        }
+
+        @Override
+        public void onError(Call<Supplier> call, Response<Supplier> response) {
+
+        }
     }
 }

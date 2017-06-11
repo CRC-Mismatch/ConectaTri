@@ -82,7 +82,7 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
 
         Bundle inputBundle = getIntent().getBundleExtra(INPUT_BUNDLE);
         if (inputBundle != null) {
-            ArrayList<Supplier> inputSuppliers =
+            List<Supplier> inputSuppliers =
                     inputBundle.getParcelableArrayList(INPUT_SUPPLIERS);
 
             if (inputSuppliers != null) {
