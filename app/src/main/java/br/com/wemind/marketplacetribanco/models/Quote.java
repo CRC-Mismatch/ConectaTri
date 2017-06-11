@@ -3,6 +3,8 @@ package br.com.wemind.marketplacetribanco.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +26,16 @@ public class Quote implements Parcelable {
             return new Quote[size];
         }
     };
+    // TODO: 11/06/2017 match with api model
+    @SerializedName("id")
     private long id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("type")
     private int type;
+    @SerializedName("suppliers")
     private List<Supplier> suppliers;
+    @SerializedName("quoteProducts")
     private List<QuoteProduct> quoteProducts;
 
     public Quote() {

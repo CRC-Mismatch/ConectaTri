@@ -200,8 +200,6 @@ public class LoginActivity extends AppCompatActivity {
             at.setToken(response.getToken());
             Api.setAccessToken(at);
 
-            Toast.makeText(context, response.getToken(), Toast.LENGTH_SHORT).show();
-
             ongoingLogin = null;
             finishLogin();
         }
