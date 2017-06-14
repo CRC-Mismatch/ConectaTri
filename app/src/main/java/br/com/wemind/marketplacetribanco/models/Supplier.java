@@ -22,6 +22,8 @@ public class Supplier implements Parcelable, Comparable, Serializable {
     };
     @SerializedName("id")
     private long id;
+    @SerializedName("supplier_id")
+    private long companyId;
     @SerializedName("name")
     private String name;
     @SerializedName("contact_name")
@@ -52,6 +54,7 @@ public class Supplier implements Parcelable, Comparable, Serializable {
         contactEmail = in.readString();
         contactPhone = in.readString();
         cnpj = in.readString();
+        companyId = in.readLong();
     }
 
     public String getName() {
@@ -112,6 +115,15 @@ public class Supplier implements Parcelable, Comparable, Serializable {
         return this;
     }
 
+    public long getCompanyId() {
+        return companyId;
+    }
+
+    public Supplier setCompanyId(long companyId) {
+        this.companyId = companyId;
+        return this;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -125,6 +137,7 @@ public class Supplier implements Parcelable, Comparable, Serializable {
         dest.writeString(contactEmail);
         dest.writeString(contactPhone);
         dest.writeString(cnpj);
+        dest.writeLong(companyId);
     }
 
     @Override
