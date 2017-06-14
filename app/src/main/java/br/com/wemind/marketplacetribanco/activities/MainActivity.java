@@ -22,6 +22,6 @@ public class MainActivity extends BaseDrawerActivity
 
     @Override
     protected int getSelfNavDrawerItem() {
-        return -1;
+        return BaseDrawerActivity.ID_NONE_PERSISTENT;
     }
 }

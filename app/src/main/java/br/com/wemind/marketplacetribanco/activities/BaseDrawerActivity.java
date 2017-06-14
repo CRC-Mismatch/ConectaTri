@@ -29,6 +29,16 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final long MAIN_CONTENT_FADEOUT_DURATION = 300;
+    /**
+     * Indicates this activity does not have a navigation button associated with it
+     * but should not be finished when a drawer navigation button is selected
+     */
+    public static final int ID_NONE_PERSISTENT = -1;
+    /**
+     * Indicates this activity does not have a navigation button associated with it
+     * and should be finished when a drawer navigation button is selected
+     */
+    public static final int ID_NONE_VOLATILE = -2;
     protected ActivityBaseDrawerBinding b;
 
     @Override
@@ -88,8 +98,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
 
         // fade back the main content
         b.contentFrame.setAlpha(1);
@@ -119,6 +129,10 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             // Try to log out.
             Api.api.logout().enqueue(new LogoutCallback(this));
+        }
+
+        if (getSelfNavDrawerItem() != ID_NONE_PERSISTENT) {
+            finish();
         }
     }
 

@@ -160,6 +160,6 @@ public class QuotesListActivity extends BaseDrawerActivity {
 
     @Override
     protected int getSelfNavDrawerItem() {
-        return R.id.nav_listings;
+        return BaseDrawerActivity.ID_NONE_VOLATILE;
     }
 }
