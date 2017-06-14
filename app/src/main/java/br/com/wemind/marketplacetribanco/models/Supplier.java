@@ -24,27 +24,24 @@ public class Supplier implements Parcelable, Comparable, Serializable {
     private long id;
     @SerializedName("name")
     private String name;
-    @SerializedName("contactName")
+    @SerializedName("contact_name")
     private String contactName;
-    @SerializedName("contactEmail")
+    @SerializedName("contact_email")
     private String contactEmail;
-    @SerializedName("contactPhone")
+    @SerializedName("contact_phone")
     private String contactPhone;
     @SerializedName("cnpj")
     private String cnpj;
-    @SerializedName("contactPhoneDdd")
-    private String contactPhoneDdd;
 
     public Supplier() {
     }
 
     public Supplier(long id, String name, String contactName, String contactEmail,
-                    String contactPhoneDdd, String contactPhone) {
+                    String contactPhone) {
         this.id = id;
         this.name = name;
         this.contactName = contactName;
         this.contactEmail = contactEmail;
-        this.contactPhoneDdd = contactPhoneDdd;
         this.contactPhone = contactPhone;
     }
 
@@ -53,16 +50,17 @@ public class Supplier implements Parcelable, Comparable, Serializable {
         name = in.readString();
         contactName = in.readString();
         contactEmail = in.readString();
-        contactPhoneDdd = in.readString();
         contactPhone = in.readString();
+        cnpj = in.readString();
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Supplier setName(String name) {
         this.name = name;
+        return this;
     }
 
     public long getId() {
@@ -82,40 +80,36 @@ public class Supplier implements Parcelable, Comparable, Serializable {
         return contactName;
     }
 
-    public void setContactName(String contactName) {
+    public Supplier setContactName(String contactName) {
         this.contactName = contactName;
+        return this;
     }
 
     public String getContactEmail() {
         return contactEmail;
     }
 
-    public void setContactEmail(String contactEmail) {
+    public Supplier setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;
+        return this;
     }
 
     public String getContactPhone() {
         return contactPhone;
     }
 
-    public void setContactPhone(String contactPhone) {
+    public Supplier setContactPhone(String contactPhone) {
         this.contactPhone = contactPhone;
+        return this;
     }
 
     public String getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(String cnpj) {
+    public Supplier setCnpj(String cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public String getContactPhoneDdd() {
-        return contactPhoneDdd;
-    }
-
-    public void setContactPhoneDdd(String contactPhoneDdd) {
-        this.contactPhoneDdd = contactPhoneDdd;
+        return this;
     }
 
     @Override
@@ -129,8 +123,8 @@ public class Supplier implements Parcelable, Comparable, Serializable {
         dest.writeString(name);
         dest.writeString(contactName);
         dest.writeString(contactEmail);
-        dest.writeString(contactPhoneDdd);
         dest.writeString(contactPhone);
+        dest.writeString(cnpj);
     }
 
     @Override

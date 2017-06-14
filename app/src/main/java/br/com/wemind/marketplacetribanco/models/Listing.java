@@ -31,7 +31,7 @@ public class Listing implements Parcelable, Comparable, Serializable {
     private int type;
     @SerializedName("name")
     private String name;
-    @SerializedName("listingProducts")
+    @SerializedName("listing_products")
     private ArrayList<ListingProduct> products;
     @SerializedName("suppliers")
     private ArrayList<Supplier> suppliers;

@@ -37,7 +37,7 @@ public class ProductCreateActivity extends BaseCreateActivity {
                 productId = product.getId();
                 cb.edtProductName.setText(product.getName());
                 cb.edtDescription.setText(product.getFullDescription());
-                cb.edtType.setText(product.getCategory());
+                cb.edtType.setText(product.getType());
                 cb.edtBrand.setText(product.getBrand());
                 cb.edtQuantity.setText(String.format("%,.2f", product.getQuantity()));
                 cb.edtUnit.setText(product.getUnit());
@@ -75,12 +75,14 @@ public class ProductCreateActivity extends BaseCreateActivity {
         Intent result = new Intent();
         Bundle userBundle = new Bundle();
         userBundle.putParcelable(RESULT_PRODUCT, new Product()
+                .setId(productId)
                 .setName(cb.edtProductName.getText().toString())
                 .setFullDescription(cb.edtDescription.getText().toString())
-                .setCategory(cb.edtDescription.getText().toString())
                 .setBrand(cb.edtBrand.getText().toString())
+                .setType(cb.edtType.getText().toString())
                 .setQuantity(Double.valueOf(cb.edtQuantity.getText().toString()))
-                .setUnit(cb.edtUnit.getText().toString()));
+                .setUnit(cb.edtUnit.getText().toString())
+        );
         result.putExtra(RESULT_BUNDLE, userBundle);
         return result;
     }

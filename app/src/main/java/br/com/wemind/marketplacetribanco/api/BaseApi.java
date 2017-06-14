@@ -15,10 +15,10 @@ import retrofit2.http.Path;
 
 public interface BaseApi {
 
-    String baseUrl = "https://demo8948757.mockable.io/";
+    //String baseUrl = "https://demo8948757.mockable.io/";
     String PRODUCT = "product";
     String SUPPLIER = "representative";
-    //String baseUrl = "http://localhost/conectatri/web/app.php/api/";
+    String baseUrl = "http://conectatri.wemind.com.br/api/";
 
     @POST("login")
     Call<Login.Response> login(@Body Login.Request body);

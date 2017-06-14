@@ -35,7 +35,7 @@ public class Quote implements Parcelable {
     private int type;
     @SerializedName("suppliers")
     private List<Supplier> suppliers;
-    @SerializedName("quoteProducts")
+    @SerializedName("quote_products")
     private List<QuoteProduct> quoteProducts;
 
     public Quote() {

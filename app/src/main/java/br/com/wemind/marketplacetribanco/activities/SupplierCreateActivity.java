@@ -45,7 +45,6 @@ public class SupplierCreateActivity extends BaseCreateActivity {
                 cb.edtSupplierName.setText(supplier.getSupplierName());
                 cb.edtContactName.setText(supplier.getContactName());
                 cb.edtContactEmail.setText(supplier.getContactEmail());
-                cb.edtContactPhoneDdd.setText(supplier.getContactPhoneDdd());
                 cb.edtContactPhone.setText(supplier.getContactPhone());
             }
         }
@@ -82,7 +81,6 @@ public class SupplierCreateActivity extends BaseCreateActivity {
             cb.edtContactEmail.requestFocus();
         }
 
-        errorOccurred |= _setErrorIfEmpty(cb.edtContactPhoneDdd);
         errorOccurred |= _setErrorIfEmpty(cb.edtContactPhone);
 
         return !errorOccurred;
@@ -105,15 +103,15 @@ public class SupplierCreateActivity extends BaseCreateActivity {
     protected Intent getResultIntent() {
         Intent result = new Intent();
         Bundle userBundle = new Bundle();
-        userBundle.putParcelable(RESULT_SUPPLIER, new Supplier(
-                this.supplierId,
-                cb.edtSupplierName.getText().toString(),
-                // cb.edtInfo.getText().toString(),
-                cb.edtContactName.getText().toString(),
-                cb.edtContactEmail.getText().toString(),
-                cb.edtContactPhoneDdd.getText().toString(),
-                cb.edtContactPhone.getText().toString()
-        ));
+        userBundle.putParcelable(RESULT_SUPPLIER, new Supplier()
+                .setId(supplierId)
+                .setName(cb.edtSupplierName.getText().toString())
+                .setCnpj(cb.edtCnpj.getText().toString())
+                .setContactName(cb.edtContactName.getText().toString())
+                .setContactEmail(cb.edtContactEmail.getText().toString())
+                .setContactPhone(cb.edtContactPhone.getText().toString())
+        );
+
         result.putExtra(RESULT_BUNDLE, userBundle);
         return result;
     }

@@ -27,16 +27,10 @@ public class Product implements Parcelable, Comparable, Serializable {
     @SerializedName("id")
     private long id;
     @SerializedName("ean")
-    private String EAN;
-    @SerializedName("department")
-    private String department;
-    @SerializedName("section")
-    private String section;
-    @SerializedName("category")
-    private String category;
-    @SerializedName("subCategory")
-    private String subCategory;
-    @SerializedName("fullDescription")
+    private String EAN = "EAN_DE_TESTES";
+    @SerializedName("type")
+    private String type;
+    @SerializedName("full_description")
     private String fullDescription;
     @SerializedName("name")
     private String name;
@@ -55,10 +49,7 @@ public class Product implements Parcelable, Comparable, Serializable {
         this.EAN = in.readString();
         this.name = in.readString();
         this.fullDescription = in.readString();
-        this.department = in.readString();
-        this.section = in.readString();
-        this.category = in.readString();
-        this.subCategory = in.readString();
+        this.type = in.readString();
         this.brand = in.readString();
         this.quantity = in.readDouble();
         this.unit = in.readString();
@@ -82,39 +73,12 @@ public class Product implements Parcelable, Comparable, Serializable {
         return this;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getType() {
+        return type;
     }
 
-    public Product setDepartment(String department) {
-        this.department = department;
-        return this;
-    }
-
-    public String getSection() {
-        return section;
-    }
-
-    public Product setSection(String section) {
-        this.section = section;
-        return this;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public Product setCategory(String category) {
-        this.category = category;
-        return this;
-    }
-
-    public String getSubCategory() {
-        return subCategory;
-    }
-
-    public Product setSubCategory(String subCategory) {
-        this.subCategory = subCategory;
+    public Product setType(String type) {
+        this.type = type;
         return this;
     }
 
@@ -174,10 +138,7 @@ public class Product implements Parcelable, Comparable, Serializable {
         dest.writeString(EAN);
         dest.writeString(name);
         dest.writeString(fullDescription);
-        dest.writeString(department);
-        dest.writeString(section);
-        dest.writeString(category);
-        dest.writeString(subCategory);
+        dest.writeString(type);
         dest.writeString(brand);
         dest.writeDouble(quantity);
         dest.writeString(unit);

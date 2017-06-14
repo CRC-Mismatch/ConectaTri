@@ -29,7 +29,6 @@ public class QuoteProductActivity extends AppCompatActivity {
         QuoteProduct product = getIntent().getParcelableExtra(QUOTE_PRODUCT);
         b.productName.setText(product.getProduct().getName());
         b.productEan.setText(product.getProduct().getEAN());
-        b.productType.setText(product.getProduct().getCategory());
         b.quotes.setAdapter(new QuoteSupplierAdapter(this, product));
         b.quotes.setLayoutManager(new LinearLayoutManager(this));
     }

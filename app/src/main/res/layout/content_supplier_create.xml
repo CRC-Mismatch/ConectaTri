@@ -90,23 +90,6 @@
 
                 <br.com.wemind.marketplacetribanco.views.TextInputLayout
                     style="@style/LinearInputFormComponent"
-                    android:layout_width="56dp"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/edt_contact_phone_ddd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/content_create_supplier_edt_contact_phone_ddd"
-                        android:imeOptions="actionNext"
-                        android:inputType="phone"
-                        android:maxLength="4"
-                        android:maxLines="1"/>
-                </br.com.wemind.marketplacetribanco.views.TextInputLayout>
-
-
-                <br.com.wemind.marketplacetribanco.views.TextInputLayout
-                    style="@style/LinearInputFormComponent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp">

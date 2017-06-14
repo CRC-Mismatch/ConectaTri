@@ -6,14 +6,11 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import br.com.wemind.marketplacetribanco.R;
-import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
 import br.com.wemind.marketplacetribanco.adapters.QuotesAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
@@ -96,7 +93,7 @@ public class QuotesListActivity extends BaseDrawerActivity {
                 }
 
                 for (int i = 0; i < 5; ++i) {
-                    dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "11", "4645-6452"));
+                    dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "4645-6452"));
                 }
 
                 for (int i = 1; i <= 10; ++i) {

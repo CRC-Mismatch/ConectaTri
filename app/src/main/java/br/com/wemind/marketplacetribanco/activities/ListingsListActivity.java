@@ -102,7 +102,7 @@ public class ListingsListActivity extends BaseDrawerActivity {
                 }
 
                 for (int i = 0; i < 5; ++i) {
-                    dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "11", "4645-6452"));
+                    dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "4645-6452"));
                 }
 
                 for (int i = 1; i <= 100; ++i) {

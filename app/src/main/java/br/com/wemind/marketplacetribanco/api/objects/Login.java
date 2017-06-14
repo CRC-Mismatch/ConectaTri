@@ -8,7 +8,7 @@ public class Login implements Serializable {
 
     public static class Request {
 
-        @SerializedName("email")
+        @SerializedName("cnpj")
         private String email;
 
         @SerializedName("password")
