@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    >
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content"
@@ -8,31 +8,17 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-        </android.support.design.widget.AppBarLayout>
-
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/bg_round_corners"
                 android:elevation="4dp"
                 android:gravity="center_horizontal|top"
@@ -42,44 +28,207 @@
                 android:paddingStart="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin">
 
-                <EditText
-                    android:id="@+id/cnpj"
+                <android.support.design.widget.TextInputLayout
                     style="@style/AppTheme.AutoAdhesionEdit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:digits="1234567890-./"
-                    android:ems="10"
-                    android:hint="CNPJ"
-                    android:inputType="number"
-                    android:maxLength="10"/>
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/passwordText"
-                    style="@style/AppTheme.AutoAdhesionEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:ems="10"
-                    android:hint="Senha"
-                    android:inputType="textPassword"/>
+                    <EditText
+                        android:id="@+id/cnpj"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:digits="1234567890-./"
+                        android:ems="10"
+                        android:hint="CNPJ"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"/>
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/passwordConfText"
+                <android.support.design.widget.TextInputLayout
                     style="@style/AppTheme.AutoAdhesionEdit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:ems="10"
-                    android:hint="Confirme a Senha"
-                    android:inputType="textPassword"/>
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/companyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="Nome da companhia"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/fantasyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="Nome fantasia"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/passwordText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="Senha"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/passwordConfText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="Confirme a Senha"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="E-mail"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/cep"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="CEP"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="Estado"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="Cidade"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="Endereço"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="Telefone"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/cellphone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:ems="10"
+                        android:hint="Telefone celular"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"/>
+                </android.support.design.widget.TextInputLayout>
+
 
                 <Button
                     android:id="@+id/sendButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_round_thin_blue_corners"
-                    android:onClick="sendClick"
                     android:text="@string/btn_activity_sign_up_submit"
                     android:textColor="@color/darkBlueStandard"
                     android:textStyle="bold"/>

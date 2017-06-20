@@ -3,7 +3,10 @@ package br.com.wemind.marketplacetribanco.api;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.api.objects.Login;
+import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
+import br.com.wemind.marketplacetribanco.models.Quote;
+import br.com.wemind.marketplacetribanco.models.SignUpInfo;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,6 +22,8 @@ public interface BaseApi {
     String PRODUCT = "product";
     String SUPPLIER = "representative";
     String baseUrl = "http://conectatri.wemind.com.br/api/";
+    String QUOTE = "quote";
+    String LISTING = "listing";
 
     @POST("login")
     Call<Login.Response> login(@Body Login.Request body);
@@ -70,5 +75,52 @@ public interface BaseApi {
 
     /*
      * QUOTE
+     */
+    @GET(QUOTE)
+    Call<List<Quote>> getAllQuotes();
+
+    @GET(QUOTE + "/{id}")
+    Call<Quote> getQuote(@Path("id") Long id);
+
+    @POST(QUOTE)
+    Call<Quote> addQuote(@Body Quote Quote);
+
+    @PUT(QUOTE + "/{id}")
+    Call<Quote> editQuote(@Body Quote Quote, @Path("id") Long id);
+
+    @DELETE(QUOTE + "/{id}")
+    Call<Quote> deleteQuote(@Path("id") Long id);
+    /*
+     * END OF Quote
+     */
+
+    /*
+     * Listing
+     */
+    @GET(LISTING)
+    Call<List<Listing>> getAllListings();
+
+    @GET(LISTING + "/{id}")
+    Call<Listing> getListing(@Path("id") Long id);
+
+    @POST(LISTING)
+    Call<Listing> addListing(@Body Listing Listing);
+
+    @PUT(LISTING + "/{id}")
+    Call<Listing> editListing(@Body Listing Listing, @Path("id") Long id);
+
+    @DELETE(LISTING + "/{id}")
+    Call<Listing> deleteListing(@Path("id") Long id);
+    /*
+     * END OF Listing
+     */
+
+    /*
+     * Sign Up
+     */
+    @POST("retailer")
+    Call<String> register(@Body SignUpInfo signUpInfo);
+    /*
+     * END OF Sign Up
      */
 }

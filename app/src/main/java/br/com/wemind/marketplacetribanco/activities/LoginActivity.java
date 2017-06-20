@@ -27,6 +27,7 @@ import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.api.objects.AccessToken;
 import br.com.wemind.marketplacetribanco.api.objects.Login;
 import br.com.wemind.marketplacetribanco.databinding.ActivityLoginBinding;
+import br.com.wemind.marketplacetribanco.models.SignUpInfo;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
 import retrofit2.Call;
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String SAVED_USER = "SAVED_USER";
     public static final String SAVED_HASH = "SAVED_HASH";
 
-    public static final int REQUEST_AUTO_ADHESION = 1;
+    public static final int REQUEST_SIGN_UP = 1;
 
     ActivityLoginBinding binding;
     private Call ongoingLogin;
@@ -95,10 +96,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        binding.autoAdhesion.setOnClickListener(new View.OnClickListener() {
+        binding.signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchAutoAdhesion();
+                launchSignUp();
             }
         });
 
@@ -143,15 +144,27 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void launchAutoAdhesion() {
-        //Intent autoAdhesionIntent = new Intent(this, AutoAdhesionActivity.class);
-        //autoAdhesionIntent.putExtra(AutoAdhesionActivity.CPF_NUM, binding.user.getText().toString());
-        //startActivityForResult(autoAdhesionIntent, REQUEST_AUTO_ADHESION);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SIGN_UP) {
+            signUpReturned(resultCode, data);
+        }
     }
 
-    public void resultAutoAdhesion(int resultCode, Intent data) {
-        //if (resultCode != AutoAdhesionActivity.REGISTERED || data == null) return;
-        //showProgress(true);
+    public void launchSignUp() {
+        Intent signUpIntent = new Intent(this, SignUpActivity.class);
+        startActivityForResult(signUpIntent, REQUEST_SIGN_UP);
+    }
+
+    public void signUpReturned(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            SignUpInfo signUpInfo =
+                    data.getParcelableExtra(SignUpActivity.RESULT_SIGN_UP_INFO);
+
+            if (signUpInfo != null) {
+                Api.api.register(signUpInfo).enqueue(new RegisterCallback(this));
+            }
+        }
     }
 
     protected void finishLogin() {
@@ -214,6 +227,22 @@ public class LoginActivity extends AppCompatActivity {
             ).show();
 
             ongoingLogin = null;
+        }
+    }
+
+    private class RegisterCallback extends Callback<String> {
+        public RegisterCallback(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(String response) {
+
+        }
+
+        @Override
+        public void onError(Call<String> call, Response<String> response) {
+
         }
     }
 }

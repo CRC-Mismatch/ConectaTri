@@ -187,8 +187,8 @@
                             android:layout_height="48dp"
                             android:layout_centerVertical="true"
                             android:background="@drawable/login_button_background"
-                            android:drawableRight="@drawable/ic_chevron_right"
                             android:drawableLeft="@drawable/ic_blank"
+                            android:drawableRight="@drawable/ic_chevron_right"
                             android:elevation="16dp"
                             android:onClick="attemptLogin"
                             android:paddingBottom="4dp"
@@ -202,15 +202,15 @@
                     </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/auto_adhesion"
+                        android:id="@+id/sign_up_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="64dp"
                         android:layout_marginStart="64dp"
                         android:background="@drawable/bg_round_thin_white_corners"
                         android:padding="12dp"
-                        android:textAlignment="center"
                         android:text="@string/text_auto_adhesion"
+                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"/>

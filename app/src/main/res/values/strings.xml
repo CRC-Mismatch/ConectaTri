@@ -74,6 +74,7 @@
     <string name="text_undo">DESFAZER</string>
     <string name="text_supplier_deleted">Fornecedor removido</string>
     <string name="content_product_create_description">Descrição</string>
+    <string name="error_passwords_dont_match">Senha e confirmação devem coincidir</string>
 
 
 </resources>

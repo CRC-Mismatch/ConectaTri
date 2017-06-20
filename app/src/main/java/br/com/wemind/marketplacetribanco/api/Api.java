@@ -1,5 +1,9 @@
 package br.com.wemind.marketplacetribanco.api;
 
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -27,10 +31,15 @@ public final class Api {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .build();
 
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ")
+                .create();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BaseApi.baseUrl)
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         api = retrofit.create(BaseApi.class);
