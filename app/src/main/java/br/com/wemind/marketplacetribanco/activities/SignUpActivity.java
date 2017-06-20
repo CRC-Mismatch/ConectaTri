@@ -80,6 +80,10 @@ public class SignUpActivity extends AppCompatActivity {
             b.passwordText.setError(getString(R.string.error_field_required));
             errorView = b.passwordText;
 
+        } else if (b.passwordText.length() < 8) {
+            // If password is not at least 8 characters long
+            b.passwordText.setError(getString(R.string.error_invalid_password_min_chars));
+
         } else if (!b.passwordText.getText().toString()
                 .equals(b.passwordConfText.getText().toString())) {
             // If passwords don't match

@@ -2,6 +2,7 @@ package br.com.wemind.marketplacetribanco.api;
 
 import java.util.List;
 
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.api.objects.Login;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
@@ -119,7 +120,7 @@ public interface BaseApi {
      * Sign Up
      */
     @POST("retailer")
-    Call<String> register(@Body SignUpInfo signUpInfo);
+    Call<ApiError> register(@Body SignUpInfo signUpInfo);
     /*
      * END OF Sign Up
      */

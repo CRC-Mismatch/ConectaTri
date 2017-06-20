@@ -75,6 +75,7 @@
     <string name="text_supplier_deleted">Fornecedor removido</string>
     <string name="content_product_create_description">Descrição</string>
     <string name="error_passwords_dont_match">Senha e confirmação devem coincidir</string>
+    <string name="error_invalid_password_min_chars">A senha deve conter pelo menos 8 caracteres</string>
 
 
 </resources>
