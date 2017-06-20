@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
+import br.com.wemind.marketplacetribanco.activities.SuppliersSelectActivity;
 import br.com.wemind.marketplacetribanco.databinding.ItemSupplierSelectBinding;
 import br.com.wemind.marketplacetribanco.databinding.ItemSuppliersSelectHeaderBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
@@ -34,11 +35,16 @@ public class SelectionSupplierAdapter extends
     private Set<Supplier> selectedData;
     private Set<ViewHolder> items;
 
-    public SelectionSupplierAdapter(Context context, List<Supplier> data) {
+    public SelectionSupplierAdapter(Context context, List<Supplier> data,
+                                    List<Supplier> selected) {
         this.context = context;
+
+        data = data == null ? new ArrayList<Supplier>() : data;
         this.data = new ArrayList<>(data);
         this.filteredData = new ArrayList<>(data);
-        this.selectedData = new TreeSet<>(data);
+
+        selected = selected == null ? new ArrayList<Supplier>() : selected;
+        this.selectedData = new TreeSet<>(selected);
         items = new HashSet<>();
     }
 

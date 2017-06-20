@@ -29,9 +29,13 @@ public class ProductsSelectAdapter
     public ProductsSelectAdapter(Context context, List<Product> data,
                                  Set<Product> selectedData) {
         this.context = context;
+
+        data = data == null ? new ArrayList<Product>() : data;
         this.data = new ArrayList<>(data);
-        this.selectedData = new TreeSet<>(selectedData);
         filteredData = new ArrayList<>(data);
+
+        selectedData = selectedData == null ? new TreeSet<Product>() : selectedData;
+        this.selectedData = new TreeSet<>(selectedData);
     }
 
     @Override
@@ -49,9 +53,9 @@ public class ProductsSelectAdapter
         holder.b.product.setText(product.getName());
 
         if (selectedData.contains(product)) {
-            holder.b.checkbox.setSelected(true);
+            holder.b.checkbox.setChecked(true);
         } else {
-            holder.b.checkbox.setSelected(false);
+            holder.b.checkbox.setChecked(false);
         }
         holder.b.getRoot().setOnClickListener(new View.OnClickListener() {
             CheckBox checkbox = holder.b.checkbox;
@@ -100,6 +104,7 @@ public class ProductsSelectAdapter
     public class Filter extends android.widget.Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            // FIXME: 14/06/2017 Replace this naive filtering
             ArrayList<Product> result = new ArrayList<>();
             for (Product p : data) {
                 if (p.getName().contains(constraint)) {
