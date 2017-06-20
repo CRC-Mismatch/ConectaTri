@@ -144,20 +144,6 @@ public class ProductsSelectActivity extends BaseSelectActivity {
             // get products from DB
             // FIXME: 09/06/2017 use API search method instead
             Api.api.getAllProducts().enqueue(new GetProductsCallback());
-
-            /*// TODO: remove this after implementation
-            ArrayList<Product> dummyList = new ArrayList<>();
-            for (int i = 0; i < 800; i++) {
-                Product p = new Product();
-                p.setName("Produto " + i);
-                p.setBrand("Marca " + i);
-                p.setId(i + 1);
-                dummyList.add(p);
-            }
-            products = dummyList;
-            adapter.setData(products);
-            adapter.notifyDataSetChanged();
-            // ---------*/
         }
     }
 

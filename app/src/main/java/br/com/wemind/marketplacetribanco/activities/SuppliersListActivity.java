@@ -193,12 +193,8 @@ public class SuppliersListActivity extends BaseDrawerActivity {
                 @Override
                 public void onClick(View v) {
                     // Re-add deleted supplier
-                    try {
-                        Api.api.addSupplier(response).execute();
-                        refreshData();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Api.api.editSupplier(response, response.getId()).enqueue(
+                            new CreateSupplierCallback(SuppliersListActivity.this));
                 }
             });
             sb.show();

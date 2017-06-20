@@ -30,12 +30,9 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
     public static final String SELECTED_LIST = "selected_list";
     public static final String INPUT_BUNDLE = "input_bundle";
     public static final String INPUT_SUPPLIERS = "input_suppliers";
+    public static final String INPUT_SELECTED = "input_selected";
     private ContentSuppliersListBinding cb;
 
-    /**
-     * Data received from parent activity
-     */
-    private ArrayList<Listing> data;
     private Set<Supplier> suppliers;
     private SelectionSupplierAdapter adapter;
 
@@ -90,7 +87,14 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
             }
         }
 
-        adapter = new SelectionSupplierAdapter(this, new ArrayList<>(suppliers));
+
+        List<Supplier> preSelected = new ArrayList<>();
+        if (inputBundle != null) {
+            preSelected = inputBundle.getParcelableArrayList(INPUT_SELECTED);
+        }
+
+        adapter = new SelectionSupplierAdapter(
+                this, new ArrayList<>(suppliers), preSelected);
 
         cb.list.setAdapter(adapter);
     }
