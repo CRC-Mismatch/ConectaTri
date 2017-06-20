@@ -5,14 +5,16 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by kmkraiker on 25/05/2017.
  */
 
-public class Quote implements Parcelable {
+public class Quote implements Parcelable, Serializable {
     public static final int TYPE_REMOTE = 1;
     public static final int TYPE_MANUAL = 2;
     public static final Creator<Quote> CREATOR = new Creator<Quote>() {
@@ -26,43 +28,61 @@ public class Quote implements Parcelable {
             return new Quote[size];
         }
     };
-    // TODO: 11/06/2017 match with api model
     @SerializedName("id")
     private long id;
     @SerializedName("name")
     private String name;
     @SerializedName("type")
     private int type;
-    @SerializedName("suppliers")
-    private List<Supplier> suppliers;
     @SerializedName("quote_products")
     private List<QuoteProduct> quoteProducts;
+    @SerializedName("begins_at")
+    private Date beginningDate;
+    @SerializedName("expires_at")
+    private Date expirationDate;
 
     public Quote() {
     }
+
     public Quote(long id, String name, int type, List<Product> products, List<Supplier> suppliers) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.suppliers = suppliers;
         this.quoteProducts = new ArrayList<>();
 
         // FIXME: Remove from final version
         for (Product product : products) {
             QuoteProduct qP = new QuoteProduct().setProduct(product);
             for (Supplier supplier : suppliers) {
-                QuoteSupplier qS = new QuoteSupplier().setProduct(product).setSupplier(supplier).setPrice(Math.round(Math.random() * 100000) / 100.0).setQuantity((int) Math.round(Math.random() * 100));
-                qP.getSuppliers().add(qS);
+                QuoteSupplier qS = new QuoteSupplier().setSupplier(supplier).setPrice(Math.round(Math.random() * 100000) / 100.0).setQuantity((int) Math.round(Math.random() * 100));
+                qP.getQuoteSuppliers().add(qS);
             }
             quoteProducts.add(qP);
         }
     }
+
     private Quote(Parcel in) {
-        this.id = in.readLong();
-        this.name = in.readString();
-        this.type = in.readInt();
-        this.suppliers = in.createTypedArrayList(Supplier.CREATOR);
-        this.quoteProducts = in.createTypedArrayList(QuoteProduct.CREATOR);
+        id = in.readLong();
+        name = in.readString();
+        type = in.readInt();
+        quoteProducts = in.createTypedArrayList(QuoteProduct.CREATOR);
+        beginningDate = (Date) in.readSerializable();
+        expirationDate = (Date) in.readSerializable();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeInt(type);
+        dest.writeTypedList(quoteProducts);
+        dest.writeSerializable(beginningDate);
+        dest.writeSerializable(expirationDate);
     }
 
     public long getId() {
@@ -92,15 +112,6 @@ public class Quote implements Parcelable {
         return this;
     }
 
-    public List<Supplier> getSuppliers() {
-        return suppliers;
-    }
-
-    public Quote setSuppliers(List<Supplier> suppliers) {
-        this.suppliers = suppliers;
-        return this;
-    }
-
     public List<QuoteProduct> getQuoteProducts() {
         return quoteProducts;
     }
@@ -110,17 +121,21 @@ public class Quote implements Parcelable {
         return this;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(name);
-        dest.writeInt(type);
-        dest.writeTypedList(suppliers);
-        dest.writeTypedList(quoteProducts);
+    public Quote setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+        return this;
+    }
+
+    public Date getBeginningDate() {
+        return beginningDate;
+    }
+
+    public Quote setBeginningDate(Date beginningDate) {
+        this.beginningDate = beginningDate;
+        return this;
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +28,8 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         implements Filterable {
 
     private Context context;
-    private ArrayList<Quote> data;
-    private ArrayList<Quote> filteredData;
+    private ArrayList<Quote> data = new ArrayList<>();
+    private ArrayList<Quote> filteredData = new ArrayList<>();
     private Filter filter = new Filter();
 
     public QuotesAdapter(Context context, List<Quote> data) {
@@ -60,13 +61,13 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Quote quote = filteredData.get(position);
         holder.listingName.setText(quote.getName());
-        holder.itemCount.setText(String.valueOf(quote.getSuppliers().size()));
+        holder.itemCount.setText(String.valueOf(quote.getQuoteProducts().size()));
 
         holder.v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, QuoteProductsListActivity.class);
-                i.putExtra(QuoteProductsListActivity.QUOTE, quote);
+                i.putExtra(QuoteProductsListActivity.QUOTE, (Parcelable) quote);
                 context.startActivity(i);
             }
         });
@@ -82,13 +83,16 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle toEdit = new Bundle();
+                Toast.makeText(context, "Edit " + quote.getName(),
+                        Toast.LENGTH_SHORT).show();
+
+                /*Bundle toEdit = new Bundle();
                 toEdit.putParcelable(ListingCreateActivity.INPUT_LISTING, quote);
 
                 Intent edit = new Intent(context, ListingCreateActivity.class);
                 edit.putExtra(ListingCreateActivity.INPUT_BUNDLE, toEdit);
                 ((Activity) context)
-                        .startActivityForResult(edit, ListingsListActivity.EDIT_LISTING);
+                        .startActivityForResult(edit, ListingsListActivity.EDIT_LISTING)*/;
             }
         });
     }

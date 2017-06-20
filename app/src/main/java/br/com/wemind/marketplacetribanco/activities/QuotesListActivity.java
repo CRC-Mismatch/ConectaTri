@@ -1,8 +1,10 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
@@ -10,13 +12,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.QuotesAdapter;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import br.com.wemind.marketplacetribanco.models.Supplier;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class QuotesListActivity extends BaseDrawerActivity {
 
@@ -75,38 +83,11 @@ public class QuotesListActivity extends BaseDrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // FIXME: 24/05/2017 actually retrieve data
         retrieveData();
     }
 
     private void retrieveData() {
-        // FIXME: 24/05/2017 start data retrieval here
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Create and send dummy data
-                ArrayList<Product> dummyProducts = new ArrayList<>(50);
-                ArrayList<Supplier> dummySuppliers = new ArrayList<>(5);
-
-                for (int i = 0; i < 50; ++i) {
-                    dummyProducts.add(new Product().setId(i).setName("Produto " + i));
-                }
-
-                for (int i = 0; i < 5; ++i) {
-                    dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "4645-6452"));
-                }
-
-                for (int i = 1; i <= 10; ++i) {
-                    data.add(new Quote(i,
-                            "Cotação " + i,
-                            1 + (1001 % (2 + i) % 2),
-                            dummyProducts,
-                            dummySuppliers
-                    ));
-                }
-                onDataReceived(data);
-            }
-        }, 2000);
+        Api.api.getAllQuotes().enqueue(new GetQuotesCallback(this));
     }
 
     @Override
@@ -128,8 +109,7 @@ public class QuotesListActivity extends BaseDrawerActivity {
                 // FIXME: 27/05/2017 handle cancellation
 
             }
-        }
-        else if (requestCode == EDIT_LISTING) {
+        } else if (requestCode == EDIT_LISTING) {
             if (resultCode == RESULT_OK) {
                 Listing edited = data.getBundleExtra(ListingCreateActivity.RESULT_BUNDLE)
                         .getParcelable(ListingCreateActivity.RESULT_LISTING);
@@ -158,5 +138,26 @@ public class QuotesListActivity extends BaseDrawerActivity {
     @Override
     protected int getSelfNavDrawerItem() {
         return BaseDrawerActivity.ID_NONE_VOLATILE;
+    }
+
+    private class GetQuotesCallback extends Callback<List<Quote>> {
+
+        public GetQuotesCallback(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(List<Quote> response) {
+            onDataReceived(new ArrayList<>(response));
+        }
+
+        @Override
+        public void onError(Call<List<Quote>> call, Response<List<Quote>> response) {
+            Toast.makeText(context,
+                    getString(R.string.text_connection_failed),
+                    Toast.LENGTH_SHORT
+            ).show();
+            finish();
+        }
     }
 }

@@ -17,8 +17,10 @@ import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 public class QuoteProductActivity extends AppCompatActivity {
 
     public static final String QUOTE_PRODUCT = "QUOTE_PRODUCT";
+    public static final String INPUT_IS_EDITABLE = "input_is_editable";
 
     ActivityQuoteProductBinding b;
+    private boolean isEditable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,11 @@ public class QuoteProductActivity extends AppCompatActivity {
         QuoteProduct product = getIntent().getParcelableExtra(QUOTE_PRODUCT);
         b.productName.setText(product.getProduct().getName());
         b.productEan.setText(product.getProduct().getEAN());
-        b.quotes.setAdapter(new QuoteSupplierAdapter(this, product));
+
+        // TODO: 18/06/2017 construct the adapter correctly if isEditable
+        isEditable = getIntent().getBooleanExtra(INPUT_IS_EDITABLE, false);
+        b.quotes.setAdapter(new QuoteSupplierAdapter(this, product, isEditable));
+
         b.quotes.setLayoutManager(new LinearLayoutManager(this));
     }
 

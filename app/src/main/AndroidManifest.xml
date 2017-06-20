@@ -26,6 +26,9 @@
             android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".activities.SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -118,8 +121,7 @@
             android:label="@string/title_quote_create_activity"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.QuoteCreationFlowController">
-        </activity>
+        <activity android:name=".activities.QuoteCreationFlowController"/>
     </application>
 
 </manifest>

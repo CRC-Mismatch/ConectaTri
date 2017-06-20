@@ -1,17 +1,26 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
+import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.ListingProduct;
 import br.com.wemind.marketplacetribanco.models.Product;
+import br.com.wemind.marketplacetribanco.models.Quote;
+import br.com.wemind.marketplacetribanco.models.QuoteProduct;
+import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
 import br.com.wemind.marketplacetribanco.models.Supplier;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class QuoteCreationFlowController extends AppCompatActivity {
 
@@ -22,6 +31,10 @@ public class QuoteCreationFlowController extends AppCompatActivity {
     public static final int REQUEST_FINISH_CREATION = 4;
 
     public static final String INPUT_IS_MANUAL = "input_is_manual";
+    public static final String INPUT_BUNDLE = "input_bundle";
+    public static final String INPUT_SELECTED_PRODUCTS = "input_products";
+    public static final String INPUT_SELECTED_SUPPLIERS = "input_suppliers";
+
     private ArrayList<Listing> listings = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Product> selectedProducts = new ArrayList<>();
@@ -35,8 +48,24 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Read input intent
-        // Check if this is a manual quote
+        //      Check if this is a manual quote
         isManualQuote = getIntent().getBooleanExtra(INPUT_IS_MANUAL, false);
+
+        //      Get pre-selected objects, in the case of editing an existing quote
+        Bundle inputBundle = getIntent().getBundleExtra(INPUT_BUNDLE);
+        if (inputBundle != null) {
+            ArrayList<Product> inputProducts =
+                    inputBundle.getParcelableArrayList(INPUT_SELECTED_PRODUCTS);
+            if (inputProducts != null) {
+                selectedProducts = inputProducts;
+            }
+
+            ArrayList<Supplier> inputSuppliers =
+                    inputBundle.getParcelableArrayList(INPUT_SELECTED_SUPPLIERS);
+            if (inputSuppliers != null) {
+                selectedSuppliers = inputSuppliers;
+            }
+        }
 
         // Initial state
         selectListing();
@@ -59,6 +88,9 @@ public class QuoteCreationFlowController extends AppCompatActivity {
 
             } else if (requestCode == REQUEST_SELECT_SUPPLIER) {
                 supplierReturned(data);
+
+            } else if (currentStep == REQUEST_FINISH_CREATION) {
+                finishCreationReturned(data);
             }
         }
     }
@@ -73,15 +105,9 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         } else if (currentStep == REQUEST_FINISH_CREATION) {
             selectSupplier(suppliers);
 
-        } else{
+        } else {
             finish();
         }
-    }
-
-    private void selectListing() {
-        Intent i = new Intent(this, ListingsSelectActivity.class);
-        startActivityForResult(i, REQUEST_SELECT_LISTING);
-        currentStep = REQUEST_SELECT_LISTING;
     }
 
     private void listingReturned(Intent data) {
@@ -120,19 +146,6 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         selectProduct(products);
     }
 
-    private void selectProduct(TreeSet<Product> products) {
-        Bundle inputBundle = new Bundle();
-        inputBundle.putParcelableArrayList(
-                ProductsSelectActivity.INPUT_PRODUCTS, new ArrayList<>(products));
-
-        Intent i = new Intent(this, ProductsSelectActivity.class);
-        i.putExtra(ProductsSelectActivity.INPUT_BUNDLE, inputBundle);
-
-        startActivityForResult(i, REQUEST_SELECT_PRODUCT);
-
-        currentStep = REQUEST_SELECT_PRODUCT;
-    }
-
     private void productReturned(Intent data) {
         if (data != null) {
             Bundle b = data.getBundleExtra(ProductsSelectActivity.RESULT_BUNDLE);
@@ -146,18 +159,6 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         selectSupplier(suppliers);
     }
 
-    private void selectSupplier(ArrayList<Supplier> suppliers) {
-        Bundle inputBundle = new Bundle();
-        inputBundle.putParcelableArrayList(
-                SuppliersSelectActivity.INPUT_SUPPLIERS, suppliers);
-
-        Intent i = new Intent(this, SuppliersSelectActivity.class);
-        i.putExtra(SuppliersSelectActivity.INPUT_BUNDLE, inputBundle);
-        startActivityForResult(i, REQUEST_SELECT_SUPPLIER);
-
-        currentStep = REQUEST_SELECT_SUPPLIER;
-    }
-
     private void supplierReturned(Intent data) {
         if (data != null) {
             Bundle b = data.getBundleExtra(ProductsSelectActivity.RESULT_BUNDLE);
@@ -169,11 +170,116 @@ public class QuoteCreationFlowController extends AppCompatActivity {
 
         // Request that the user finish creating this quote by
         // giving it a name and expiration date
-        // TODO: 10/06/2017
-
-
         Intent i = new Intent(this, QuoteCreateActivity.class);
         startActivityForResult(i, REQUEST_FINISH_CREATION);
         currentStep = REQUEST_FINISH_CREATION;
+    }
+
+    private void finishCreationReturned(Intent data) {
+        Quote quote = null;
+
+        Bundle b = data.getBundleExtra(QuoteCreateActivity.RESULT_BUNDLE);
+        if (b != null) {
+            quote = b.getParcelable(QuoteCreateActivity.RESULT_QUOTE);
+            if (quote != null) {
+                List<QuoteSupplier> quoteSuppliers = new ArrayList<>();
+                for (Supplier sup :
+                        selectedSuppliers) {
+                    quoteSuppliers.add(new QuoteSupplier()
+                            .setSupplier(sup)
+                    );
+                }
+
+                List<QuoteProduct> quoteProducts = new ArrayList<>();
+                for (Product p : selectedProducts) {
+                    quoteProducts.add(new QuoteProduct()
+                            .setProduct(p)
+                            .setQuoteSuppliers(quoteSuppliers)
+                    );
+                }
+                quote.setQuoteProducts(quoteProducts);
+            }
+        }
+
+        if (quote == null) {
+            Toast.makeText(this, "Erro: nullQuote", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        if (!isManualQuote) {
+            quote.setType(Quote.TYPE_REMOTE);
+            Api.api.addQuote(quote).enqueue(new CreateQuoteCallback(this));
+            finish();
+
+        } else {
+            quote.setType(Quote.TYPE_MANUAL);
+            Intent i = new Intent(this, QuoteProductsListActivity.class);
+            i.putExtra(QuoteProductsListActivity.QUOTE, (Parcelable) quote);
+            i.putExtra(QuoteProductsListActivity.INPUT_IS_EDITABLE, isManualQuote);
+
+            startActivity(i);
+            finish();
+        }
+    }
+
+    private void selectListing() {
+        Intent i = new Intent(this, ListingsSelectActivity.class);
+        startActivityForResult(i, REQUEST_SELECT_LISTING);
+        currentStep = REQUEST_SELECT_LISTING;
+    }
+
+    private void selectProduct(TreeSet<Product> products) {
+        Bundle inputBundle = new Bundle();
+        inputBundle.putParcelableArrayList(
+                ProductsSelectActivity.INPUT_PRODUCTS, new ArrayList<>(products));
+
+        if (selectedProducts.size() != 0) {
+            // Send pre-selected items
+            inputBundle.putParcelableArrayList(
+                    ProductsSelectActivity.INPUT_SELECTED, selectedProducts);
+        }
+
+        Intent i = new Intent(this, ProductsSelectActivity.class);
+        i.putExtra(ProductsSelectActivity.INPUT_BUNDLE, inputBundle);
+
+        startActivityForResult(i, REQUEST_SELECT_PRODUCT);
+
+        currentStep = REQUEST_SELECT_PRODUCT;
+    }
+
+    private void selectSupplier(ArrayList<Supplier> suppliers) {
+        Bundle inputBundle = new Bundle();
+        inputBundle.putParcelableArrayList(
+                SuppliersSelectActivity.INPUT_SUPPLIERS, suppliers);
+
+        if (selectedSuppliers.size() != 0) {
+            // Send pre-selected items
+            inputBundle.putParcelableArrayList(
+                    SuppliersSelectActivity.INPUT_SELECTED, selectedSuppliers);
+        }
+
+
+        Intent i = new Intent(this, SuppliersSelectActivity.class);
+        i.putExtra(SuppliersSelectActivity.INPUT_BUNDLE, inputBundle);
+        startActivityForResult(i, REQUEST_SELECT_SUPPLIER);
+
+        currentStep = REQUEST_SELECT_SUPPLIER;
+    }
+
+    private class CreateQuoteCallback extends br.com.wemind.marketplacetribanco.api.Callback<Quote> {
+        public CreateQuoteCallback(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(Quote response) {
+
+        }
+
+        @Override
+        public void onError(Call<Quote> call, Response<Quote> response) {
+
+        }
     }
 }

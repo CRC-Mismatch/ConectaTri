@@ -4,10 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filterable;
+
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -23,11 +29,13 @@ public class QuoteProductAdapter extends RecyclerView.Adapter<QuoteProductAdapte
     private Quote quote;
     private QuoteProductAdapter.Filter filter = new QuoteProductAdapter.Filter();
     private ArrayList<QuoteProduct> filteredData;
+    private boolean isEditable;
 
-    public QuoteProductAdapter(Context context, Quote quote) {
+    public QuoteProductAdapter(Context context, Quote quote, boolean isEditable) {
         this.context = context;
         this.quote = quote;
         this.filteredData = new ArrayList<>(quote.getQuoteProducts());
+        this.isEditable = isEditable;
     }
 
     @Override
@@ -43,12 +51,18 @@ public class QuoteProductAdapter extends RecyclerView.Adapter<QuoteProductAdapte
     @Override
     public void onBindViewHolder(QuoteProductAdapter.ViewHolder vh, int position) {
         final QuoteProduct product = filteredData.get(position);
+        try {
+            Log.e("QUOTE_PRODUCT", new JSONObject(new Gson().toJson(product)).toString(1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         vh.b.product.setText(product.getProduct().getName());
         vh.b.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, QuoteProductActivity.class);
                 i.putExtra(QuoteProductActivity.QUOTE_PRODUCT, product);
+                i.putExtra(QuoteProductActivity.INPUT_IS_EDITABLE, isEditable);
                 context.startActivity(i);
             }
         });

@@ -27,7 +27,7 @@ import br.com.wemind.marketplacetribanco.models.Supplier;
 
 public class QuoteCreateActivity extends BaseCreateActivity {
 
-    private static final String RESULT_QUOTE = "result_quote";
+    public static final String RESULT_QUOTE = "result_quote";
     public static final String RESULT_BUNDLE = "result_bundle";
     private ContentQuoteCreateBinding cb;
     /**
@@ -156,9 +156,10 @@ public class QuoteCreateActivity extends BaseCreateActivity {
     @Override
     protected Intent getResultIntent() {
         Quote quote = new Quote();
-        quote.setName(cb.edtName.getText().toString());
-        quote.setSuppliers(new ArrayList<Supplier>());
-        quote.setQuoteProducts(new ArrayList<QuoteProduct>());
+        quote.setName(cb.edtName.getText().toString())
+                .setQuoteProducts(new ArrayList<QuoteProduct>())
+                .setBeginningDate(dates.get(cb.edtDateFrom).getTime())
+                .setExpirationDate(dates.get(cb.edtDateUntil).getTime());
 
         Bundle b = new Bundle();
         b.putParcelable(RESULT_QUOTE, quote);

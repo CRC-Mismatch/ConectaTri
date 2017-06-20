@@ -1,15 +1,10 @@
 package br.com.wemind.marketplacetribanco.activities;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,13 +12,13 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.QuoteProductAdapter;
 import br.com.wemind.marketplacetribanco.adapters.SimpleProductAdapter;
 import br.com.wemind.marketplacetribanco.databinding.ContentSimpleProductsListBinding;
-import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 
 public class QuoteProductsListActivity extends BaseSelectActivity {
 
     public static final String QUOTE = "QUOTE";
+    public static final String INPUT_IS_EDITABLE = "input_is_editable";
 
     private ContentSimpleProductsListBinding cb;
     /**
@@ -72,7 +67,11 @@ public class QuoteProductsListActivity extends BaseSelectActivity {
                 b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
-        cb.list.setAdapter(new QuoteProductAdapter(this, getIntent().<Quote>getParcelableExtra(QUOTE)));
+        cb.list.setAdapter(new QuoteProductAdapter(
+                this,
+                getIntent().<Quote>getParcelableExtra(QUOTE),
+                getIntent().getBooleanExtra(INPUT_IS_EDITABLE, false)
+        ));
     }
 
     @Override

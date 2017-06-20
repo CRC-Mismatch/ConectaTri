@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by kmkraiker on 25/05/2017.
  */
@@ -20,17 +22,20 @@ public class QuoteSupplier implements Parcelable, Comparable {
             return new QuoteSupplier[size];
         }
     };
+    @SerializedName("id")
     private long id;
-    private Product product;
+    @SerializedName("representative")
     private Supplier supplier;
-    private String price;
+    @SerializedName("price")
+    private String price = "0,00";
+    @SerializedName("quantity")
     private int quantity;
 
     public QuoteSupplier() {
     }
+
     private QuoteSupplier(Parcel in) {
         this.id = in.readLong();
-        this.product = in.readParcelable(Product.class.getClassLoader());
         this.supplier = in.readParcelable(Supplier.class.getClassLoader());
         this.price = in.readString();
         this.quantity = in.readInt();
@@ -45,15 +50,6 @@ public class QuoteSupplier implements Parcelable, Comparable {
         return this;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public QuoteSupplier setProduct(Product product) {
-        this.product = product;
-        return this;
-    }
-
     public Supplier getSupplier() {
         return supplier;
     }
@@ -64,7 +60,7 @@ public class QuoteSupplier implements Parcelable, Comparable {
     }
 
     public double getPrice() {
-        return Double.valueOf(price);
+        return Double.valueOf(price.replaceAll(",", "."));
     }
 
     public QuoteSupplier setPrice(double price) {
@@ -89,7 +85,6 @@ public class QuoteSupplier implements Parcelable, Comparable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
-        dest.writeParcelable(product, 0);
         dest.writeParcelable(supplier, 0);
         dest.writeString(price);
         dest.writeInt(quantity);

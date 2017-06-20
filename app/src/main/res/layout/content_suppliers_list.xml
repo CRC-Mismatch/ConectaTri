@@ -12,6 +12,7 @@
         android:clipToPadding="false"
         android:gravity="center"
         android:orientation="vertical"
+        android:paddingBottom="80dp"
         tools:listitem="@layout/item_supplier">
     </android.support.v7.widget.RecyclerView>
 </layout>

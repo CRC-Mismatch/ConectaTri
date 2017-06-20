@@ -35,6 +35,17 @@ public class QuoteTypeActivity extends AppCompatActivity {
             }
         });
 
+        b.btnManual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(
+                        QuoteTypeActivity.this, QuoteCreationFlowController.class);
+                i.putExtra(QuoteCreationFlowController.INPUT_IS_MANUAL, true);
+                startActivity(i);
+                finish();
+            }
+        });
+
         b.btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
