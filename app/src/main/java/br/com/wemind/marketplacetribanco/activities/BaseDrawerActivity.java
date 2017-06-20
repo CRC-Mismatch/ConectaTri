@@ -107,7 +107,6 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
 
     private void goToNavDrawerItem(int id) {
         // FIXME: 27/05/2017 There's no option to go to the home panel
-        // FIXME: 28/05/2017 Removed finish() calls so going back will end up in home
         if (id == R.id.nav_listings) {
             Intent i = new Intent(this, ListingsListActivity.class);
             startActivity(i);
@@ -121,6 +120,9 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
             Intent i = new Intent(this, RemoteQuotesActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_manual_quote) {
+            Intent i = new Intent(this, QuoteCreationFlowController.class);
+            i.putExtra(QuoteCreationFlowController.INPUT_IS_MANUAL, true);
+            startActivity(i);
 
         } else if (id == R.id.nav_tutorial) {
 
