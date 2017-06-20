@@ -1,8 +1,9 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
@@ -11,14 +12,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
-import br.com.wemind.marketplacetribanco.models.ListingProduct;
-import br.com.wemind.marketplacetribanco.models.Product;
-import br.com.wemind.marketplacetribanco.models.Supplier;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class ListingsListActivity extends BaseDrawerActivity {
 
@@ -88,34 +91,7 @@ public class ListingsListActivity extends BaseDrawerActivity {
     }
 
     private void retrieveData() {
-        // FIXME: 24/05/2017 start data retrieval here
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Create and send dummy data
-                ArrayList<Listing> data = new ArrayList<>(100);
-                ArrayList<ListingProduct> dummyProducts = new ArrayList<>(100);
-                ArrayList<Supplier> dummySuppliers = new ArrayList<>(5);
-
-                for (int i = 1; i <= 100; ++i) {
-                    dummyProducts.add(new ListingProduct(i, new Product(), (int)Math.round(Math.random()*1000) % 300));
-                }
-
-                for (int i = 0; i < 5; ++i) {
-                    dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "4645-6452"));
-                }
-
-                for (int i = 1; i <= 100; ++i) {
-                    data.add(new Listing(i,
-                            "Lista " + i,
-                            1 + (1001 % (3 + i) % 3),
-                            dummyProducts,
-                            dummySuppliers
-                    ));
-                }
-                onDataReceived(data);
-            }
-        }, 2000);
+        Api.api.getAllListings().enqueue(new GetListingsCallback(this));
     }
 
     @Override
@@ -126,30 +102,20 @@ public class ListingsListActivity extends BaseDrawerActivity {
                         .getParcelable(ListingCreateActivity.RESULT_LISTING);
 
                 if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getName() + " foi adicionado",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Api.api.addListing(edited).enqueue(new CreateListingCallback(this));
                 }
             } else {
                 // FIXME: 27/05/2017 handle cancellation
 
             }
-        }
-        else if (requestCode == EDIT_LISTING) {
+        } else if (requestCode == EDIT_LISTING) {
             if (resultCode == RESULT_OK) {
                 Listing edited = data.getBundleExtra(ListingCreateActivity.RESULT_BUNDLE)
                         .getParcelable(ListingCreateActivity.RESULT_LISTING);
 
                 if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getName() + " foi editado",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Api.api.editListing(edited, edited.getId())
+                            .enqueue(new CreateListingCallback(this));
                 }
             } else {
                 // FIXME: 27/05/2017 handle cancellation
@@ -158,8 +124,8 @@ public class ListingsListActivity extends BaseDrawerActivity {
         }
     }
 
-    private void onDataReceived(ArrayList<Listing> data) {
-        this.data = data;
+    private void onDataReceived(List<Listing> data) {
+        this.data = new ArrayList<>(data);
         adapter = new ListingsAdapter(this, data, false);
         cb.list.setAdapter(adapter);
     }
@@ -167,5 +133,58 @@ public class ListingsListActivity extends BaseDrawerActivity {
     @Override
     protected int getSelfNavDrawerItem() {
         return R.id.nav_listings;
+    }
+
+    private class GetListingsCallback extends Callback<List<Listing>> {
+        public GetListingsCallback(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(List<Listing> response) {
+            onDataReceived(response);
+        }
+
+        @Override
+        public void onError(Call<List<Listing>> call, Response<List<Listing>> response) {
+            Toast.makeText(context,
+                    getString(R.string.text_connection_failed),
+                    Toast.LENGTH_SHORT
+            ).show();
+            finish();
+        }
+    }
+
+    private class CreateListingCallback extends Callback<Listing> {
+        public CreateListingCallback(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(Listing response) {
+            retrieveData();
+        }
+
+        @Override
+        public void onError(Call<Listing> call, Response<Listing> response) {
+            retrieveData();
+        }
+    }
+
+    public class DeleteListingCallback extends Callback<Listing> {
+
+        public DeleteListingCallback(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(Listing response) {
+            retrieveData();
+        }
+
+        @Override
+        public void onError(Call<Listing> call, Response<Listing> response) {
+            retrieveData();
+        }
     }
 }

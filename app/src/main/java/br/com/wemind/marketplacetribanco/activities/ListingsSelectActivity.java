@@ -1,21 +1,30 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.ListingProduct;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Supplier;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class ListingsSelectActivity extends BaseSelectActivity {
 
@@ -87,53 +96,40 @@ public class ListingsSelectActivity extends BaseSelectActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // FIXME: 24/05/2017 actually retrieve data
         retrieveData();
     }
 
     private void retrieveData() {
         // Disable FAB while data hasn't been retrieved
         b.fab.setEnabled(false);
-
-        // FIXME: 24/05/2017 start data retrieval here
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Create and send dummy data
-                ArrayList<Listing> data = new ArrayList<>(100);
-                ArrayList<Supplier> dummySuppliers = new ArrayList<>(5);
-
-                for (int i = 0; i < 5; ++i) {
-                    dummySuppliers.add(new Supplier(i, "Fornecedor " + i, "João Silva", "joao.silva@gmail.com", "4645-6452"));
-                }
-
-                for (int i = 1; i <= 100; ++i) {
-                    ArrayList<ListingProduct> dummyProducts = new ArrayList<>();
-                    for (int j = 0; j < i; ++j) {
-                        Product p = new Product();
-                        p.setId(j);
-                        p.setName("Produto " + j);
-                        dummyProducts.add(new ListingProduct(j, p, (int)Math.round(Math.random()*1000) % 300));
-                    }
-
-                    data.add(new Listing(i,
-                            "Lista " + i,
-                            1 + (1001 % (3 + i) % 3),
-                            dummyProducts,
-                            dummySuppliers
-                    ));
-                }
-                onDataReceived(data);
-            }
-        }, 2000);
+        Api.api.getAllListings().enqueue(new GetListingsCallback(this));
     }
 
-    private void onDataReceived(ArrayList<Listing> data) {
-        this.data = data;
+    private void onDataReceived(List<Listing> data) {
+        this.data = new ArrayList<>(data);
         adapter = new ListingsAdapter(this, data, true);
         cb.list.setAdapter(adapter);
 
         // Disable FAB while data hasn't been retrieved
         b.fab.setEnabled(true);
+    }
+
+    private class GetListingsCallback extends Callback<List<Listing>> {
+
+        public GetListingsCallback(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(List<Listing> response) {
+            onDataReceived(response);
+        }
+
+        @Override
+        public void onError(Call<List<Listing>> call, Response<List<Listing>> response) {
+            Toast.makeText(context,
+                    getString(R.string.text_connection_failed), Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 }

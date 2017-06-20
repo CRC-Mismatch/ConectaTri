@@ -3,7 +3,6 @@ package br.com.wemind.marketplacetribanco.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -45,7 +44,7 @@ public class ListingCreateActivity extends BaseCreateActivity {
             name = listing.getName();
             description = listing.getDescription();
             for (ListingProduct p : listing.getProducts())
-            products.add(p.getProduct());
+                products.add(p.getProduct());
         }
 
 
@@ -60,6 +59,8 @@ public class ListingCreateActivity extends BaseCreateActivity {
                 Bundle b = new Bundle();
                 b.putParcelableArrayList(
                         ProductsSelectActivity.INPUT_PRODUCTS, finalProducts);
+                b.putParcelableArrayList(
+                        ProductsSelectActivity.INPUT_SELECTED, finalProducts);
 
                 Intent i = new Intent(
                         ListingCreateActivity.this, ProductsSelectActivity.class);
@@ -67,8 +68,6 @@ public class ListingCreateActivity extends BaseCreateActivity {
                 startActivityForResult(i, REQUEST_SELECT_PRODUCTS);
             }
         });
-
-        // TODO: what should this button do??
         /*
         cb.btnQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,14 +94,12 @@ public class ListingCreateActivity extends BaseCreateActivity {
         if (REQUEST_SELECT_PRODUCTS == requestCode) {
             if (RESULT_OK == resultCode) {
                 this.products = data.getBundleExtra(ProductsSelectActivity.RESULT_BUNDLE)
-                    .getParcelableArrayList(ProductsSelectActivity.SELECTED_LIST);
+                        .getParcelableArrayList(ProductsSelectActivity.SELECTED_LIST);
 
                 if (products == null) {
                     products = new ArrayList<>();
                 }
 
-                Toast.makeText(this, "Got " + products.get(0).getName(),
-                        Toast.LENGTH_SHORT).show();
             } else if (RESULT_CANCELED == resultCode) {
 
             }
@@ -111,7 +108,18 @@ public class ListingCreateActivity extends BaseCreateActivity {
 
     @Override
     protected Intent getResultIntent() {
-        return null;
+        Listing listing = new Listing();
+        ArrayList<ListingProduct> listingProducts = new ArrayList<>();
+        for (Product p : products) {
+            listingProducts.add(new ListingProduct(0, p, 0));
+        }
+        listing.setProducts(listingProducts);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(RESULT_LISTING, listing);
+        Intent result = new Intent();
+        result.putExtra(RESULT_BUNDLE, bundle);
+        return result;
     }
 
 }

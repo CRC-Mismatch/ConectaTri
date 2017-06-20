@@ -22,6 +22,7 @@ import java.util.TreeSet;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.activities.ListingCreateActivity;
 import br.com.wemind.marketplacetribanco.activities.ListingsListActivity;
+import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.models.Listing;
 
 public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHolder>
@@ -96,8 +97,9 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
             holder.btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Delete " + listing.getName(),
-                            Toast.LENGTH_SHORT).show();
+                    Api.api.deleteListing(listing.getId()).enqueue(
+                            ((ListingsListActivity) context).new DeleteListingCallback(context)
+                    );
                 }
             });
             holder.btnEdit.setOnClickListener(new View.OnClickListener() {

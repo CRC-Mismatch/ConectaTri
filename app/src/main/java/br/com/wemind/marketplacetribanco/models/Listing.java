@@ -33,10 +33,13 @@ public class Listing implements Parcelable, Comparable, Serializable {
     private String name;
     @SerializedName("listing_products")
     private ArrayList<ListingProduct> products;
-    @SerializedName("suppliers")
+    @SerializedName("representatives")
     private ArrayList<Supplier> suppliers;
     @SerializedName("description")
     private String description;
+
+    public Listing() {
+    }
 
     public Listing(long id, String name, int type, ArrayList<ListingProduct> products,
                    ArrayList<Supplier> suppliers) {
@@ -46,7 +49,6 @@ public class Listing implements Parcelable, Comparable, Serializable {
         this.products = products;
         this.suppliers = suppliers;
     }
-
     protected Listing(Parcel in) {
         id = in.readLong();
         name = in.readString();
@@ -62,12 +64,27 @@ public class Listing implements Parcelable, Comparable, Serializable {
         return id;
     }
 
+    public Listing setId(long id) {
+        this.id = id;
+        return this;
+    }
+
     public int getType() {
         return type;
     }
 
+    public Listing setType(int type) {
+        this.type = type;
+        return this;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public Listing setName(String name) {
+        this.name = name;
+        return this;
     }
 
     @Override
@@ -89,8 +106,18 @@ public class Listing implements Parcelable, Comparable, Serializable {
         return description;
     }
 
+    public Listing setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
     public ArrayList<ListingProduct> getProducts() {
         return products;
+    }
+
+    public Listing setProducts(ArrayList<ListingProduct> products) {
+        this.products = products;
+        return this;
     }
 
     public ArrayList<Supplier> getSuppliers() {
