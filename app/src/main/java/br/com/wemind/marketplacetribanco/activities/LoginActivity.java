@@ -25,6 +25,7 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.api.objects.AccessToken;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.api.objects.Login;
 import br.com.wemind.marketplacetribanco.databinding.ActivityLoginBinding;
 import br.com.wemind.marketplacetribanco.models.SignUpInfo;
@@ -230,18 +231,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private class RegisterCallback extends Callback<String> {
+    private class RegisterCallback extends Callback<ApiError> {
         public RegisterCallback(Context context) {
             super(context);
         }
 
         @Override
-        public void onSuccess(String response) {
+        public void onSuccess(ApiError response) {
 
         }
 
         @Override
-        public void onError(Call<String> call, Response<String> response) {
+        public void onError(Call<ApiError> call, Response<ApiError> response) {
 
         }
     }
