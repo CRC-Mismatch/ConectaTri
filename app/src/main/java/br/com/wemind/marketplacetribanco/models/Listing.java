@@ -32,9 +32,9 @@ public class Listing implements Parcelable, Comparable, Serializable {
     @SerializedName("name")
     private String name;
     @SerializedName("listing_products")
-    private ArrayList<ListingProduct> products;
+    private ArrayList<ListingProduct> products = new ArrayList<>();
     @SerializedName("representatives")
-    private ArrayList<Supplier> suppliers;
+    private ArrayList<Supplier> suppliers = new ArrayList<>();
     @SerializedName("description")
     private String description;
 
