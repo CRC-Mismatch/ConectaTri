@@ -25,7 +25,8 @@ public class RemoteQuotesActivity extends BaseDrawerActivity {
         cb.btnRemoteQuote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(RemoteQuotesActivity.this, ListingsSelectActivity.class);
+                Intent i = new Intent(
+                        RemoteQuotesActivity.this, QuoteCreationFlowController.class);
                 startActivity(i);
                 finish();
             }
