@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.objects.AccessToken;
 import br.com.wemind.marketplacetribanco.databinding.ActivityBaseDrawerBinding;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -158,7 +159,12 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
 
         @Override
         public void onSuccess(String response) {
+            cleanUp();
             finish();
+        }
+
+        private void cleanUp() {
+            Api.setAccessToken(null);
         }
 
         @Override

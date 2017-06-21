@@ -46,6 +46,9 @@ public final class Api {
     }
 
     public static void setAccessToken(AccessToken accessToken) {
+        if (accessToken == null) {
+            accessToken = new AccessToken();
+        }
         Api.accessToken = accessToken;
     }
 
