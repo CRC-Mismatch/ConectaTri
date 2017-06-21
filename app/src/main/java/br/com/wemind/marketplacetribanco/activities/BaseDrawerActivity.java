@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -17,7 +18,6 @@ import android.view.MenuItem;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
-import br.com.wemind.marketplacetribanco.api.objects.Status;
 import br.com.wemind.marketplacetribanco.databinding.ActivityBaseDrawerBinding;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -28,7 +28,6 @@ import retrofit2.Response;
 public abstract class BaseDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final long MAIN_CONTENT_FADEOUT_DURATION = 300;
     /**
      * Indicates this activity does not have a navigation button associated with it
      * but should not be finished when a drawer navigation button is selected
@@ -39,6 +38,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
      * and should be finished when a drawer navigation button is selected
      */
     public static final int ID_NONE_VOLATILE = -2;
+    private static final long MAIN_CONTENT_FADEOUT_DURATION = 300;
+    public static final String WWW_TRIBANCO_HOMEPAGE = "http://www.tribanco.com.br/";
     protected ActivityBaseDrawerBinding b;
 
     @Override
@@ -110,19 +111,28 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_listings) {
             Intent i = new Intent(this, ListingsListActivity.class);
             startActivity(i);
+
         } else if (id == R.id.nav_products) {
             Intent i = new Intent(this, SimpleProductsListActivity.class);
             startActivity(i);
+
         } else if (id == R.id.nav_suppliers) {
             Intent i = new Intent(this, SuppliersListActivity.class);
             startActivity(i);
+
         } else if (id == R.id.nav_remote_quote) {
             Intent i = new Intent(this, RemoteQuotesActivity.class);
             startActivity(i);
+
         } else if (id == R.id.nav_manual_quote) {
             Intent i = new Intent(this, QuoteCreationFlowController.class);
             i.putExtra(QuoteCreationFlowController.INPUT_IS_MANUAL, true);
             startActivity(i);
+
+        } else if (id == R.id.nav_about) {
+            Intent browserIntent =
+                    new Intent(Intent.ACTION_VIEW, Uri.parse(WWW_TRIBANCO_HOMEPAGE));
+            startActivity(browserIntent);
 
         } else if (id == R.id.nav_tutorial) {
 
