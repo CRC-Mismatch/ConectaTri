@@ -23,7 +23,7 @@
     <string name="title_activity_quote_type">Que tipo de cotação?</string>
     <string name="title_activity_suppliers_list">Selecionar Fornecedor</string>
     <string name="menu_save">SALVAR</string>
-    <string name="title_activity_supplier_create">SupplierCreateActivity</string>
+    <string name="title_activity_supplier_create">Adicionar / Editar fornecedor</string>
     <string name="content_create_supplier_edt_supplier_name">Nome do fornecedor</string>
     <string name="content_create_supplier_edt_cnpj">CNPJ</string>
     <string name="content_create_supplier_edt_info">Informações</string>
@@ -76,6 +76,7 @@
     <string name="content_product_create_description">Descrição</string>
     <string name="error_passwords_dont_match">Senha e confirmação devem coincidir</string>
     <string name="error_invalid_password_min_chars">A senha deve conter pelo menos 8 caracteres</string>
+    <string name="title_product_set_quantity">Inserir Quantidades</string>
 
 
 </resources>
