@@ -221,13 +221,23 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onError(Call<Login.Response> call,
                             Response<Login.Response> response) {
-            // TODO: 07/06/2017
+            ongoingLogin = null;
+
             Toast.makeText(context,
-                    "Code " + response.code() + " " + response.message(),
+                    "Erro: Código " + response.code() + " " + response.message(),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
+
+        @Override
+        public void onFailure(Call<Login.Response> call, Throwable t) {
+            ongoingLogin = null;
+
+            Toast.makeText(context,
+                    getString(R.string.text_connection_failed),
                     Toast.LENGTH_SHORT
             ).show();
 
-            ongoingLogin = null;
         }
     }
 
