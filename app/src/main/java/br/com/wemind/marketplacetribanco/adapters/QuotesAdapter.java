@@ -12,16 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
-import br.com.wemind.marketplacetribanco.activities.ListingCreateActivity;
-import br.com.wemind.marketplacetribanco.activities.ListingsListActivity;
+import br.com.wemind.marketplacetribanco.activities.QuoteCreateActivity;
 import br.com.wemind.marketplacetribanco.activities.QuoteProductsListActivity;
-import br.com.wemind.marketplacetribanco.models.Listing;
+import br.com.wemind.marketplacetribanco.activities.QuotesListActivity;
+import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.models.Quote;
 
 public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder>
@@ -68,31 +67,33 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
             public void onClick(View v) {
                 Intent i = new Intent(context, QuoteProductsListActivity.class);
                 i.putExtra(QuoteProductsListActivity.QUOTE, (Parcelable) quote);
+                if (quote.getType() == Quote.TYPE_MANUAL) {
+                    i.putExtra(QuoteProductsListActivity.INPUT_IS_EDITABLE, true);
+                }
+
                 context.startActivity(i);
             }
         });
 
-        // FIXME: bind event handlers
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Delete " + quote.getName(),
-                        Toast.LENGTH_SHORT).show();
+                Api.api.deleteQuote(quote.getId()).enqueue(
+                        ((QuotesListActivity) context).new DeleteQuoteCallback(context)
+                );
             }
         });
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Edit " + quote.getName(),
-                        Toast.LENGTH_SHORT).show();
+                Bundle b = new Bundle();
+                b.putParcelable(QuoteCreateActivity.INPUT_QUOTE, quote);
 
-                /*Bundle toEdit = new Bundle();
-                toEdit.putParcelable(ListingCreateActivity.INPUT_LISTING, quote);
+                Intent i = new Intent(context, QuoteCreateActivity.class);
+                i.putExtra(QuoteCreateActivity.INPUT_BUNDLE, b);
 
-                Intent edit = new Intent(context, ListingCreateActivity.class);
-                edit.putExtra(ListingCreateActivity.INPUT_BUNDLE, toEdit);
                 ((Activity) context)
-                        .startActivityForResult(edit, ListingsListActivity.EDIT_LISTING)*/;
+                        .startActivityForResult(i, QuotesListActivity.EDIT_QUOTE);
             }
         });
     }

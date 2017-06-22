@@ -1,24 +1,20 @@
 package br.com.wemind.marketplacetribanco.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filterable;
 
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.activities.QuoteProductActivity;
+import br.com.wemind.marketplacetribanco.activities.QuoteProductsListActivity;
 import br.com.wemind.marketplacetribanco.databinding.ItemSimpleProductBinding;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
@@ -51,11 +47,6 @@ public class QuoteProductAdapter extends RecyclerView.Adapter<QuoteProductAdapte
     @Override
     public void onBindViewHolder(QuoteProductAdapter.ViewHolder vh, int position) {
         final QuoteProduct product = filteredData.get(position);
-        try {
-            Log.e("QUOTE_PRODUCT", new JSONObject(new Gson().toJson(product)).toString(1));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         vh.b.product.setText(product.getProduct().getName());
         vh.b.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +54,8 @@ public class QuoteProductAdapter extends RecyclerView.Adapter<QuoteProductAdapte
                 Intent i = new Intent(context, QuoteProductActivity.class);
                 i.putExtra(QuoteProductActivity.QUOTE_PRODUCT, product);
                 i.putExtra(QuoteProductActivity.INPUT_IS_EDITABLE, isEditable);
-                context.startActivity(i);
+                ((Activity) context).startActivityForResult(i,
+                        QuoteProductsListActivity.REQUEST_EDIT_QUOTE_PRODUCT);
             }
         });
     }

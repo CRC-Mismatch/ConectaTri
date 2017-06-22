@@ -23,6 +23,8 @@ import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 
 public class QuoteCreateActivity extends BaseCreateActivity {
 
+    public static final String INPUT_BUNDLE = "input_bundle";
+    public static final String INPUT_QUOTE = "input_quote";
     public static final String RESULT_QUOTE = "result_quote";
     public static final String RESULT_BUNDLE = "result_bundle";
     private ContentQuoteCreateBinding cb;
@@ -31,6 +33,7 @@ public class QuoteCreateActivity extends BaseCreateActivity {
      * passed to the API
      */
     private HashMap<EditText, Calendar> dates = new HashMap<>(2);
+    private Quote quote;
 
     @NonNull
     private static String formatHour(int selectedHour, int selectedMinute) {
@@ -43,6 +46,8 @@ public class QuoteCreateActivity extends BaseCreateActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        cb = ContentQuoteCreateBinding.inflate(getLayoutInflater(), b.contentFrame, true);
+
         // Setup DatePickerDialog
         final Calendar calendar = Calendar.getInstance();
         final OnDateSetListener dateListener = new OnDateSetListener(calendar);
@@ -53,7 +58,39 @@ public class QuoteCreateActivity extends BaseCreateActivity {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH));
 
-        cb = ContentQuoteCreateBinding.inflate(getLayoutInflater(), b.contentFrame, true);
+        Bundle inputBundle = getIntent().getBundleExtra(INPUT_BUNDLE);
+        if (inputBundle != null) {
+            Quote inputQuote = inputBundle.getParcelable(INPUT_QUOTE);
+            if (inputQuote != null) {
+                // If there's an input quote, initialize fields
+                cb.edtName.setText(inputQuote.getName());
+
+                // Initialize dates and times
+                Calendar inputCalendar = (Calendar) calendar.clone();
+                inputCalendar.setTimeInMillis(inputQuote.getBeginningDate().getTime());
+                updateDateEditText(inputCalendar, cb.edtDateFrom);
+                cb.edtTimeFrom.setText(formatHour(
+                        inputCalendar.get(Calendar.HOUR_OF_DAY),
+                        inputCalendar.get(Calendar.MINUTE)));
+
+                inputCalendar.setTimeInMillis(inputQuote.getExpirationDate().getTime());
+                updateDateEditText(inputCalendar, cb.edtDateUntil);
+                cb.edtTimeUntil.setText(formatHour(
+                        inputCalendar.get(Calendar.HOUR_OF_DAY),
+                        inputCalendar.get(Calendar.MINUTE)));
+
+                quote = inputQuote;
+            }
+        } else {
+            cb.edtTimeFrom.setText(formatHour(
+                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE)));
+
+            cb.edtTimeUntil.setText(formatHour(
+                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE)));
+
+        }
 
         cb.btnDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,8 +189,14 @@ public class QuoteCreateActivity extends BaseCreateActivity {
     @Override
     protected Intent getResultIntent() {
         Quote quote = new Quote();
+        if (this.quote == null) {
+            quote.setQuoteProducts(new ArrayList<QuoteProduct>());
+
+        } else {
+            quote = this.quote;
+        }
+
         quote.setName(cb.edtName.getText().toString())
-                .setQuoteProducts(new ArrayList<QuoteProduct>())
                 .setBeginningDate(dates.get(cb.edtDateFrom).getTime())
                 .setExpirationDate(dates.get(cb.edtDateUntil).getTime());
 

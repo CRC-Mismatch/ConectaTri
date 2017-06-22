@@ -3,11 +3,12 @@ package br.com.wemind.marketplacetribanco.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -19,17 +20,13 @@ import br.com.wemind.marketplacetribanco.adapters.QuotesAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
-import br.com.wemind.marketplacetribanco.models.Listing;
-import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Quote;
-import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class QuotesListActivity extends BaseDrawerActivity {
 
-    public static final int CREATE_LISTING = 1;
-    public static final int EDIT_LISTING = 2;
+    public static final int EDIT_QUOTE = 2;
     public static final String REMOTE_ONLY = "REMOTE_ONLY";
     private ContentListingsListBinding cb;
     private QuotesAdapter adapter;
@@ -92,39 +89,16 @@ public class QuotesListActivity extends BaseDrawerActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CREATE_LISTING) {
+        if (requestCode == EDIT_QUOTE) {
             if (resultCode == RESULT_OK) {
-                Listing edited = data.getBundleExtra(ListingCreateActivity.RESULT_BUNDLE)
-                        .getParcelable(ListingCreateActivity.RESULT_LISTING);
+                Quote edited = data.getBundleExtra(QuoteCreateActivity.RESULT_BUNDLE)
+                        .getParcelable(QuoteCreateActivity.RESULT_QUOTE);
 
                 if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getName() + " foi adicionado",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Api.api.editQuote(edited, edited.getId()).enqueue(
+                            new EditQuoteCallback(this)
+                    );
                 }
-            } else {
-                // FIXME: 27/05/2017 handle cancellation
-
-            }
-        } else if (requestCode == EDIT_LISTING) {
-            if (resultCode == RESULT_OK) {
-                Listing edited = data.getBundleExtra(ListingCreateActivity.RESULT_BUNDLE)
-                        .getParcelable(ListingCreateActivity.RESULT_LISTING);
-
-                if (edited != null) {
-                    // FIXME: 25/05/2017 send new data to server
-                    Toast.makeText(
-                            this,
-                            edited.getName() + " foi editado",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-            } else {
-                // FIXME: 27/05/2017 handle cancellation
-
             }
         }
     }
@@ -158,6 +132,54 @@ public class QuotesListActivity extends BaseDrawerActivity {
                     Toast.LENGTH_SHORT
             ).show();
             finish();
+        }
+    }
+
+    public class DeleteQuoteCallback extends Callback<Quote> {
+
+        public DeleteQuoteCallback(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(final Quote response) {
+            retrieveData();
+
+            // Show UNDO Snackbar
+            Snackbar sb = Snackbar.make(
+                    b.contentFrame, R.string.text_quote_deleted, Snackbar.LENGTH_LONG);
+
+            sb.setAction(R.string.text_undo, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Re-add deleted supplier
+                    Api.api.editQuote(response, response.getId()).enqueue(
+                            new EditQuoteCallback(QuotesListActivity.this)
+                    );
+                }
+            });
+            sb.show();
+        }
+
+        @Override
+        public void onError(Call<Quote> call, Response<Quote> response) {
+
+        }
+    }
+
+    private class EditQuoteCallback extends Callback<Quote> {
+        public EditQuoteCallback(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(Quote response) {
+            retrieveData();
+        }
+
+        @Override
+        public void onError(Call<Quote> call, Response<Quote> response) {
+            retrieveData();
         }
     }
 }

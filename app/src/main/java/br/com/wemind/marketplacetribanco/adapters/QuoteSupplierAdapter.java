@@ -16,22 +16,24 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ItemQuoteSupplierBinding;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
+import br.com.wemind.marketplacetribanco.utils.Formatting;
 
 public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdapter.ViewHolder> {
 
     private final boolean isEditable;
     private Context context;
-    private ArrayList<QuoteSupplier> data;
+    private List<QuoteSupplier> data;
 
     public QuoteSupplierAdapter(Context context, QuoteProduct product,
                                 boolean isEditable) {
         this.context = context;
-        this.data = new ArrayList<>(product.getQuoteSuppliers());
+        this.data = product.getQuoteSuppliers();
         Collections.sort(this.data, new Comparator<QuoteSupplier>() {
             @Override
             public int compare(QuoteSupplier o1, QuoteSupplier o2) {
@@ -53,11 +55,6 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
     @Override
     public void onBindViewHolder(QuoteSupplierAdapter.ViewHolder vh, int position) {
         final QuoteSupplier quoteSupplier = data.get(position);
-        try {
-            Log.e("QUOTE_SUPP", new JSONObject(new Gson().toJson(quoteSupplier)).toString(1));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         vh.b.price.setText(context.getString(R.string.money, quoteSupplier.getPrice()));
         vh.b.qty.setText(String.valueOf(quoteSupplier.getQuantity()));
         vh.b.supplier.setText(quoteSupplier.getSupplier().getSupplierName());
@@ -67,8 +64,36 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
         vh.b.supplier.setEnabled(isEditable);
 
         if (isEditable) {
-            // TODO: 19/06/2017 API HANDLERS
-            //vh.b.price.addTextChangedListener();
+            vh.b.price.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String value = s.toString().replaceAll("[^0-9\\.]","");
+                    if (!value.equals("")) {
+                        quoteSupplier.setPrice(Double.valueOf(value));
+                    }
+                }
+            });
+
+            vh.b.qty.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!s.toString().equals("")) {
+                        quoteSupplier.setQuantity(Integer.valueOf(s.toString()));
+                    }
+                }
+            });
         }
     }
 

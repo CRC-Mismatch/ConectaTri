@@ -20,6 +20,7 @@ import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class QuoteCreationFlowController extends AppCompatActivity {
@@ -220,12 +221,7 @@ public class QuoteCreationFlowController extends AppCompatActivity {
 
         } else {
             quote.setType(Quote.TYPE_MANUAL);
-            Intent i = new Intent(this, QuoteProductsListActivity.class);
-            i.putExtra(QuoteProductsListActivity.QUOTE, (Parcelable) quote);
-            i.putExtra(QuoteProductsListActivity.INPUT_IS_EDITABLE, isManualQuote);
-
-            startActivity(i);
-            finish();
+            Api.api.addQuote(quote).enqueue(new CreateManualQuoteCallback(this));
         }
     }
 
@@ -287,5 +283,29 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         public void onError(Call<Quote> call, Response<Quote> response) {
 
         }
+    }
+
+    private class CreateManualQuoteCallback extends br.com.wemind.marketplacetribanco.api.Callback<Quote> {
+            public CreateManualQuoteCallback(Context context) {
+                super(context);
+            }
+
+            @Override
+            public void onSuccess(Quote response) {
+                Intent i = new Intent(
+                        QuoteCreationFlowController.this,
+                        QuoteProductsListActivity.class);
+
+                i.putExtra(QuoteProductsListActivity.QUOTE, (Parcelable) response);
+                i.putExtra(QuoteProductsListActivity.INPUT_IS_EDITABLE, isManualQuote);
+
+                startActivity(i);
+                finish();
+            }
+
+            @Override
+            public void onError(Call<Quote> call, Response<Quote> response) {
+
+            }
     }
 }

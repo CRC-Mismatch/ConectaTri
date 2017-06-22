@@ -2,6 +2,7 @@ package br.com.wemind.marketplacetribanco.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -34,6 +35,7 @@ public class QuoteProduct implements Parcelable {
     public QuoteProduct() {
         suppliers = new ArrayList<>();
     }
+
     private QuoteProduct(Parcel in) {
         this.id = in.readLong();
         this.product = in.readParcelable(Product.class.getClassLoader());
@@ -77,5 +79,14 @@ public class QuoteProduct implements Parcelable {
         dest.writeLong(id);
         dest.writeParcelable(product, 0);
         dest.writeTypedList(suppliers);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof QuoteProduct) {
+            return ((QuoteProduct) obj).getId() == this.getId();
+
+        }
+        return super.equals(obj);
     }
 }

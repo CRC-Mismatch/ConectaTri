@@ -31,15 +31,15 @@ public class Quote implements Parcelable, Serializable {
     @SerializedName("id")
     private long id;
     @SerializedName("name")
-    private String name;
+    private String name = "";
     @SerializedName("type")
     private int type;
     @SerializedName("quote_products")
     private List<QuoteProduct> quoteProducts;
     @SerializedName("begins_at")
-    private Date beginningDate;
+    private Date beginningDate = new Date();
     @SerializedName("expires_at")
-    private Date expirationDate;
+    private Date expirationDate = new Date();
 
     public Quote() {
     }
