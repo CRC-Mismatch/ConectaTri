@@ -17,6 +17,7 @@ import java.util.List;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.activities.ProductCreateActivity;
 import br.com.wemind.marketplacetribanco.activities.SimpleProductsListActivity;
+import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.databinding.ItemSimpleProductBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
 
@@ -86,14 +87,7 @@ public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdap
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            // TODO: inspect this
-            // Naive filtering
-            ArrayList<Product> filtered = new ArrayList<>();
-            for (Product product : data) {
-                if (product.getName().contains(constraint)) {
-                    filtered.add(product);
-                }
-            }
+            ArrayList<Product> filtered = Api.syncSearchProduct(constraint);
 
             // Pack and return results
             FilterResults result = new FilterResults();

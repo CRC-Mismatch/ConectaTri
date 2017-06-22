@@ -1,9 +1,7 @@
 package br.com.wemind.marketplacetribanco.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
@@ -147,6 +145,19 @@ public class ProductsSelectActivity extends BaseSelectActivity {
         }
     }
 
+    private void onDataReceived(List<Product> data) {
+        if (data == null) {
+            data = new ArrayList<>();
+        }
+
+        products = new ArrayList<>(data);
+        adapter.setData(products);
+        adapter.notifyDataSetChanged();
+
+        // Data's ready, enable fab
+        b.fab.setEnabled(true);
+    }
+
     private class GetProductsCallback extends Callback<List<Product>> {
         public GetProductsCallback() {
             super(ProductsSelectActivity.this);
@@ -165,18 +176,5 @@ public class ProductsSelectActivity extends BaseSelectActivity {
             ).show();
             finish();
         }
-    }
-
-    private void onDataReceived(List<Product> data) {
-        if (data == null) {
-            data = new ArrayList<>();
-        }
-
-        products = new ArrayList<>(data);
-        adapter.setData(products);
-        adapter.notifyDataSetChanged();
-
-        // Data's ready, enable fab
-        b.fab.setEnabled(true);
     }
 }

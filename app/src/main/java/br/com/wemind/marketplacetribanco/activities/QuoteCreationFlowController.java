@@ -138,6 +138,8 @@ public class QuoteCreationFlowController extends AppCompatActivity {
             for (ListingProduct lp : listingProducts) {
                 products.add(lp.getProduct());
             }
+
+            selectedProducts = new ArrayList<>(products);
         }
 
         this.products = new ArrayList<>(products);
@@ -152,6 +154,10 @@ public class QuoteCreationFlowController extends AppCompatActivity {
             if (b != null) {
                 selectedProducts = b.getParcelableArrayList(
                         ProductsSelectActivity.SELECTED_LIST);
+
+                if (selectedProducts != null) {
+                    products = new ArrayList<>(selectedProducts);
+                }
             }
         }
 

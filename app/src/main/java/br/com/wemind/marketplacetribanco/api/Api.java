@@ -1,13 +1,18 @@
 package br.com.wemind.marketplacetribanco.api;
 
+import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import br.com.wemind.marketplacetribanco.api.objects.AccessToken;
+import br.com.wemind.marketplacetribanco.api.objects.SearchQuery;
+import br.com.wemind.marketplacetribanco.models.Product;
 import okhttp3.Authenticator;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -43,6 +48,24 @@ public final class Api {
                 .build();
 
         api = retrofit.create(BaseApi.class);
+    }
+
+    @NonNull
+    public static ArrayList<Product> syncSearchProduct(CharSequence constraint) {
+        try {
+            retrofit2.Response<List<Product>> response =
+                    Api.api.searchProduct(new SearchQuery(constraint)).execute();
+            List<Product> responseData = response.body();
+
+            if (responseData != null) {
+                return new ArrayList<>(responseData);
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     public static void setAccessToken(AccessToken accessToken) {

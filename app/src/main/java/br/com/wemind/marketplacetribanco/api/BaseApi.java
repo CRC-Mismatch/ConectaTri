@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.api.objects.Login;
+import br.com.wemind.marketplacetribanco.api.objects.SearchQuery;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Quote;
@@ -13,9 +14,12 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+
+import static br.com.wemind.marketplacetribanco.api.BaseApi.PRODUCT;
 
 public interface BaseApi {
 
@@ -49,6 +53,9 @@ public interface BaseApi {
 
     @DELETE(PRODUCT + "/{id}")
     Call<Product> deleteProduct(@Path("id") Long id);
+
+    @PATCH(PRODUCT)
+    Call<List<Product>> searchProduct(@Body SearchQuery searchQuery);
     /*
      * END OF PRODUCT
      */

@@ -3,9 +3,7 @@ package br.com.wemind.marketplacetribanco.activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.DatePicker;
@@ -20,10 +18,8 @@ import java.util.HashMap;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ContentQuoteCreateBinding;
-import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
-import br.com.wemind.marketplacetribanco.models.Supplier;
 
 public class QuoteCreateActivity extends BaseCreateActivity {
 
@@ -35,6 +31,13 @@ public class QuoteCreateActivity extends BaseCreateActivity {
      * passed to the API
      */
     private HashMap<EditText, Calendar> dates = new HashMap<>(2);
+
+    @NonNull
+    private static String formatHour(int selectedHour, int selectedMinute) {
+        return String.format("%02d", selectedHour)
+                + ":"
+                + String.format("%02d", selectedMinute);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,13 +119,6 @@ public class QuoteCreateActivity extends BaseCreateActivity {
             }
         });
 
-    }
-
-    @NonNull
-    private static String formatHour(int selectedHour, int selectedMinute) {
-        return String.format("%02d", selectedHour)
-                + ":"
-                + String.format("%02d", selectedMinute);
     }
 
     private void updateDateEditText(Calendar calendar, EditText target) {

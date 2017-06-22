@@ -78,6 +78,7 @@
     <string name="error_invalid_password_min_chars">A senha deve conter pelo menos 8 caracteres</string>
     <string name="title_product_set_quantity">Inserir Quantidades</string>
     <string name="text_listing_deleted">Lista removida</string>
+    <string name="text_content_products_select_header_tip">Não encontra um produto?\n Utilize a barra de pesquisas para buscar no servidor</string>
 
 
 </resources>

@@ -1,6 +1,7 @@
 package br.com.wemind.marketplacetribanco.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +10,19 @@ import android.widget.CheckBox;
 import android.widget.Filterable;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.objects.SearchQuery;
 import br.com.wemind.marketplacetribanco.databinding.ItemProductsSelectHeaderBinding;
 import br.com.wemind.marketplacetribanco.databinding.ItemSimpleProductSelectBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
+import retrofit2.Response;
 
 public class ProductsSelectAdapter
         extends RecyclerView.Adapter<ProductsSelectAdapter.ViewHolder>
@@ -79,7 +84,7 @@ public class ProductsSelectAdapter
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_DEFAULT) {
-            ((DefaultViewHolder) holder).setup(data.get(position - 1));
+            ((DefaultViewHolder) holder).setup(filteredData.get(position - 1));
 
         } else if (getItemViewType(position) == VIEW_TYPE_HEADER) {
             ((HeaderViewHolder) holder).setup(null);
@@ -130,13 +135,9 @@ public class ProductsSelectAdapter
     public class Filter extends android.widget.Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            // FIXME: 14/06/2017 Replace this naive filtering
-            ArrayList<Product> result = new ArrayList<>();
-            for (Product p : data) {
-                if (p.getName().contains(constraint)) {
-                    result.add(p);
-                }
-            }
+            ArrayList<Product> result = constraint.equals("") ?
+                    new ArrayList<>(data)
+                    : Api.syncSearchProduct(constraint);
 
             // Pack and return
             FilterResults fr = new FilterResults();

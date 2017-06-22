@@ -103,26 +103,6 @@ public class SuppliersListActivity extends BaseDrawerActivity {
 
     private void retrieveData() {
         Api.api.getAllSuppliers().enqueue(new GetSuppliersCallback());
-
-        /*// Dummy data retrieval
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Create and send dummy data
-                ArrayList<Supplier> data = new ArrayList<>(100);
-
-                for (int i = 1; i <= 100; ++i) {
-                    data.add(new Supplier(i,
-                            "Fornecedor " + i,
-                            "Juvenil" + (char) ((int) ('a') - 1 + i),
-                            "contato@fornecedor" + i + ".com.br",
-                            "11",
-                            "5666-666" + i
-                    ));
-                }
-                onDataReceived(data);
-            }
-        }, 2000);*/
     }
 
     @Override
