@@ -91,18 +91,19 @@ public class ProductSetQuantityActivity extends BaseCreateActivity {
 
             vh.b.edtQuantity.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start,
-                                              int count, int after) {
-                }
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
                 @Override
-                public void onTextChanged(CharSequence s, int start,
-                                          int before, int count) {
-                }
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    listingProduct.setQuantity(Integer.valueOf(s.toString()));
+                    String value = s.toString();
+                    if (value.equals("")) {
+                        listingProduct.setQuantity(0);
+                    } else {
+                        listingProduct.setQuantity(Integer.valueOf(value));
+                    }
                 }
             });
         }

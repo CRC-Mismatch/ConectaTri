@@ -2,6 +2,8 @@ package br.com.wemind.marketplacetribanco.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -42,7 +44,39 @@ public class ListingCreateActivity extends BaseCreateActivity {
 
 
         cb.edtName.setText(listing.getName());
+
+        cb.edtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().equals("")) {
+                    cb.edtName.setError(getString(R.string.error_field_required));
+                }
+
+                listing.setName(s.toString());
+            }
+        });
+
         cb.edtDescription.setText(listing.getDescription());
+
+        cb.edtDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                listing.setDescription(s.toString());
+            }
+        });
+
 
         cb.btnSelectProducts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,8 +90,8 @@ public class ListingCreateActivity extends BaseCreateActivity {
 
                 // Start product selection activity for result
                 Bundle b = new Bundle();
-                b.putParcelableArrayList(
-                        ProductsSelectActivity.INPUT_PRODUCTS, products);
+                /*b.putParcelableArrayList(
+                        ProductsSelectActivity.INPUT_PRODUCTS, products);*/
                 b.putParcelableArrayList(
                         ProductsSelectActivity.INPUT_SELECTED, products);
 
@@ -84,7 +118,6 @@ public class ListingCreateActivity extends BaseCreateActivity {
 
     @Override
     protected boolean validateForm() {
-        // TODO: 27/05/2017 are there any other requirements?
         if (cb.edtName.length() <= 0) {
             cb.edtName.setError(getString(R.string.error_field_required));
             cb.edtName.requestFocus();
@@ -98,20 +131,32 @@ public class ListingCreateActivity extends BaseCreateActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (REQUEST_SELECT_PRODUCTS == requestCode) {
             if (RESULT_OK == resultCode) {
-                ArrayList<Product> products = data
+                ArrayList<Product> selectedProducts = data
                         .getBundleExtra(ProductsSelectActivity.RESULT_BUNDLE)
                         .getParcelableArrayList(ProductsSelectActivity.SELECTED_LIST);
 
-                if (products == null) {
-                    products = new ArrayList<>();
+                if (selectedProducts == null) {
+                    selectedProducts = new ArrayList<>();
                 }
 
-                ArrayList<ListingProduct> listingProducts =
-                        new ArrayList<>(products.size());
-                for (Product p : products) {
-                    listingProducts.add(new ListingProduct(0, p, 0));
+                ArrayList<ListingProduct> newListingProducts =
+                        new ArrayList<>(selectedProducts.size());
+
+                for (ListingProduct lp : listing.getProducts()) {
+                    if (selectedProducts.contains(lp.getProduct())) {
+                        // If product already in listing's ListingProduct list,
+                        // add the existing entry to the new list and
+                        // remove the product from pending list
+                        newListingProducts.add(lp);
+                        selectedProducts.remove(lp.getProduct());
+                    }
                 }
-                listing.setProducts(listingProducts);
+
+                // Add the remaining products to the new list
+                for (Product p : selectedProducts) {
+                    newListingProducts.add(new ListingProduct(0, p, 1));
+                }
+                listing.setProducts(newListingProducts);
 
             } else if (RESULT_CANCELED == resultCode) {
 
