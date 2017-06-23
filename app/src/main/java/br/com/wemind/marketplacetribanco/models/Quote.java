@@ -49,16 +49,6 @@ public class Quote implements Parcelable, Serializable {
         this.name = name;
         this.type = type;
         this.quoteProducts = new ArrayList<>();
-
-        // FIXME: Remove from final version
-        for (Product product : products) {
-            QuoteProduct qP = new QuoteProduct().setProduct(product);
-            for (Supplier supplier : suppliers) {
-                QuoteSupplier qS = new QuoteSupplier().setSupplier(supplier).setPrice(Math.round(Math.random() * 100000) / 100.0).setQuantity((int) Math.round(Math.random() * 100));
-                qP.getQuoteSuppliers().add(qS);
-            }
-            quoteProducts.add(qP);
-        }
     }
 
     private Quote(Parcel in) {

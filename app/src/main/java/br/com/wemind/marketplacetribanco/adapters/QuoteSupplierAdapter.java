@@ -5,15 +5,8 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -22,7 +15,6 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ItemQuoteSupplierBinding;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
-import br.com.wemind.marketplacetribanco.utils.Formatting;
 
 public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdapter.ViewHolder> {
 
@@ -66,26 +58,30 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
         if (isEditable) {
             vh.b.price.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
                 @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    String value = s.toString().replaceAll("[^0-9\\.]","");
+                    String value = s.toString().replaceAll("[^0-9,\\.]", "");
                     if (!value.equals("")) {
-                        quoteSupplier.setPrice(Double.valueOf(value));
+                        quoteSupplier.setPrice(value);
                     }
                 }
             });
 
             vh.b.qty.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
                 @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
 
                 @Override
                 public void afterTextChanged(Editable s) {

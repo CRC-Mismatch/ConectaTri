@@ -63,8 +63,8 @@ public class QuoteSupplier implements Parcelable, Comparable {
         return Double.valueOf(price.replaceAll(",", "."));
     }
 
-    public QuoteSupplier setPrice(double price) {
-        this.price = String.valueOf(price);
+    public QuoteSupplier setPrice(String price) {
+        this.price = price;
         return this;
     }
 

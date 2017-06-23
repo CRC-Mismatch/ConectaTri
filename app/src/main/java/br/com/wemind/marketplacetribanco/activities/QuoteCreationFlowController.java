@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.api.Api;
@@ -20,7 +21,6 @@ import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class QuoteCreationFlowController extends AppCompatActivity {
@@ -37,7 +37,7 @@ public class QuoteCreationFlowController extends AppCompatActivity {
     public static final String INPUT_SELECTED_SUPPLIERS = "input_suppliers";
 
     private ArrayList<Listing> listings = new ArrayList<>();
-    private ArrayList<Product> products = new ArrayList<>();
+    private TreeMap<Product, ListingProduct> productMap = new TreeMap<>();
     private ArrayList<Product> selectedProducts = new ArrayList<>();
     private ArrayList<Supplier> suppliers = new ArrayList<>();
     private boolean isManualQuote = false;
@@ -101,7 +101,7 @@ public class QuoteCreationFlowController extends AppCompatActivity {
             selectListing();
 
         } else if (currentStep == REQUEST_SELECT_SUPPLIER) {
-            selectProduct(new TreeSet<>(products));
+            selectProduct(new TreeSet<>(productMap.keySet()));
 
         } else if (currentStep == REQUEST_FINISH_CREATION) {
             selectSupplier(suppliers);
@@ -127,23 +127,31 @@ public class QuoteCreationFlowController extends AppCompatActivity {
             }
         }
 
-        TreeSet<ListingProduct> listingProducts = new TreeSet<>();
         TreeSet<Product> products = new TreeSet<>();
+        TreeMap<Product, ListingProduct> productMap = new TreeMap<>();
         if (listings.size() > 0) {
             // If the user selected at least one listing, get the products from
             // each listing
             for (Listing li : listings) {
-                listingProducts.addAll(li.getProducts());
-            }
+                for (ListingProduct lp : li.getListingProducts()) {
+                    if (productMap.containsKey(lp.getProduct())) {
+                        // If there's already a listingProduct with this product,
+                        // simply add this product's quantity to the existing one
+                        ListingProduct existing = productMap.get(lp.getProduct());
+                        existing.setQuantity(existing.getQuantity() + lp.getQuantity());
 
-            for (ListingProduct lp : listingProducts) {
-                products.add(lp.getProduct());
+                    } else {
+                        // Else, add a new key-value pair
+                        productMap.put(lp.getProduct(), lp);
+                    }
+                }
             }
+            products.addAll(productMap.keySet());
 
             selectedProducts = new ArrayList<>(products);
         }
 
-        this.products = new ArrayList<>(products);
+        this.productMap = productMap;
 
         // Request that the user review the product list
         selectProduct(products);
@@ -156,9 +164,9 @@ public class QuoteCreationFlowController extends AppCompatActivity {
                 selectedProducts = b.getParcelableArrayList(
                         ProductsSelectActivity.SELECTED_LIST);
 
-                if (selectedProducts != null) {
-                    products = new ArrayList<>(selectedProducts);
-                }
+                /*if (selectedProducts != null) {
+                    productMap = new ArrayList<>(selectedProducts);
+                }*/
             }
         }
 
@@ -189,16 +197,25 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         if (b != null) {
             quote = b.getParcelable(QuoteCreateActivity.RESULT_QUOTE);
             if (quote != null) {
-                List<QuoteSupplier> quoteSuppliers = new ArrayList<>();
-                for (Supplier sup :
-                        selectedSuppliers) {
-                    quoteSuppliers.add(new QuoteSupplier()
-                            .setSupplier(sup)
-                    );
-                }
-
                 List<QuoteProduct> quoteProducts = new ArrayList<>();
                 for (Product p : selectedProducts) {
+                    // For each product, if it has a correlated ListingProduct
+                    // from the selected listings in selectListings(),
+                    // initialize the QuoteSupplier with that ListingProduct's quantity.
+                    // Else, simply initialize with a default quantity of 1
+                    List<QuoteSupplier> quoteSuppliers = new ArrayList<>();
+                    for (Supplier supplier : selectedSuppliers) {
+                        QuoteSupplier quoteSupplier = new QuoteSupplier()
+                                .setSupplier(supplier);
+
+                        quoteSupplier.setQuantity(
+                                productMap.containsKey(p) ?
+                                        productMap.get(p).getQuantity()
+                                        : 1
+                        );
+                        quoteSuppliers.add(quoteSupplier);
+                    }
+
                     quoteProducts.add(new QuoteProduct()
                             .setProduct(p)
                             .setQuoteSuppliers(quoteSuppliers)
@@ -286,26 +303,26 @@ public class QuoteCreationFlowController extends AppCompatActivity {
     }
 
     private class CreateManualQuoteCallback extends br.com.wemind.marketplacetribanco.api.Callback<Quote> {
-            public CreateManualQuoteCallback(Context context) {
-                super(context);
-            }
+        public CreateManualQuoteCallback(Context context) {
+            super(context);
+        }
 
-            @Override
-            public void onSuccess(Quote response) {
-                Intent i = new Intent(
-                        QuoteCreationFlowController.this,
-                        QuoteProductsListActivity.class);
+        @Override
+        public void onSuccess(Quote response) {
+            Intent i = new Intent(
+                    QuoteCreationFlowController.this,
+                    QuoteProductsListActivity.class);
 
-                i.putExtra(QuoteProductsListActivity.QUOTE, (Parcelable) response);
-                i.putExtra(QuoteProductsListActivity.INPUT_IS_EDITABLE, isManualQuote);
+            i.putExtra(QuoteProductsListActivity.QUOTE, (Parcelable) response);
+            i.putExtra(QuoteProductsListActivity.INPUT_IS_EDITABLE, isManualQuote);
 
-                startActivity(i);
-                finish();
-            }
+            startActivity(i);
+            finish();
+        }
 
-            @Override
-            public void onError(Call<Quote> call, Response<Quote> response) {
+        @Override
+        public void onError(Call<Quote> call, Response<Quote> response) {
 
-            }
+        }
     }
 }

@@ -3,11 +3,11 @@ package br.com.wemind.marketplacetribanco.activities;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +47,12 @@ public class QuoteProductsListActivity extends BaseSelectActivity {
                     List<QuoteProduct> qpList = quote.getQuoteProducts();
                     qpList.remove(quoteProduct);
                     qpList.add(quoteProduct);
+                    adapter = new QuoteProductAdapter(
+                            this,
+                            quote,
+                            isEditable
+                    );
+                    cb.list.setAdapter(adapter);
                 }
             }
         }
@@ -99,6 +105,7 @@ public class QuoteProductsListActivity extends BaseSelectActivity {
 
         if (isEditable) {
             b.fab.setVisibility(View.VISIBLE);
+            // FIXME: 22/06/2017 replace with proper icon
             b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
 
             b.fab.setOnClickListener(new View.OnClickListener() {
