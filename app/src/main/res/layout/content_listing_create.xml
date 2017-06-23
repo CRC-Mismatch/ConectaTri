@@ -55,6 +55,22 @@
                     android:textSize="16sp"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
+            <br.com.wemind.marketplacetribanco.views.TextInputLayout
+                style="@style/LinearInputFormComponent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <br.com.wemind.marketplacetribanco.views.SelectableEditText
+                    android:id="@+id/edt_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/content_create_listing_type"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
+            </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
             <View
                 style="@style/LinearInputFormComponent"
                 android:layout_width="match_parent"

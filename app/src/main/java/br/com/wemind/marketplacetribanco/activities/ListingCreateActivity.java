@@ -10,9 +10,11 @@ import java.util.ArrayList;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingCreateBinding;
+import br.com.wemind.marketplacetribanco.models.Listable;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.ListingProduct;
 import br.com.wemind.marketplacetribanco.models.Product;
+import br.com.wemind.marketplacetribanco.views.SelectableEditText;
 
 public class ListingCreateActivity extends BaseCreateActivity {
 
@@ -33,7 +35,7 @@ public class ListingCreateActivity extends BaseCreateActivity {
         cb = ContentListingCreateBinding.inflate(getLayoutInflater(),
                 b.contentFrame, true);
 
-        Intent input = getIntent();
+        final Intent input = getIntent();
         Bundle bundle = input.getBundleExtra(INPUT_BUNDLE);
         if (bundle != null) {
             Listing inputListing = bundle.getParcelable(INPUT_LISTING);
@@ -47,10 +49,12 @@ public class ListingCreateActivity extends BaseCreateActivity {
 
         cb.edtName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -66,10 +70,12 @@ public class ListingCreateActivity extends BaseCreateActivity {
 
         cb.edtDescription.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -83,8 +89,8 @@ public class ListingCreateActivity extends BaseCreateActivity {
             public void onClick(View v) {
 
                 ArrayList<Product> products =
-                        new ArrayList<>(listing.getProducts().size());
-                for (ListingProduct p : listing.getProducts()) {
+                        new ArrayList<>(listing.getListingProducts().size());
+                for (ListingProduct p : listing.getListingProducts()) {
                     products.add(p.getProduct());
                 }
 
@@ -109,11 +115,31 @@ public class ListingCreateActivity extends BaseCreateActivity {
                         ProductSetQuantityActivity.class);
 
                 i.putExtra(ProductSetQuantityActivity.INPUT_QUANTITIES,
-                        listing.getProducts());
+                        listing.getListingProducts());
 
                 startActivityForResult(i, REQUEST_SET_QUANTITIES);
             }
         });
+
+
+        // Setup item selection
+        ArrayList<ListingType> listingTypes = new ArrayList<>();
+        listingTypes.add(new ListingType(
+                getString(R.string.item_listing_common), Listing.TYPE_COMMON));
+        listingTypes.add(new ListingType(
+                getString(R.string.item_listing_weekly), Listing.TYPE_WEEKLY));
+        listingTypes.add(new ListingType(
+                getString(R.string.item_listing_seasonal), Listing.TYPE_SEASONAL));
+
+        cb.edtType.setItems(listingTypes);
+        cb.edtType.setOnItemSelectedListener(
+                new SelectableEditText.OnItemSelectedListener<ListingType>() {
+                    @Override
+                    public void onItemSelectedListener(ListingType item,
+                                                       int selectedIndex) {
+                        listing.setType(item.getType());
+                    }
+                });
     }
 
     @Override
@@ -142,7 +168,7 @@ public class ListingCreateActivity extends BaseCreateActivity {
                 ArrayList<ListingProduct> newListingProducts =
                         new ArrayList<>(selectedProducts.size());
 
-                for (ListingProduct lp : listing.getProducts()) {
+                for (ListingProduct lp : listing.getListingProducts()) {
                     if (selectedProducts.contains(lp.getProduct())) {
                         // If product already in listing's ListingProduct list,
                         // add the existing entry to the new list and
@@ -156,7 +182,7 @@ public class ListingCreateActivity extends BaseCreateActivity {
                 for (Product p : selectedProducts) {
                     newListingProducts.add(new ListingProduct(0, p, 1));
                 }
-                listing.setProducts(newListingProducts);
+                listing.setListingProducts(newListingProducts);
 
             } else if (RESULT_CANCELED == resultCode) {
 
@@ -168,7 +194,7 @@ public class ListingCreateActivity extends BaseCreateActivity {
                                 ProductSetQuantityActivity.RESULT_QUANTITIES);
 
                 if (listingProducts != null) {
-                    listing.setProducts(listingProducts);
+                    listing.setListingProducts(listingProducts);
                 }
 
             }
@@ -184,4 +210,21 @@ public class ListingCreateActivity extends BaseCreateActivity {
         return result;
     }
 
+    private class ListingType implements Listable {
+        private final int type;
+        private String label;
+        private ListingType(String label, int type) {
+            this.type = type;
+            this.label = label;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        @Override
+        public String getLabel() {
+            return label;
+        }
+    }
 }

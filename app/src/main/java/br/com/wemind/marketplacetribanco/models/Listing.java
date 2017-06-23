@@ -8,11 +8,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Listing implements Parcelable, Comparable, Serializable {
     public static final int TYPE_COMMON = 1;
     public static final int TYPE_SEASONAL = 2;
     public static final int TYPE_WEEKLY = 3;
+
     public static final Creator<Listing> CREATOR = new Creator<Listing>() {
         @Override
         public Listing createFromParcel(Parcel in) {
@@ -32,7 +34,7 @@ public class Listing implements Parcelable, Comparable, Serializable {
     @SerializedName("name")
     private String name;
     @SerializedName("listing_products")
-    private ArrayList<ListingProduct> products = new ArrayList<>();
+    private ArrayList<ListingProduct> listingProducts = new ArrayList<>();
     @SerializedName("representatives")
     private ArrayList<Supplier> suppliers = new ArrayList<>();
     @SerializedName("description")
@@ -41,20 +43,20 @@ public class Listing implements Parcelable, Comparable, Serializable {
     public Listing() {
     }
 
-    public Listing(long id, String name, int type, ArrayList<ListingProduct> products,
+    public Listing(long id, String name, int type, ArrayList<ListingProduct> listingProducts,
                    ArrayList<Supplier> suppliers) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.products = products;
+        this.listingProducts = listingProducts;
         this.suppliers = suppliers;
     }
     protected Listing(Parcel in) {
         id = in.readLong();
         name = in.readString();
         type = in.readInt();
-        products = new ArrayList<>();
-        in.readTypedList(products, ListingProduct.CREATOR);
+        listingProducts = new ArrayList<>();
+        in.readTypedList(listingProducts, ListingProduct.CREATOR);
         suppliers = new ArrayList<>();
         in.readTypedList(suppliers, Supplier.CREATOR);
         description = in.readString();
@@ -92,12 +94,22 @@ public class Listing implements Parcelable, Comparable, Serializable {
         return 0;
     }
 
+    public ArrayList<Product> getProducts() {
+        ArrayList<Product> products = new ArrayList<>();
+        for (ListingProduct lp :
+                listingProducts) {
+            products.add(lp.getProduct());
+        }
+
+        return products;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(name);
         dest.writeInt(type);
-        dest.writeTypedList(products);
+        dest.writeTypedList(listingProducts);
         dest.writeTypedList(suppliers);
         dest.writeString(description);
     }
@@ -111,12 +123,12 @@ public class Listing implements Parcelable, Comparable, Serializable {
         return this;
     }
 
-    public ArrayList<ListingProduct> getProducts() {
-        return products;
+    public ArrayList<ListingProduct> getListingProducts() {
+        return listingProducts;
     }
 
-    public Listing setProducts(ArrayList<ListingProduct> products) {
-        this.products = products;
+    public Listing setListingProducts(ArrayList<ListingProduct> listingProducts) {
+        this.listingProducts = listingProducts;
         return this;
     }
 

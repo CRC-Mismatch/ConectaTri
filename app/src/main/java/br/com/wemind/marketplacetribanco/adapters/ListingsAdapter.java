@@ -11,10 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -70,7 +68,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Listing listing = filteredData.get(position);
         holder.listingName.setText(listing.getName());
-        holder.itemCount.setText(String.valueOf(listing.getProducts().size()));
+        holder.itemCount.setText(String.valueOf(listing.getListingProducts().size()));
 
         // FIXME: bind event handlers
         if (selection) {
