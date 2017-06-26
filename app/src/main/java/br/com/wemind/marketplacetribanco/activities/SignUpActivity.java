@@ -13,14 +13,15 @@ import android.widget.EditText;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ActivitySignUpBinding;
 import br.com.wemind.marketplacetribanco.models.SignUpInfo;
+import br.com.wemind.marketplacetribanco.utils.BrPhoneFormattingTextWatcher;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
 
 public class SignUpActivity extends AppCompatActivity {
 
     public static final String RESULT_SIGN_UP_INFO = "result_sign_up_info";
-    private static final int CNPJ_MAX_LENGTH = Formatting.CNPJ_NUMBER_MAX_DIGITS + 4;
     public static final int CEP_MAX_LENGTH = Formatting.CEP_NUMBER_MAX_DIGITS + 1;
+    private static final int CNPJ_MAX_LENGTH = Formatting.CNPJ_NUMBER_MAX_DIGITS + 4;
     private ActivitySignUpBinding b;
 
     @Override
@@ -51,6 +52,10 @@ public class SignUpActivity extends AppCompatActivity {
         // Setup CEP formatting
         b.cep.addTextChangedListener(new FormattingTextWatcher(
                 new Formatting.CepFormatter(), CEP_MAX_LENGTH));
+
+        // Setup Brazil-only phone number formatting
+        b.phone.addTextChangedListener(new BrPhoneFormattingTextWatcher());
+        b.cellphone.addTextChangedListener(new BrPhoneFormattingTextWatcher());
     }
 
     @NonNull
