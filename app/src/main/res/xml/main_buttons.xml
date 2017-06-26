@@ -20,4 +20,14 @@
         icon="ic_listing"
         title="Minhas\nListas"
         onClick="br.com.wemind.marketplacetribanco.activities.ListingsListActivity"/>
+    <item
+        id="main_products_list"
+        icon="ic_shopping_basket_white"
+        title="\nProdutos"
+        onClick="br.com.wemind.marketplacetribanco.activities.SimpleProductsListActivity"/>
+    <item
+        id="main_suppliers_list"
+        icon="ic_suppliers_white"
+        title="Meus\nFornecedores"
+        onClick="br.com.wemind.marketplacetribanco.activities.SuppliersListActivity"/>
 </menu>
