@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:ems="10"
-                        android:hint="Nome da companhia"
+                        android:hint="Razão social da empresa"
                         android:imeOptions="actionNext"
                         android:inputType="text"/>
                 </android.support.design.widget.TextInputLayout>
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:ems="10"
-                        android:hint="Nome fantasia"
+                        android:hint="Nome de usuário"
                         android:imeOptions="actionNext"
                         android:inputType="text"/>
                 </android.support.design.widget.TextInputLayout>
