@@ -20,7 +20,6 @@ import android.widget.Toast;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
-import java.text.Normalizer;
 import java.util.TimerTask;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -42,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String SAVED_HASH = "SAVED_HASH";
 
     public static final int REQUEST_SIGN_UP = 1;
+    public static final String ACTION_RECOVER = "RECOVER";
 
     ActivityLoginBinding binding;
     private Call ongoingLogin;
@@ -55,9 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.user.addTextChangedListener(new FormattingTextWatcher(new Formatting.CnpjFormatter()));
         binding.user.setText(getPreferences(MODE_PRIVATE).getString(SAVED_USER, ""));
 
-        //TEST CODE
+        // TODO: 26/06/2017 store previous successful login username and init EditText
+        // FIXME: 26/06/2017 remove on release
         binding.user.setText("12345678123456");
-        binding.password.setText("123456");
+        binding.password.setText("12345678");
 
         binding.password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -108,8 +109,11 @@ public class LoginActivity extends AppCompatActivity {
 
         KeyboardVisibilityEvent.setEventListener(this, new LoginKeyboardEventListener());
 
-        if ("RECOVER".equals(getIntent().getAction())) {
-            Toast.makeText(this, "Você já pode entrar com a senha nova", Toast.LENGTH_SHORT).show();
+        if (ACTION_RECOVER.equals(getIntent().getAction())) {
+            Toast.makeText(this,
+                    getString(R.string.text_password_change_successful),
+                    Toast.LENGTH_SHORT
+            ).show();
         }
     }
 
@@ -283,7 +287,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Toast.makeText(context,
                     "Enviamos um e-mail com as instruções para recuperar a senha"
-                    /* FIXME: Remove */+"\nMas é mentira, está no log o link"
+                    /* FIXME: Remove */ + "\nMas é mentira, está no log o link"
                     ,
                     Toast.LENGTH_SHORT
             ).show();
