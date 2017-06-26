@@ -19,8 +19,8 @@ import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
 public class SignUpActivity extends AppCompatActivity {
 
     public static final String RESULT_SIGN_UP_INFO = "result_sign_up_info";
-    private static final
-    int CNPJ_FORMATTED_MAX_LENGTH = Formatting.CNPJ_NUMBER_MAX_DIGITS + 4;
+    private static final int CNPJ_MAX_LENGTH = Formatting.CNPJ_NUMBER_MAX_DIGITS + 4;
+    public static final int CEP_MAX_LENGTH = Formatting.CEP_NUMBER_MAX_DIGITS + 1;
     private ActivitySignUpBinding b;
 
     @Override
@@ -36,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Setup CNPJ formatting
         b.cnpj.addTextChangedListener(new FormattingTextWatcher(
-                new Formatting.CnpjFormatter(), CNPJ_FORMATTED_MAX_LENGTH));
+                new Formatting.CnpjFormatter(), CNPJ_MAX_LENGTH));
 
         b.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +47,10 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Setup CEP formatting
+        b.cep.addTextChangedListener(new FormattingTextWatcher(
+                new Formatting.CepFormatter(), CEP_MAX_LENGTH));
     }
 
     @NonNull

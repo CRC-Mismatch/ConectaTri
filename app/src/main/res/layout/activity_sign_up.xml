@@ -154,6 +154,7 @@
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:ems="10"
                         android:hint="CEP"
+                        android:digits="1234567890-"
                         android:imeOptions="actionNext"
                         android:inputType="number"/>
                 </android.support.design.widget.TextInputLayout>

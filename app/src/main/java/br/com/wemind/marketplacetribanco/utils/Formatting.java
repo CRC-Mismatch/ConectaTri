@@ -12,6 +12,7 @@ import java.util.List;
 public class Formatting {
     public static final int CPF_NUMBER_MAX_DIGITS = 11;
     public static final int CNPJ_NUMBER_MAX_DIGITS = 14;
+    public static final int CEP_NUMBER_MAX_DIGITS = 8;
     public static final int EXPIRATION_MAX_DIGITS = 4;
 
     private static final List<Pair<String, Integer>> cpfPairs = Arrays.asList(
@@ -26,7 +27,6 @@ public class Formatting {
             new Pair<>(".", 5),
             new Pair<>(".", 2)
     );
-
     private static final List<Pair<String, Integer>> expirationPairs = Arrays.asList(
             new Pair<>("/", 2)
     );
@@ -57,6 +57,21 @@ public class Formatting {
             return cleanStr;
 
         return formatWithPairs(cleanStr, cnpjPairs);
+    }
+
+    private static String formatCep(CharSequence seq) {
+        String cleanStr = onlyNumbers(seq);
+        if (cleanStr.length() > CEP_NUMBER_MAX_DIGITS) {
+            return cleanStr;
+        }
+
+        final int separatorPosition = 5;
+        if (cleanStr.length() > separatorPosition) {
+            return new StringBuilder(cleanStr).insert(separatorPosition, "-").toString();
+
+        } else {
+            return cleanStr;
+        }
     }
 
     public static String formatExpiration(CharSequence seq) {
@@ -97,9 +112,11 @@ public class Formatting {
 
     public interface StringFormatter {
         String format(CharSequence seq);
+
     }
 
     public static class CpfFormatter implements StringFormatter {
+
         @Override
         public String format(CharSequence seq) {
             return formatCpf(seq);
@@ -108,11 +125,19 @@ public class Formatting {
     }
 
     public static class CnpjFormatter implements StringFormatter {
-
         @Override
         public String format(CharSequence seq) {
             return formatCnpj(seq);
         }
+
+    }
+
+    public static class CepFormatter implements StringFormatter {
+        @Override
+        public String format(CharSequence seq) {
+            return formatCep(seq);
+        }
+
     }
 
     public static class ExpirationFormatter implements StringFormatter {
