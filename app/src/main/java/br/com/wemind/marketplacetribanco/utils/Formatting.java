@@ -14,13 +14,14 @@ public class Formatting {
     public static final int CNPJ_NUMBER_MAX_DIGITS = 14;
     public static final int CEP_NUMBER_MAX_DIGITS = 8;
     public static final int EXPIRATION_MAX_DIGITS = 4;
-
+    public static final int BR_DDD_MAX_DIGITS = 2;
+    public static final int BR_NON_CELLPHONE_NUMBER_MAX_DIGITS = 8;
+    public static final int BR_CELLPHONE_NUMBER_MAX_DIGITS = 9;
     private static final List<Pair<String, Integer>> cpfPairs = Arrays.asList(
             new Pair<>("-", 9),
             new Pair<>(".", 6),
             new Pair<>(".", 3)
     );
-
     private static final List<Pair<String, Integer>> cnpjPairs = Arrays.asList(
             new Pair<>("-", 12),
             new Pair<>("/", 8),
@@ -30,7 +31,6 @@ public class Formatting {
     private static final List<Pair<String, Integer>> expirationPairs = Arrays.asList(
             new Pair<>("/", 2)
     );
-
 
     /**
      * Receives a {@link CharSequence} and returns a {@link String}
@@ -81,6 +81,24 @@ public class Formatting {
             return cleanStr;
 
         return formatWithPairs(cleanStr, expirationPairs);
+    }
+
+    public static String formatBrazilianPhone(CharSequence seq) {
+        String cleanStr = onlyNumbers(seq);
+
+        int phoneWithDddLength = BR_DDD_MAX_DIGITS + BR_NON_CELLPHONE_NUMBER_MAX_DIGITS;
+
+        if (cleanStr.length() > phoneWithDddLength && cleanStr.charAt(2) == '9') {
+            // If third character is a '9', that means this might be a cellphone number
+            phoneWithDddLength = BR_DDD_MAX_DIGITS + BR_CELLPHONE_NUMBER_MAX_DIGITS;
+        }
+        List<Pair<String, Integer>> dddPairs = Arrays.asList(
+                new Pair<>("-", phoneWithDddLength - 4),
+                new Pair<>(") ", 2),
+                new Pair<>("(", 0)
+        );
+
+        return formatWithPairs(cleanStr, dddPairs);
     }
 
     public static String onlyNumbers(CharSequence seq) {
