@@ -14,8 +14,11 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ActivitySignUpBinding;
 import br.com.wemind.marketplacetribanco.models.SignUpInfo;
 import br.com.wemind.marketplacetribanco.utils.BrPhoneFormattingTextWatcher;
+import br.com.wemind.marketplacetribanco.utils.BrazilianStates;
+import br.com.wemind.marketplacetribanco.utils.BrazilianStates.StateListable;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
+import br.com.wemind.marketplacetribanco.views.SelectableEditText;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -56,6 +59,9 @@ public class SignUpActivity extends AppCompatActivity {
         // Setup Brazil-only phone number formatting
         b.phone.addTextChangedListener(new BrPhoneFormattingTextWatcher());
         b.cellphone.addTextChangedListener(new BrPhoneFormattingTextWatcher());
+
+        // Setup list of brazilian states
+        ((SelectableEditText<StateListable>) b.state).setItems(BrazilianStates.getList());
     }
 
     @NonNull

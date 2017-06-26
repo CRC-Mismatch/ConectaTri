@@ -24,9 +24,9 @@
         </android.support.design.widget.AppBarLayout>
 
         <ScrollView
-            android:layout_marginTop="72dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="72dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -152,9 +152,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:digits="1234567890-"
                         android:ems="10"
                         android:hint="CEP"
-                        android:digits="1234567890-"
                         android:imeOptions="actionNext"
                         android:inputType="number"/>
                 </android.support.design.widget.TextInputLayout>
@@ -164,15 +164,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <EditText
+                    <br.com.wemind.marketplacetribanco.views.SelectableEditText
                         android:id="@+id/state"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
-                        android:hint="Estado"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"/>
+                        android:hint="Estado"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
