@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.api.objects.Login;
+import br.com.wemind.marketplacetribanco.api.objects.PasswordRecovery;
 import br.com.wemind.marketplacetribanco.api.objects.SearchQuery;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
@@ -13,6 +14,8 @@ import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -128,6 +131,13 @@ public interface BaseApi {
      */
     @POST("retailer")
     Call<ApiError> register(@Body SignUpInfo signUpInfo);
+
+    @FormUrlEncoded
+    @POST("recovery/begin")
+    Call<ApiError> beginRecovery(@Field("cnpj") String cnpj);
+
+    @POST("recovery/end")
+    Call<ApiError> endRecovery(@Body PasswordRecovery data);
     /*
      * END OF Sign Up
      */

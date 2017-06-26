@@ -83,6 +83,7 @@
     <string name="content_create_listing_type">Tipo</string>
     <string name="item_quote_manual">Cotação presencial</string>
     <string name="item_quote_remote">Cotação remota</string>
+    <string name="login_forgot_password"><u>Esqueci a senha</u></string>
 
 
 </resources>

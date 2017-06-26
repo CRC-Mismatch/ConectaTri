@@ -164,6 +164,14 @@
                             app:srcCompat="@drawable/ic_eye"/>
                     </LinearLayout>
 
+                    <TextView
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:text="@string/login_forgot_password"
+                        android:onClick="forgotPassword"/>
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

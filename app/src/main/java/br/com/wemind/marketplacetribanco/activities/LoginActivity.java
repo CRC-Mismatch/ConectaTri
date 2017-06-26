@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
+import java.text.Normalizer;
 import java.util.TimerTask;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -105,6 +107,10 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         KeyboardVisibilityEvent.setEventListener(this, new LoginKeyboardEventListener());
+
+        if ("RECOVER".equals(getIntent().getAction())) {
+            Toast.makeText(this, "Você já pode entrar com a senha nova", Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void attemptLogin() {
@@ -180,6 +186,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public void forgotPassword(View view) {
+        if (binding.user.getText().length() != 18) {
+            Toast.makeText(this, "Preencha o CNPJ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Api.api.beginRecovery(Formatting.onlyNumbers(binding.user.getText().toString())).enqueue(new RecoveryCallback(this));
+    }
+
     private class LoginPlaceholder extends TimerTask {
 
         @Override
@@ -253,6 +267,42 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onError(Call<ApiError> call, Response<ApiError> response) {
+
+        }
+    }
+
+    private class RecoveryCallback extends Callback<ApiError> {
+        public RecoveryCallback(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onSuccess(ApiError response) {
+            // FIXME: Remove this
+            Log.d("PASSWORD_RECOVERY_LINK", response.getMessage());
+
+            Toast.makeText(context,
+                    "Enviamos um e-mail com as instruções para recuperar a senha"
+                    /* FIXME: Remove */+"\nMas é mentira, está no log o link"
+                    ,
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
+
+        @Override
+        public void onError(Call<ApiError> call, Response<ApiError> response) {
+            Toast.makeText(context,
+                    "Erro: Código " + response.code() + " " + response.message(),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
+
+        @Override
+        public void onFailure(Call<ApiError> call, Throwable t) {
+            Toast.makeText(context,
+                    getString(R.string.text_connection_failed),
+                    Toast.LENGTH_SHORT
+            ).show();
 
         }
     }

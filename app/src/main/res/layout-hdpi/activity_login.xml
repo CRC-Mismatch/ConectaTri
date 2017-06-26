@@ -162,10 +162,13 @@
                             app:srcCompat="@drawable/ic_eye"/>
                     </LinearLayout>
 
-                    <android.support.v4.widget.Space
-                        android:id="@+id/button_recovery_space"
-                        android:layout_width="match_parent"
-                        android:layout_height="24dp"/>
+                    <TextView
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:text="@string/login_forgot_password"
+                        android:onClick="forgotPassword"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
