@@ -2,11 +2,15 @@ package br.com.wemind.marketplacetribanco.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.EditText;
 
@@ -62,6 +66,20 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Setup list of brazilian states
         ((SelectableEditText<StateListable>) b.state).setItems(BrazilianStates.getList());
+
+        // Parse html text for agreement checkbox
+        Spanned text;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            text = Html.fromHtml(
+                    getString(R.string.activity_sign_up_agreement),
+                    Html.FROM_HTML_MODE_LEGACY
+            );
+        } else {
+            text = Html.fromHtml(getString(R.string.activity_sign_up_agreement));
+        }
+        b.agreementText.setText(text);
+        b.agreementText.setClickable(true);
+        b.agreementText.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @NonNull
@@ -86,6 +104,13 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean isValid = true;
         View errorView = null;
+
+        // Check if user agreed to whatever terms are listed at
+        // the bottom of the page
+        if (!b.agreementCheckBox.isChecked()) {
+            b.agreementCheckBox.setError(getString(R.string.error_must_accept_agreement));
+            errorView = b.agreementCheckBox;
+        }
 
         // Validate CNPJ
         if (b.cnpj.length() <= 0) {

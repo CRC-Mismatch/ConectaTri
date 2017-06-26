@@ -88,6 +88,8 @@
     <string name="text_confirm_delete_item_name">Deseja realmente remover \"%1s\"?</string>
     <string name="text_password_change_successful">Você já pode entrar com a senha nova</string>
     <string name="title_sign_up">Cadastro</string>
+    <string name="error_must_accept_agreement">É necessário concordar com os termos</string>
+    <string name="activity_sign_up_agreement"><![CDATA[Li e aceito os <a href=\'https://www.google.com.br/search?q=termos+de+uso\'>termos de uso</a> e a <a href=\'https://www.google.com.br/search?q=política+de+privacidade\'>política de privacidade</a>]]></string>
 
 
 </resources>
