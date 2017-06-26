@@ -87,6 +87,7 @@
     <string name="text_attention">Atenção</string>
     <string name="text_confirm_delete_item_name">Deseja realmente remover \"%1s\"?</string>
     <string name="text_password_change_successful">Você já pode entrar com a senha nova</string>
+    <string name="title_sign_up">Cadastro</string>
 
 
 </resources>
