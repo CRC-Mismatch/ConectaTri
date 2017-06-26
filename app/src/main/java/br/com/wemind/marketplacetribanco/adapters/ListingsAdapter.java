@@ -2,6 +2,7 @@ package br.com.wemind.marketplacetribanco.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import br.com.wemind.marketplacetribanco.activities.ListingCreateActivity;
 import br.com.wemind.marketplacetribanco.activities.ListingsListActivity;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.models.Listing;
+import br.com.wemind.marketplacetribanco.utils.Alerts;
 
 public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHolder>
         implements Filterable {
@@ -95,9 +97,15 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
             holder.btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Api.api.deleteListing(listing.getId()).enqueue(
-                            ((ListingsListActivity) context).new DeleteListingCallback(context)
-                    );
+                    Alerts.getDeleteConfirmationAlert(listing.getName(), context,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    enqueueDeleteListing(listing.getId());
+                                }
+                            },
+                            null
+                    ).show();
                 }
             });
             holder.btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +121,12 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
                 }
             });
         }
+    }
+
+    private void enqueueDeleteListing(long id) {
+        Api.api.deleteListing(id).enqueue(
+                ((ListingsListActivity) context).new DeleteListingCallback(context)
+        );
     }
 
     @Override

@@ -84,6 +84,8 @@
     <string name="item_quote_manual">Cotação presencial</string>
     <string name="item_quote_remote">Cotação remota</string>
     <string name="login_forgot_password"><u>Esqueci a senha</u></string>
+    <string name="text_attention">Atenção</string>
+    <string name="text_confirm_delete_item_name">Deseja realmente remover \"%1s\"?</string>
 
 
 </resources>

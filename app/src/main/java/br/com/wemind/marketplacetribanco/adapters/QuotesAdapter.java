@@ -2,6 +2,7 @@ package br.com.wemind.marketplacetribanco.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -22,6 +23,7 @@ import br.com.wemind.marketplacetribanco.activities.QuoteProductsListActivity;
 import br.com.wemind.marketplacetribanco.activities.QuotesListActivity;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.models.Quote;
+import br.com.wemind.marketplacetribanco.utils.Alerts;
 
 public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder>
         implements Filterable {
@@ -78,9 +80,15 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Api.api.deleteQuote(quote.getId()).enqueue(
-                        ((QuotesListActivity) context).new DeleteQuoteCallback(context)
-                );
+                Alerts.getDeleteConfirmationAlert(quote.getName(), context,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                enqueueDeleteQuote(quote.getId());
+                            }
+                        },
+                        null
+                ).show();
             }
         });
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +104,12 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                         .startActivityForResult(i, QuotesListActivity.EDIT_QUOTE);
             }
         });
+    }
+
+    private void enqueueDeleteQuote(long id) {
+        Api.api.deleteQuote(id).enqueue(
+                ((QuotesListActivity) context)
+                        .new DeleteQuoteCallback(context));
     }
 
     @Override

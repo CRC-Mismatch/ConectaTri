@@ -2,6 +2,7 @@ package br.com.wemind.marketplacetribanco.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import br.com.wemind.marketplacetribanco.activities.SuppliersListActivity;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.databinding.ItemSupplierBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
+import br.com.wemind.marketplacetribanco.utils.Alerts;
 
 public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHolder>
         implements Filterable {
@@ -57,8 +59,15 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
         vh.b.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Api.api.deleteSupplier(id).enqueue(
-                        ((SuppliersListActivity) context).new DeleteSupplierCallback());
+                Alerts.getDeleteConfirmationAlert(supplier.getName(), context,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                enqueueDeleteSupplier(supplier.getId());
+                            }
+                        },
+                        null
+                ).show();
             }
         });
 
@@ -75,6 +84,12 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
             }
         });
 
+    }
+
+    private void enqueueDeleteSupplier(long id) {
+        Api.api.deleteSupplier(id).enqueue(
+                ((SuppliersListActivity) context)
+                        .new DeleteSupplierCallback());
     }
 
     @Override
