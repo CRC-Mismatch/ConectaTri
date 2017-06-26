@@ -68,7 +68,7 @@
     <string name="content_create_quote_edt_date_from">De</string>
     <string name="content_create_quote_edt_date_until">Até</string>
     <string name="title_quote_create_activity">Criar cotação</string>
-    <string name="btn_activity_sign_up_submit">Cadastar</string>
+    <string name="btn_activity_sign_up_submit">Cadastrar</string>
     <string name="error_invalid_dates">A data de início deve ser anterior à data de término</string>
     <string name="text_connection_failed">Não foi possível comunicar-se com o servidor</string>
     <string name="text_undo">DESFAZER</string>
