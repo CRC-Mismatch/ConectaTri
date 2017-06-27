@@ -7,6 +7,7 @@ import android.widget.EditText;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ContentSupplierCreateBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
+import br.com.wemind.marketplacetribanco.utils.BrPhoneFormattingTextWatcher;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
 
@@ -31,6 +32,8 @@ public class SupplierCreateActivity extends BaseCreateActivity {
         // Setup CNPJ text formatter
         cb.edtCnpj.addTextChangedListener(
                 new FormattingTextWatcher(new Formatting.CnpjFormatter()));
+
+        cb.edtContactPhone.addTextChangedListener(new BrPhoneFormattingTextWatcher());
 
         Intent input = getIntent();
         Bundle inputBundle = input.getBundleExtra(INPUT_BUNDLE);

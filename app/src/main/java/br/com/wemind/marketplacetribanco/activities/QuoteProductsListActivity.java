@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +128,6 @@ public class QuoteProductsListActivity extends BaseSelectActivity {
 
     @Override
     protected void packResultIntent() {
-
     }
 
     @Override
