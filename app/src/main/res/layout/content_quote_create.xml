@@ -21,10 +21,8 @@
 
                 <EditText
                     android:id="@+id/edt_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.TextInpuLayoutEditText"
                     android:hint="@string/content_create_quote_edt_name"
-                    android:imeOptions="actionNext"
                     android:inputType="text"
                     android:maxLines="1"
                     android:textColor="@android:color/black"
@@ -61,6 +59,7 @@
 
                         <EditText
                             android:id="@+id/edt_date_from"
+                            style="@style/AppTheme.TextInpuLayoutEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
@@ -130,6 +129,7 @@
 
                         <EditText
                             android:id="@+id/edt_date_until"
+                            style="@style/AppTheme.TextInpuLayoutEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"
@@ -161,6 +161,7 @@
 
                         <EditText
                             android:id="@+id/edt_time_until"
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="false"

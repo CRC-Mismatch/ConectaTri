@@ -16,6 +16,14 @@
     </style>
 
     <style name="AppTheme.AutoAdhesionEdit" parent="AppTheme">
+        <item name="android:background">@drawable/bg_round_thin_main_corners_2</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginEnd">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginStart">2dp</item>
         <item name="colorAccent">@color/main3</item>
         <item name="colorControlNormal">@color/main2</item>
         <item name="colorControlActivated">@color/main1</item>
@@ -62,13 +70,15 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="EditTextCNPJ">
+    <style name="EditTextCNPJ" parent="AppTheme.TextInpuLayoutEditText">
         <item name="android:inputType">number</item>
         <item name="android:digits">1234567890./-</item>
     </style>
 
-    <style name="LinearInputFormComponent">
+    <style name="LinearInputFormComponent" parent="AppTheme.AutoAdhesionEdit">
         <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
     </style>
 
     <style name="DarkCheckBox" parent="AppTheme">
@@ -79,5 +89,14 @@
         <item name="actionMenuTextColor">@android:color/white</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.TextInpuLayoutEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+        <item name="android:background">@null</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:imeOptions">actionNext</item>
     </style>
 </resources>

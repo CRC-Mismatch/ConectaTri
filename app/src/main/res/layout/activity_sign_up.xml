@@ -56,12 +56,7 @@
                     <EditText
                         android:id="@+id/cnpj"
                         style="@style/EditTextCNPJ"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
-                        android:hint="CNPJ"
-                        android:imeOptions="actionNext"/>
+                        android:hint="CNPJ"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -71,12 +66,8 @@
 
                     <EditText
                         android:id="@+id/companyName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:hint="Razão social da empresa"
-                        android:imeOptions="actionNext"
                         android:inputType="text"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -87,12 +78,8 @@
 
                     <EditText
                         android:id="@+id/fantasyName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:hint="Nome de usuário"
-                        android:imeOptions="actionNext"
                         android:inputType="text"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -104,12 +91,8 @@
 
                     <EditText
                         android:id="@+id/passwordText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:hint="Senha"
-                        android:imeOptions="actionNext"
                         android:inputType="textPassword"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -120,12 +103,8 @@
 
                     <EditText
                         android:id="@+id/passwordConfText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:hint="Confirme a Senha"
-                        android:imeOptions="actionNext"
                         android:inputType="textPassword"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -136,12 +115,8 @@
 
                     <EditText
                         android:id="@+id/email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:hint="E-mail"
-                        android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -152,13 +127,9 @@
 
                     <EditText
                         android:id="@+id/cep"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:digits="1234567890-"
-                        android:ems="10"
                         android:hint="CEP"
-                        android:imeOptions="actionNext"
                         android:inputType="number"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -169,9 +140,7 @@
 
                     <br.com.wemind.marketplacetribanco.views.SelectableEditText
                         android:id="@+id/state"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:hint="Estado"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -182,12 +151,8 @@
 
                     <EditText
                         android:id="@+id/city"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:hint="Cidade"
-                        android:imeOptions="actionNext"
                         android:inputType="text"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -198,12 +163,8 @@
 
                     <EditText
                         android:id="@+id/address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:hint="Endereço"
-                        android:imeOptions="actionNext"
                         android:inputType="text"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -214,12 +175,8 @@
 
                     <EditText
                         android:id="@+id/phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
                         android:hint="Telefone"
-                        android:imeOptions="actionNext"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:inputType="phone"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -230,12 +187,8 @@
 
                     <EditText
                         android:id="@+id/cellphone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:ems="10"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
                         android:hint="Telefone celular"
-                        android:imeOptions="actionNext"
                         android:inputType="phone"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -267,7 +220,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_round_thin_blue_corners"
+                    android:background="@drawable/bg_round_thin_main_corners"
                     android:text="@string/btn_activity_sign_up_submit"
                     android:textColor="@color/main0"
                     android:textStyle="bold"/>

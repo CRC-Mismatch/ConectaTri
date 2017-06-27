@@ -50,8 +50,8 @@
     <string name="content_create_listing_edt_info">Informações</string>
     <string name="content_create_listing_edt_name">Nome da lista</string>
     <string name="content_create_listing_edt_description">Descrição</string>
-    <string name="content_create_listing_btn_products">Produtos</string>
-    <string name="content_create_listing_btn_quantity">Quantidade</string>
+    <string name="content_create_listing_btn_products">Selecionar Produtos</string>
+    <string name="content_create_listing_btn_quantity">Selecionar Quantidade</string>
     <string name="title_suppliers">Fornecedores</string>
     <string name="title_remote_quotes">Cotações Remotas</string>
     <string name="title_quotes_list">Cotações</string>
@@ -90,6 +90,7 @@
     <string name="title_sign_up">Cadastro</string>
     <string name="error_must_accept_agreement">É necessário concordar com os termos</string>
     <string name="activity_sign_up_agreement"><![CDATA[Li e aceito os <a href=\'https://www.google.com.br/search?q=termos+de+uso\'>termos de uso</a> e a <a href=\'https://www.google.com.br/search?q=política+de+privacidade\'>política de privacidade</a>]]></string>
+    <string name="btn_activity_recover_password_submit">Mudar senha</string>
 
 
 </resources>

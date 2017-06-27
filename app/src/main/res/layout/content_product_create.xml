@@ -18,10 +18,8 @@
 
                 <EditText
                     android:id="@+id/edt_product_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.TextInpuLayoutEditText"
                     android:hint="@string/content_product_create_name"
-                    android:imeOptions="actionNext"
                     android:inputType="text"
                     android:textSize="24sp"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
@@ -43,10 +41,8 @@
 
                 <EditText
                     android:id="@+id/edt_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.TextInpuLayoutEditText"
                     android:hint="@string/content_product_create_description"
-                    android:imeOptions="actionNext"
                     android:inputType="text"
                     />
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
@@ -59,8 +55,7 @@
 
                 <br.com.wemind.marketplacetribanco.views.SelectableEditText
                     android:id="@+id/edt_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.TextInpuLayoutEditText"
                     android:hint="@string/content_product_create_type"
                     />
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
@@ -72,10 +67,8 @@
 
                 <EditText
                     android:id="@+id/edt_brand"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.TextInpuLayoutEditText"
                     android:hint="@string/content_product_create_brand"
-                    android:imeOptions="actionNext"
                     android:inputType="text"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
@@ -86,10 +79,8 @@
 
                 <EditText
                     android:id="@+id/edt_quantity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.TextInpuLayoutEditText"
                     android:hint="@string/content_product_create_quantity"
-                    android:imeOptions="actionNext"
                     android:inputType="numberDecimal"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
@@ -100,10 +91,8 @@
 
                 <EditText
                     android:id="@+id/edt_unit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.TextInpuLayoutEditText"
                     android:hint="@string/content_product_create_unit"
-                    android:imeOptions="actionNext"
                     android:inputType="text"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
         </LinearLayout>
