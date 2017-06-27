@@ -33,6 +33,7 @@ public class ProductsSelectActivity extends BaseSelectActivity {
     private ContentProductsSelectBinding cb;
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Product> selected = new ArrayList<>();
+    private boolean isDataReady;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,9 +56,6 @@ public class ProductsSelectActivity extends BaseSelectActivity {
                 products = new ArrayList<>(inputProducts);
             }
         }
-
-        b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_continue));
-        b.fab.setVisibility(View.VISIBLE);
 
         // Setup response to search query
         // Reset filtered data when user closes search view
@@ -116,9 +114,13 @@ public class ProductsSelectActivity extends BaseSelectActivity {
 
     @Override
     protected boolean mayContinue() {
+        if (!isDataReady) {
+            return false;
+        }
+
         List selected = adapter.getSelectedList();
         if (selected.size() <= 0) {
-            // The user hasn't selected any suppliers,
+            // The user hasn't selected any items,
             // show error
             Toast.makeText(this,
                     getString(R.string.error_selection_required),
@@ -135,13 +137,15 @@ public class ProductsSelectActivity extends BaseSelectActivity {
         super.onResume();
 
         if (products == null || products.size() == 0) {
-            // Disable FAB while data hasn't been retrieved
-            b.fab.setEnabled(false);
+            // Disable "next" while data hasn't been retrieved
+            isDataReady = false;
 
             // If no products are passed in as parameters,
             // get products from DB
             // FIXME: 09/06/2017 use API search method instead
             Api.api.getAllProducts().enqueue(new GetProductsCallback());
+        } else {
+            isDataReady = true;
         }
     }
 
@@ -153,9 +157,7 @@ public class ProductsSelectActivity extends BaseSelectActivity {
         products = new ArrayList<>(data);
         adapter.setData(products);
         adapter.notifyDataSetChanged();
-
-        // Data's ready, enable fab
-        b.fab.setEnabled(true);
+        isDataReady = true;
     }
 
     private class GetProductsCallback extends Callback<List<Product>> {

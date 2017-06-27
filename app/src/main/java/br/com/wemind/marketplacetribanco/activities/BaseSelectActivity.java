@@ -6,13 +6,32 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ActivityBaseSelectBinding;
 
 public abstract class BaseSelectActivity extends AppCompatActivity {
     protected ActivityBaseSelectBinding b;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_menu_save) {
+            if (mayContinue()) {
+                packResultIntent();
+                finish();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.create, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,18 +42,6 @@ public abstract class BaseSelectActivity extends AppCompatActivity {
         setSupportActionBar(b.toolbar);
 
         b.search.setLayoutParams(new Toolbar.LayoutParams(Gravity.END));
-
-        b.fab.setVisibility(View.VISIBLE);
-        b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_continue));
-        b.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mayContinue()) {
-                    packResultIntent();
-                    finish();
-                }
-            }
-        });
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.view.Menu;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -19,7 +19,6 @@ import br.com.wemind.marketplacetribanco.adapters.SelectionSupplierAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
-import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -31,10 +30,12 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
     public static final String INPUT_BUNDLE = "input_bundle";
     public static final String INPUT_SUPPLIERS = "input_suppliers";
     public static final String INPUT_SELECTED = "input_selected";
+    private static final int REQUEST_CREATE_SUPPLIER = 1;
     private ContentSuppliersListBinding cb;
 
     private Set<Supplier> suppliers;
     private SelectionSupplierAdapter adapter;
+    private boolean isDataReady;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,17 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
         });
         // End of search view setup
 
+        // Setup FAB for on-the-go Supplier creation
+        b.fab.setVisibility(View.VISIBLE);
+        b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
+        b.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestCreateSupplier();
+            }
+        });
+        // End
+
         // Setup content view
         cb = DataBindingUtil.inflate(getLayoutInflater(), R.layout.content_suppliers_list,
                 b.contentFrame, true);
@@ -100,6 +112,29 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CREATE_SUPPLIER) {
+            if (resultCode == RESULT_OK) {
+                Bundle resultBundle =
+                        data.getBundleExtra(SupplierCreateActivity.RESULT_BUNDLE);
+                if (resultBundle != null) {
+                    Supplier newSupplier = resultBundle
+                            .getParcelable(SupplierCreateActivity.RESULT_SUPPLIER);
+                    if (newSupplier != null) {
+                        Api.api.addSupplier(newSupplier)
+                                .enqueue(new AddSupplierCallback());
+                    }
+                }
+            }
+        }
+    }
+
+    private void requestCreateSupplier() {
+        Intent i = new Intent(this, SupplierCreateActivity.class);
+        startActivityForResult(i, REQUEST_CREATE_SUPPLIER);
+    }
+
+    @Override
     protected void packResultIntent() {
         Bundle resultBundle = new Bundle();
         resultBundle.putParcelableArrayList(SELECTED_LIST, adapter.getSelectedData());
@@ -115,15 +150,28 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
         super.onResume();
 
         if (suppliers == null || suppliers.size() <= 0) {
-            // Disable FAB while data is not ready
-            b.fab.setEnabled(false);
-
-            Api.api.getAllSuppliers().enqueue(new GetSuppliersCallback());
+            retrieveAllSuppliers();
+        } else {
+            isDataReady = true;
         }
+    }
+
+    private void retrieveAllSuppliers() {
+        // Disable "next" while data is not ready
+        isDataReady = false;
+
+        // Disable FAB while data is not ready
+        b.fab.setEnabled(false);
+
+        Api.api.getAllSuppliers().enqueue(new GetSuppliersCallback());
     }
 
     @Override
     protected boolean mayContinue() {
+        if (!isDataReady) {
+            return false;
+        }
+
         List selected = adapter.getSelectedData();
         if (selected.size() <= 0) {
             // The user hasn't selected any suppliers,
@@ -138,17 +186,10 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        return true;
-    }
-
     private void onDataReceived(List<Supplier> data) {
         adapter.setData(data);
         adapter.notifyDataSetChanged();
-
+        isDataReady = true;
         // Data's ready, enable FAB
         b.fab.setEnabled(true);
     }
@@ -168,6 +209,26 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
                             Response<List<Supplier>> response) {
             setResult(RESULT_CANCELED);
             finish();
+        }
+    }
+
+    private class AddSupplierCallback extends Callback<Supplier> {
+
+        public AddSupplierCallback() {
+            super(SuppliersSelectActivity.this);
+        }
+
+        @Override
+        public void onSuccess(Supplier response) {
+            retrieveAllSuppliers();
+        }
+
+        @Override
+        public void onError(Call<Supplier> call, Response<Supplier> response) {
+            Toast.makeText(context,
+                    getString(R.string.error_creation_failed),
+                    Toast.LENGTH_SHORT
+            ).show();
         }
     }
 }

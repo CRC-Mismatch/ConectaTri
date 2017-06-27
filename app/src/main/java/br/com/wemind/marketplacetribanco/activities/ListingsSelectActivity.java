@@ -3,7 +3,6 @@ package br.com.wemind.marketplacetribanco.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,9 +19,6 @@ import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
-import br.com.wemind.marketplacetribanco.models.ListingProduct;
-import br.com.wemind.marketplacetribanco.models.Product;
-import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -100,18 +96,16 @@ public class ListingsSelectActivity extends BaseSelectActivity {
     }
 
     private void retrieveData() {
-        // Disable FAB while data hasn't been retrieved
-        b.fab.setEnabled(false);
         Api.api.getAllListings().enqueue(new GetListingsCallback(this));
     }
 
     private void onDataReceived(List<Listing> data) {
+        if (data == null) {
+            data = new ArrayList<>();
+        }
         this.data = new ArrayList<>(data);
         adapter = new ListingsAdapter(this, data, true);
         cb.list.setAdapter(adapter);
-
-        // Disable FAB while data hasn't been retrieved
-        b.fab.setEnabled(true);
     }
 
     private class GetListingsCallback extends Callback<List<Listing>> {
