@@ -27,7 +27,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
                         android:layout_alignParentTop="true"
-                        android:background="@drawable/bg_button_blue_top"
+                        android:background="@drawable/bg_button_main_top"
                         android:elevation="4dp">
 
                         <TextView
@@ -44,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_below="@id/btn_remote_top"
-                        android:background="@drawable/bg_button_blue_bottom"
+                        android:background="@drawable/bg_button_main_bottom"
                         android:elevation="4dp">
 
                         <ImageView
@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
                         android:layout_alignParentTop="true"
-                        android:background="@drawable/bg_button_green_top"
+                        android:background="@drawable/bg_button_complementary_top"
                         android:elevation="2dp">
 
                         <TextView
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_below="@id/btn_check_top"
-                        android:background="@drawable/bg_button_green_bottom"
+                        android:background="@drawable/bg_button_complementary_bottom"
                         android:elevation="2dp">
 
                         <ImageView

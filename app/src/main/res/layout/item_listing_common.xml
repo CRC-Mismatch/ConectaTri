@@ -9,7 +9,7 @@
     android:layout_marginEnd="16dp"
     android:layout_marginStart="16dp"
     android:layout_marginTop="4dp"
-    android:background="@drawable/bg_item_indicator_selector_blue"
+    android:background="@drawable/bg_item_indicator_selector_main"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/item_listing_common"
-                android:textColor="@color/indicator_blue"
+                android:textColor="@color/main3"
                 android:textSize="12sp"/>
         </LinearLayout>
 

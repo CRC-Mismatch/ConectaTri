@@ -55,14 +55,13 @@
 
                     <EditText
                         android:id="@+id/cnpj"
+                        style="@style/EditTextCNPJ"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:digits="1234567890-./"
                         android:ems="10"
                         android:hint="CNPJ"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"/>
+                        android:imeOptions="actionNext"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -270,7 +269,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_round_thin_blue_corners"
                     android:text="@string/btn_activity_sign_up_submit"
-                    android:textColor="@color/darkBlueStandard"
+                    android:textColor="@color/main0"
                     android:textStyle="bold"/>
             </LinearLayout>
         </ScrollView>

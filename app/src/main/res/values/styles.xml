@@ -3,43 +3,43 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/darker_gray</item>
-        <item name="colorPrimaryDark">@color/statusbar_blue</item>
-        <item name="colorAccent">@android:color/darker_gray</item>
+        <item name="colorPrimary">@color/main1</item>
+        <item name="colorPrimaryDark">@color/main0</item>
+        <item name="colorAccent">@color/main3</item>
         <item name="android:windowBackground">@color/backgroundGray</item>
         <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
     </style>
 
     <style name="AppTheme.LoginEdit" parent="AppTheme">
         <item name="colorAccent">@color/loginGray</item>
-        <item name="colorControlHighlight">@color/darkBlueStandard</item>
+        <item name="colorControlHighlight">@color/main0</item>
     </style>
 
     <style name="AppTheme.AutoAdhesionEdit" parent="AppTheme">
-        <item name="colorAccent">@color/darkBlueStandard</item>
-        <item name="colorControlNormal">@color/darkBlueStandard</item>
-        <item name="colorControlActivated">@color/darkBlueStandard</item>
-        <item name="colorControlHighlight">@color/darkBlueStandard</item>
-        <item name="android:textColorHint">@color/darkBlueStandard</item>
+        <item name="colorAccent">@color/main3</item>
+        <item name="colorControlNormal">@color/main2</item>
+        <item name="colorControlActivated">@color/main1</item>
+        <item name="colorControlHighlight">@color/main1</item>
+        <item name="android:textColorHint">@color/main0</item>
     </style>
 
     <style name="AppTheme.LoginLayout" parent="AppTheme">
         <item name="colorAccent">@color/loginLtGray</item>
-        <item name="colorControlHighlight">@color/darkBlueStandard</item>
+        <item name="colorControlHighlight">@color/main1</item>
     </style>
 
     <style name="AppTheme.ActionBar" parent="AppTheme">
         <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="colorControlNormal">#fff</item>
-        <item name="colorControlHighlight">#3fff</item>
-        <item name="colorPrimary">@color/toolbar_blue</item>
-        <item name="android:background">@color/toolbar_blue</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlHighlight">@color/darkerGray</item>
+        <item name="colorPrimary">@color/main1</item>
+        <item name="android:background">@color/main1</item>
     </style>
 
     <style name="AppTheme.Switch" parent="AppTheme">
         <item name="colorSwitchThumbNormal">#777</item>
         <item name="colorControlHighlight">#3000</item>
-        <item name="colorControlActivated">@color/toolbar_blue</item>
+        <item name="colorControlActivated">@color/main2</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -49,18 +49,18 @@
 
     <style name="AppTheme.WhiteBackground" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="colorAccent">#7000</item>
+        <item name="colorAccent">@color/main0</item>
     </style>
 
     <style name="AppTheme.FAB" parent="AppTheme">
-        <item name="colorAccent">@color/fab_blue</item>
+        <item name="colorAccent">@color/main1</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="EditTextCNPJ">
         <item name="android:inputType">number</item>
@@ -72,6 +72,12 @@
     </style>
 
     <style name="DarkCheckBox" parent="AppTheme">
-        <item name="colorAccent">@color/textGray</item>
+        <item name="colorAccent">@color/main0</item>
+    </style>
+
+    <style name="AppTheme.Toolbar" parent="AppTheme">
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 </resources>

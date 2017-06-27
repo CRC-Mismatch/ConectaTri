@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--Main palette-->
+    <color name="darkerGray">#3fff</color>
+    <!--Primary colours-->
+    <color name="main0">#1B7849</color>
+    <color name="main1">#42BC7E</color>
+    <color name="main2">#2A9F63</color>
+    <color name="main3">#115332</color>
+    <color name="main4">#0D3420</color>
+    <!--Complementary colours-->
+    <color name="comp0">#AC4727</color>
+    <color name="comp1">#FF825A</color>
+    <color name="comp2">#E2643B</color>
+    <color name="comp3">#772F18</color>
+    <color name="comp4">#4A1F12</color>
+    <!--End of main palette-->
+
     <color name="background_blue">#3a739e</color>
     <color name="fab_blue">#3c91e6</color>
 

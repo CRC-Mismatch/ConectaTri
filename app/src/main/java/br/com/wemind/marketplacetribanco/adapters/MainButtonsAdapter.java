@@ -7,7 +7,6 @@ import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,7 +18,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import br.com.wemind.marketplacetribanco.R;
 
@@ -101,13 +99,13 @@ public class MainButtonsAdapter extends BaseAdapter {
     private Drawable getBackgroundForPosition(int position) {
         switch (position % 4) {
             case 0:
-                return context.getResources().getDrawable(R.drawable.bg_button_blue);
+                return context.getResources().getDrawable(R.drawable.bg_button_0);
             case 1:
-                return context.getResources().getDrawable(R.drawable.bg_button_green);
+                return context.getResources().getDrawable(R.drawable.bg_button_1);
             case 2:
-                return context.getResources().getDrawable(R.drawable.bg_button_orange);
+                return context.getResources().getDrawable(R.drawable.bg_button_2);
             case 3:
-                return context.getResources().getDrawable(R.drawable.bg_button_purple);
+                return context.getResources().getDrawable(R.drawable.bg_button_3);
         }
         return null;
     }
