@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -282,14 +281,9 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onSuccess(ApiError response) {
-            // FIXME: Remove this
-            Log.d("PASSWORD_RECOVERY_LINK", response.getMessage());
-
             Toast.makeText(context,
-                    "Enviamos um e-mail com as instruções para recuperar a senha"
-                    /* FIXME: Remove */ + "\nMas é mentira, está no log o link"
-                    ,
-                    Toast.LENGTH_SHORT
+                    "Enviamos um e-mail com as instruções para recuperar a senha",
+                    Toast.LENGTH_LONG
             ).show();
         }
 
