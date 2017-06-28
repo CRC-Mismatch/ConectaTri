@@ -99,6 +99,8 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
                 b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new SimpleProductAdapter(this, new ArrayList<Product>());
+        cb.list.setAdapter(adapter);
     }
 
     @Override
@@ -111,12 +113,12 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
     protected void onResume() {
         super.onResume();
         timerManager.restart();
-        retrieveData();
+        /*retrieveData();*/
     }
 
-    private void retrieveData() {
+    /*private void retrieveData() {
         Api.api.getAllProducts().enqueue(new GetProductsCallback(this));
-    }
+    }*/
 
 
     @Override
@@ -140,9 +142,22 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
                         .getParcelable(ProductCreateActivity.RESULT_PRODUCT);
 
                 if (edited != null) {
-                    Api.api.addProduct(edited).enqueue(
-                            new CreateProductCallback(this)
-                    );
+                    // Check if user selected an existing product from the database
+                    Bundle resultBundle =
+                            data.getBundleExtra(ProductCreateActivity.RESULT_BUNDLE);
+                    boolean userSelectedExistingProduct = resultBundle.getBoolean(
+                            ProductCreateActivity.RESULT_EXISTING_PRODUCT, false);
+
+                    if (userSelectedExistingProduct) {
+                        // Edit instead of Add
+                        Api.api.editProduct(edited, edited.getId()).enqueue(
+                                new EditProductCallback(this)
+                        );
+                    } else {
+                        Api.api.addProduct(edited).enqueue(
+                                new CreateProductCallback(this)
+                        );
+                    }
                 }
             } else {
 
@@ -204,7 +219,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
         }
 
         private void refreshData() {
-            retrieveData();
+            /*retrieveData();*/
         }
     }
 
@@ -224,7 +239,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
         }
 
         private void refreshData() {
-            retrieveData();
+            /*retrieveData();*/
         }
     }
 }

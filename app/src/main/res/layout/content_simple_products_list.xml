@@ -3,15 +3,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     >
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="8dp"
-        tools:listitem="@layout/item_simple_product">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textAlignment="center"
+            android:text="@string/text_content_products_select_header_tip"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            tools:listitem="@layout/item_simple_product"/>
+    </LinearLayout>
 </layout>
