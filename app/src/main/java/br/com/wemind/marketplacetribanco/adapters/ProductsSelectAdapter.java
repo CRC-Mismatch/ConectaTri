@@ -1,16 +1,12 @@
 package br.com.wemind.marketplacetribanco.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.Filterable;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,11 +14,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.api.Api;
-import br.com.wemind.marketplacetribanco.api.objects.SearchQuery;
 import br.com.wemind.marketplacetribanco.databinding.ItemProductsSelectHeaderBinding;
 import br.com.wemind.marketplacetribanco.databinding.ItemSimpleProductSelectBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
-import retrofit2.Response;
 
 public class ProductsSelectAdapter
         extends RecyclerView.Adapter<ProductsSelectAdapter.ViewHolder>
@@ -117,7 +111,7 @@ public class ProductsSelectAdapter
 
         if (selectAll) {
             selectedData.addAll(data);
-            
+
         } else {
             selectedData.removeAll(data);
         }

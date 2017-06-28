@@ -22,8 +22,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-import static br.com.wemind.marketplacetribanco.api.BaseApi.PRODUCT;
-
 public interface BaseApi {
 
     //String baseUrl = "https://demo8948757.mockable.io/";
@@ -122,6 +120,9 @@ public interface BaseApi {
 
     @DELETE(LISTING + "/{id}")
     Call<Listing> deleteListing(@Path("id") Long id);
+
+    @PATCH(LISTING)
+    Call<List<Listing>> searchListing(@Body SearchQuery searchQuery);
     /*
      * END OF Listing
      */

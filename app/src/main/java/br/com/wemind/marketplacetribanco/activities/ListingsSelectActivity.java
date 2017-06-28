@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
@@ -26,10 +28,16 @@ public class ListingsSelectActivity extends BaseSelectActivity {
 
     public static final String SELECTED_LIST = "SELECTED_LIST";
     public static final String RESULT_BUNDLE = "result_bundle";
+    public static final int QUERY_CHANGED_TIMEOUT = 700;
 
     private ContentListingsListBinding cb;
     private ListingsAdapter adapter;
     private ArrayList<Listing> data;
+    private Timer preQueryTimer = newTimer();
+
+    private Timer newTimer() {
+        return new Timer("preQueryTimer");
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +55,9 @@ public class ListingsSelectActivity extends BaseSelectActivity {
 
         // Search payload data and update filtered data upon user input
         b.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            public int cancelledTasks = 0;
+            public TimerTask queryTask;
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
@@ -60,8 +71,26 @@ public class ListingsSelectActivity extends BaseSelectActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public boolean onQueryTextChange(final String newText) {
+                if (queryTask != null) {
+                    queryTask.cancel();
+                    cancelledTasks++;
+
+                    if (cancelledTasks >= 100) {
+                        // Purge Timer every 100 cancelled tasks
+                        preQueryTimer.purge();
+                        cancelledTasks = 0;
+                    }
+                }
+
+                queryTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        adapter.getFilter().filter(newText);
+                    }
+                };
+                preQueryTimer.schedule(queryTask, QUERY_CHANGED_TIMEOUT);
+                return true;
             }
         });
         // End of search view setup
@@ -71,6 +100,8 @@ public class ListingsSelectActivity extends BaseSelectActivity {
                 .inflate(getLayoutInflater(), b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new ListingsAdapter(this, new ArrayList<Listing>(), true);
     }
 
     @Override

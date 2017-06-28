@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import br.com.wemind.marketplacetribanco.api.objects.AccessToken;
 import br.com.wemind.marketplacetribanco.api.objects.SearchQuery;
+import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
 import okhttp3.Authenticator;
 import okhttp3.OkHttpClient;
@@ -52,10 +53,19 @@ public final class Api {
 
     @NonNull
     public static ArrayList<Product> syncSearchProduct(CharSequence constraint) {
+        return syncSearch(Api.api.searchProduct(new SearchQuery(constraint)));
+    }
+
+    @NonNull
+    public static ArrayList<Listing> syncSearchListing(CharSequence constraint) {
+        return syncSearch(Api.api.searchListing(new SearchQuery(constraint)));
+    }
+
+    @NonNull
+    private static <T> ArrayList<T> syncSearch(Call<List<T>> call) {
         try {
-            retrofit2.Response<List<Product>> response =
-                    Api.api.searchProduct(new SearchQuery(constraint)).execute();
-            List<Product> responseData = response.body();
+            retrofit2.Response<List<T>> response = call.execute();
+            List<T> responseData = response.body();
 
             if (responseData != null) {
                 return new ArrayList<>(responseData);

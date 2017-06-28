@@ -67,7 +67,8 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                adapter.getFilter().filter(newText);
+                return true;
             }
         });
         // End of search view setup
@@ -103,6 +104,9 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
         List<Supplier> preSelected = new ArrayList<>();
         if (inputBundle != null) {
             preSelected = inputBundle.getParcelableArrayList(INPUT_SELECTED);
+            if (preSelected == null) {
+                preSelected = new ArrayList<>(suppliers);
+            }
         }
 
         adapter = new SelectionSupplierAdapter(
@@ -187,6 +191,10 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
     }
 
     private void onDataReceived(List<Supplier> data) {
+        if (suppliers == null || suppliers.size() <= 0) {
+            adapter = new SelectionSupplierAdapter(this, data, data);
+            cb.list.setAdapter(adapter);
+        }
         adapter.setData(data);
         adapter.notifyDataSetChanged();
         isDataReady = true;

@@ -167,12 +167,9 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         protected FilterResults performFiltering(CharSequence constraint) {
             // TODO: inspect this
             // Naive filtering
-            ArrayList<Listing> filtered = new ArrayList<>();
-            for (Listing listing : data) {
-                if (listing.getName().contains(constraint)) {
-                    filtered.add(listing);
-                }
-            }
+            ArrayList<Listing> filtered = constraint.equals("") ?
+                    new ArrayList<>(data)
+                    : Api.syncSearchListing(constraint);
 
             // Pack and return results
             FilterResults result = new FilterResults();
@@ -184,6 +181,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             filteredData = (ArrayList<Listing>) results.values;
+            notifyDataSetChanged();
         }
     }
 }

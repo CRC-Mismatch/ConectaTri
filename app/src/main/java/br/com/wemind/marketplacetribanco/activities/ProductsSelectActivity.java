@@ -2,15 +2,17 @@ package br.com.wemind.marketplacetribanco.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -29,11 +31,18 @@ public class ProductsSelectActivity extends BaseSelectActivity {
     public static final String INPUT_BUNDLE = "input_bundle";
     public static final String RESULT_BUNDLE = "result_bundle";
     public static final String SELECTED_LIST = "result_selected";
+    public static final int QUERY_CHANGED_TIMEOUT = 500; // milliseconds
     private ProductsSelectAdapter adapter;
     private ContentProductsSelectBinding cb;
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Product> selected = new ArrayList<>();
+    private Timer preQueryTimer = newTimer();
     private boolean isDataReady;
+
+    @NonNull
+    private Timer newTimer() {
+        return new Timer("preQueryTimer");
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +78,9 @@ public class ProductsSelectActivity extends BaseSelectActivity {
 
         // Search payload data and update filtered data upon user input
         b.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            public int cancelledTasks = 0;
+            private TimerTask queryTask;
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
@@ -82,8 +94,26 @@ public class ProductsSelectActivity extends BaseSelectActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public boolean onQueryTextChange(final String newText) {
+                if (queryTask != null) {
+                    queryTask.cancel();
+                    cancelledTasks++;
+
+                    if (cancelledTasks >= 100) {
+                        // Purge Timer every 100 cancelled tasks
+                        preQueryTimer.purge();
+                        cancelledTasks = 0;
+                    }
+                }
+
+                queryTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        adapter.getFilter().filter(newText);
+                    }
+                };
+                preQueryTimer.schedule(queryTask, QUERY_CHANGED_TIMEOUT);
+                return true;
             }
         });
         // End of search view setup
@@ -113,6 +143,12 @@ public class ProductsSelectActivity extends BaseSelectActivity {
     }
 
     @Override
+    protected void onPause() {
+        preQueryTimer.cancel();
+        super.onPause();
+    }
+
+    @Override
     protected boolean mayContinue() {
         if (!isDataReady) {
             return false;
@@ -135,6 +171,7 @@ public class ProductsSelectActivity extends BaseSelectActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        preQueryTimer = newTimer();
 
         if (products == null || products.size() == 0) {
             // Disable "next" while data hasn't been retrieved
