@@ -17,7 +17,7 @@ public abstract class BaseSelectActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_menu_save) {
+        if (item.getItemId() == R.id.action_menu_ok) {
             if (mayContinue()) {
                 packResultIntent();
                 finish();
@@ -29,7 +29,7 @@ public abstract class BaseSelectActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.create, menu);
+        getMenuInflater().inflate(R.menu.ok, menu);
         return true;
     }
 

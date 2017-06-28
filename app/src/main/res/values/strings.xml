@@ -92,6 +92,7 @@
     <string name="activity_sign_up_agreement"><![CDATA[Li e aceito os <a href=\'https://www.google.com.br/search?q=termos+de+uso\'>termos de uso</a> e a <a href=\'https://www.google.com.br/search?q=política+de+privacidade\'>política de privacidade</a>]]></string>
     <string name="btn_activity_recover_password_submit">Mudar senha</string>
     <string name="error_creation_failed">Falha na criação do novo item</string>
+    <string name="menu_ok">Ok</string>
 
 
 </resources>
