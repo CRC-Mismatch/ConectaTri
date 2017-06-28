@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SimpleProductAdapter;
@@ -21,6 +22,7 @@ import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentSimpleProductsListBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
+import br.com.wemind.marketplacetribanco.utils.TimerManager;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -28,12 +30,14 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
 
     public static final int CREATE_PRODUCT = 1;
     public static final int EDIT_PRODUCT = 2;
+    public static final int QUERY_TIMER_DELAY = 500;
     private ContentSimpleProductsListBinding cb;
     /**
      * Entire data payload received from retrieveData()
      */
     private ArrayList<Product> data;
     private SimpleProductAdapter adapter;
+    private TimerManager timerManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
         });
 
         // Search payload data and update filtered data upon user input
+        timerManager = new TimerManager("preQueryTimer");
         b.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -74,8 +79,17 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public boolean onQueryTextChange(final String newText) {
+                if (newText.length() > 2 || newText.length() <= 0) {
+                    timerManager.schedule(QUERY_TIMER_DELAY, new TimerTask() {
+                        @Override
+                        public void run() {
+                            adapter.getFilter().filter(newText);
+                        }
+                    });
+                }
+
+                return true;
             }
         });
         // End of search view setup
@@ -88,26 +102,20 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        timerManager.cancel();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        timerManager.restart();
         retrieveData();
     }
 
     private void retrieveData() {
         Api.api.getAllProducts().enqueue(new GetProductsCallback(this));
-
-        /*(new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Create and send dummy data
-                ArrayList<Product> data = new ArrayList<>(100);
-
-                for (int i = 1; i <= 100; ++i) {
-                    data.add(new Product().setName("Produto " + i));
-                }
-                onDataReceived(data);
-            }
-        }, 2000);*/
     }
 
 

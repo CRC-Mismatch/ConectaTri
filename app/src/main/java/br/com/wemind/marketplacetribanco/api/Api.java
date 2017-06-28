@@ -53,16 +53,16 @@ public final class Api {
 
     @NonNull
     public static ArrayList<Product> syncSearchProduct(CharSequence constraint) {
-        return syncSearch(Api.api.searchProduct(new SearchQuery(constraint)));
+        return syncGetResponseList(Api.api.searchProduct(new SearchQuery(constraint)));
     }
 
     @NonNull
     public static ArrayList<Listing> syncSearchListing(CharSequence constraint) {
-        return syncSearch(Api.api.searchListing(new SearchQuery(constraint)));
+        return syncGetResponseList(Api.api.searchListing(new SearchQuery(constraint)));
     }
 
     @NonNull
-    private static <T> ArrayList<T> syncSearch(Call<List<T>> call) {
+    private static <T> ArrayList<T> syncGetResponseList(Call<List<T>> call) {
         try {
             retrofit2.Response<List<T>> response = call.execute();
             List<T> responseData = response.body();

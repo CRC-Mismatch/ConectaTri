@@ -166,7 +166,6 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             // TODO: inspect this
-            // Naive filtering
             ArrayList<Listing> filtered = constraint.equals("") ?
                     new ArrayList<>(data)
                     : Api.syncSearchListing(constraint);

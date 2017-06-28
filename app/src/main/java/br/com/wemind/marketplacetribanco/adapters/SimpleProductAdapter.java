@@ -87,7 +87,9 @@ public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdap
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<Product> filtered = Api.syncSearchProduct(constraint);
+            ArrayList<Product> filtered = constraint.equals("") ?
+                    new ArrayList<>(data)
+                    : Api.syncSearchProduct(constraint);
 
             // Pack and return results
             FilterResults result = new FilterResults();

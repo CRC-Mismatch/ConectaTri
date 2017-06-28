@@ -2,7 +2,6 @@ package br.com.wemind.marketplacetribanco.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
@@ -11,7 +10,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeSet;
 
@@ -21,6 +19,7 @@ import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentProductsSelectBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
+import br.com.wemind.marketplacetribanco.utils.TimerManager;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -36,13 +35,8 @@ public class ProductsSelectActivity extends BaseSelectActivity {
     private ContentProductsSelectBinding cb;
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Product> selected = new ArrayList<>();
-    private Timer preQueryTimer = newTimer();
     private boolean isDataReady;
-
-    @NonNull
-    private Timer newTimer() {
-        return new Timer("preQueryTimer");
-    }
+    private TimerManager timerManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +71,7 @@ public class ProductsSelectActivity extends BaseSelectActivity {
         });
 
         // Search payload data and update filtered data upon user input
+        timerManager = new TimerManager("preQueryTimer");
         b.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             public int cancelledTasks = 0;
             private TimerTask queryTask;
@@ -95,24 +90,14 @@ public class ProductsSelectActivity extends BaseSelectActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                if (queryTask != null) {
-                    queryTask.cancel();
-                    cancelledTasks++;
-
-                    if (cancelledTasks >= 100) {
-                        // Purge Timer every 100 cancelled tasks
-                        preQueryTimer.purge();
-                        cancelledTasks = 0;
-                    }
+                if (newText.length() > 2 || newText.length() <= 0) {
+                    timerManager.schedule(QUERY_CHANGED_TIMEOUT, new TimerTask() {
+                        @Override
+                        public void run() {
+                            adapter.getFilter().filter(newText);
+                        }
+                    });
                 }
-
-                queryTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        adapter.getFilter().filter(newText);
-                    }
-                };
-                preQueryTimer.schedule(queryTask, QUERY_CHANGED_TIMEOUT);
                 return true;
             }
         });
@@ -144,7 +129,7 @@ public class ProductsSelectActivity extends BaseSelectActivity {
 
     @Override
     protected void onPause() {
-        preQueryTimer.cancel();
+        timerManager.cancel();
         super.onPause();
     }
 
@@ -171,7 +156,7 @@ public class ProductsSelectActivity extends BaseSelectActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        preQueryTimer = newTimer();
+        timerManager.restart();
 
         if (products == null || products.size() == 0) {
             // Disable "next" while data hasn't been retrieved

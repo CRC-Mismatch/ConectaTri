@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
@@ -21,6 +22,7 @@ import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
+import br.com.wemind.marketplacetribanco.utils.TimerManager;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -28,16 +30,27 @@ public class ListingsListActivity extends BaseDrawerActivity {
 
     public static final int CREATE_LISTING = 1;
     public static final int EDIT_LISTING = 2;
+    public static final int TIMER_DELAY = 500;
     private ContentListingsListBinding cb;
     private ListingsAdapter adapter;
     private ArrayList<Listing> data;
+    private TimerManager timerManager;
+
+    @Override
+    protected void onPause() {
+        timerManager.cancel();
+        super.onPause();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
         b.fab.setVisibility(View.VISIBLE);
+
+        timerManager = new TimerManager("preQueryTimer");
         b.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +71,9 @@ public class ListingsListActivity extends BaseDrawerActivity {
 
         // Search payload data and update filtered data upon user input
         b.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            public int cancelledTasks = 0;
+            public TimerTask timerTask;
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
@@ -71,8 +87,17 @@ public class ListingsListActivity extends BaseDrawerActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public boolean onQueryTextChange(final String newText) {
+                if (newText.length() > 2 || newText.length() <= 0) {
+                    timerManager.schedule(TIMER_DELAY, new TimerTask() {
+                        @Override
+                        public void run() {
+                            adapter.getFilter().filter(newText);
+                        }
+                    });
+                }
+
+                return true;
             }
         });
         // End of search view setup
@@ -87,6 +112,7 @@ public class ListingsListActivity extends BaseDrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        timerManager.restart();
         // FIXME: 24/05/2017 actually retrieve data
         retrieveData();
     }
