@@ -93,6 +93,8 @@
     <string name="btn_activity_recover_password_submit">Mudar senha</string>
     <string name="error_creation_failed">Falha na criação do novo item</string>
     <string name="menu_ok">Ok</string>
+    <string name="error_name_too_short">Nome curto demais</string>
+    <string name="text_content_listings_select_header_tip">Para incluir automaticamente produtos na cotação, selecione uma ou mais das listas abaixo.</string>
 
 
 </resources>

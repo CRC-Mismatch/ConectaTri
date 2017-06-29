@@ -19,17 +19,16 @@ import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.ListCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
-import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
+import br.com.wemind.marketplacetribanco.databinding.ContentListingsSelectBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.utils.TimerManager;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class ListingsSelectActivity extends BaseSelectActivity {
     public static final String SELECTED_LIST = "SELECTED_LIST";
     public static final String RESULT_BUNDLE = "result_bundle";
     public static final int QUERY_CHANGED_TIMEOUT = 700;
-    private ContentListingsListBinding cb;
+    private ContentListingsSelectBinding cb;
     private ListingsAdapter adapter;
     private ArrayList<Listing> data;
     private TimerManager timerManager;
@@ -90,7 +89,7 @@ public class ListingsSelectActivity extends BaseSelectActivity {
         // End of search view setup
 
         // Setup content view
-        cb = ContentListingsListBinding
+        cb = ContentListingsSelectBinding
                 .inflate(getLayoutInflater(), b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
