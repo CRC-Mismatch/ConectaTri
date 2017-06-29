@@ -2,10 +2,11 @@ package br.com.wemind.marketplacetribanco.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -61,6 +62,24 @@ public class ProductCreateActivity extends BaseCreateActivity {
         ProductAutoCompleteAdapter adapter = new ProductAutoCompleteAdapter();
         cb.edtProductName.setAdapter(adapter);
         cb.edtProductName.setThreshold(3);
+        cb.edtProductName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (cb.edtProductName.length() < 3) {
+                    cb.edtProductName.setError(getString(R.string.error_name_too_short));
+                }
+            }
+        });
         cb.edtProductName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -85,7 +104,11 @@ public class ProductCreateActivity extends BaseCreateActivity {
     protected boolean validateForm() {
         boolean errorOccurred = false;
 
-        errorOccurred |= _setErrorIfEmpty(cb.edtProductName);
+        if (cb.edtProductName.length() < 3) {
+            cb.edtProductName.setError(getString(R.string.error_name_too_short));
+            _setErrorIfEmpty(cb.edtProductName);
+            errorOccurred = true;
+        }
         errorOccurred |= _setErrorIfEmpty(cb.edtBrand);
         errorOccurred |= _setErrorIfEmpty(cb.edtUnit);
         errorOccurred |= _setErrorIfEmpty(cb.edtQuantity);
@@ -133,7 +156,7 @@ public class ProductCreateActivity extends BaseCreateActivity {
 
                 FilterResults results = new FilterResults();
                 results.values = response;
-                results.count =  response.size();
+                results.count = response.size();
                 return results;
             }
 
