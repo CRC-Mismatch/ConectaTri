@@ -19,6 +19,8 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.QuotesAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ListCallback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import retrofit2.Call;
@@ -114,7 +116,7 @@ public class QuotesListActivity extends BaseDrawerActivity {
         return BaseDrawerActivity.ID_NONE_VOLATILE;
     }
 
-    private class GetQuotesCallback extends Callback<List<Quote>> {
+    private class GetQuotesCallback extends ListCallback<List<Quote>> {
 
         public GetQuotesCallback(@NonNull Context context) {
             super(context);
@@ -126,7 +128,7 @@ public class QuotesListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<List<Quote>> call, Response<List<Quote>> response) {
+        public void onError(Call<List<Quote>> call, ApiError response) {
             Toast.makeText(context,
                     getString(R.string.text_connection_failed),
                     Toast.LENGTH_SHORT
@@ -162,7 +164,7 @@ public class QuotesListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<Quote> call, Response<Quote> response) {
+        public void onError(Call<Quote> call, ApiError response) {
 
         }
     }
@@ -178,7 +180,7 @@ public class QuotesListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<Quote> call, Response<Quote> response) {
+        public void onError(Call<Quote> call, ApiError response) {
             retrieveData();
         }
     }

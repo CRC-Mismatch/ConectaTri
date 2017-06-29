@@ -15,11 +15,11 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.QuoteProductAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentSimpleProductsListBinding;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class QuoteProductsListActivity extends BaseSelectActivity {
 
@@ -146,7 +146,7 @@ public class QuoteProductsListActivity extends BaseSelectActivity {
         }
 
         @Override
-        public void onError(Call<Quote> call, Response<Quote> response) {
+        public void onError(Call<Quote> call, ApiError response) {
             finish();
         }
     }

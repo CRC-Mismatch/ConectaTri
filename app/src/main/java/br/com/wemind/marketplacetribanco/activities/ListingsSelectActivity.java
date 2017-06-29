@@ -17,7 +17,8 @@ import java.util.TimerTask;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
-import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ListCallback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.utils.TimerManager;
@@ -133,7 +134,7 @@ public class ListingsSelectActivity extends BaseSelectActivity {
         cb.list.setAdapter(adapter);
     }
 
-    private class GetListingsCallback extends Callback<List<Listing>> {
+    private class GetListingsCallback extends ListCallback<List<Listing>> {
 
         public GetListingsCallback(@NonNull Context context) {
             super(context);
@@ -145,7 +146,7 @@ public class ListingsSelectActivity extends BaseSelectActivity {
         }
 
         @Override
-        public void onError(Call<List<Listing>> call, Response<List<Listing>> response) {
+        public void onError(Call<List<Listing>> call, ApiError response) {
             Toast.makeText(context,
                     getString(R.string.text_connection_failed), Toast.LENGTH_SHORT
             ).show();

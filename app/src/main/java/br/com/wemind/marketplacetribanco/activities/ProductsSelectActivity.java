@@ -16,7 +16,8 @@ import java.util.TreeSet;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ProductsSelectAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
-import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ListCallback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentProductsSelectBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.utils.TimerManager;
@@ -182,7 +183,7 @@ public class ProductsSelectActivity extends BaseSelectActivity {
         isDataReady = true;
     }
 
-    private class GetProductsCallback extends Callback<List<Product>> {
+    private class GetProductsCallback extends ListCallback<List<Product>> {
         public GetProductsCallback() {
             super(ProductsSelectActivity.this);
         }
@@ -193,7 +194,7 @@ public class ProductsSelectActivity extends BaseSelectActivity {
         }
 
         @Override
-        public void onError(Call<List<Product>> call, Response<List<Product>> response) {
+        public void onError(Call<List<Product>> call, ApiError response) {
             Toast.makeText(context,
                     getString(R.string.text_connection_failed),
                     Toast.LENGTH_SHORT

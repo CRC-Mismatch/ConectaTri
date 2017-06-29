@@ -1,11 +1,8 @@
 package br.com.wemind.marketplacetribanco.activities;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -13,16 +10,21 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import br.com.wemind.marketplacetribanco.R;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ActivitySignUpBinding;
-import br.com.wemind.marketplacetribanco.models.SignUpInfo;
+import br.com.wemind.marketplacetribanco.models.UserInfo;
 import br.com.wemind.marketplacetribanco.utils.BrPhoneFormattingTextWatcher;
 import br.com.wemind.marketplacetribanco.utils.BrazilianStates;
 import br.com.wemind.marketplacetribanco.utils.BrazilianStates.StateListable;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
 import br.com.wemind.marketplacetribanco.views.SelectableEditText;
+import retrofit2.Call;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -50,8 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateForm()) {
-                    setResult(RESULT_OK, packResultIntent());
-                    finish();
+                    sendRequest();
                 }
             }
         });
@@ -82,23 +83,21 @@ public class SignUpActivity extends AppCompatActivity {
         b.agreementText.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    @NonNull
-    private Intent packResultIntent() {
-        Intent result = new Intent();
-        result.putExtra(RESULT_SIGN_UP_INFO,
-                (Parcelable) new SignUpInfo()
-                        .setCnpj(b.cnpj.getText().toString())
-                        .setPassword(b.passwordText.getText().toString())
-                        .setEmail(b.email.getText().toString())
-                        .setPhone(b.phone.getText().toString())
-                        .setCellphone(b.cellphone.getText().toString())
-                        .setCompanyName(b.companyName.getText().toString())
-                        .setFantasyName(b.fantasyName.getText().toString())
-                        .setAddress(b.address.getText().toString())
-                        .setCity(b.city.getText().toString())
-                        .setCep(b.cep.getText().toString())
-                        .setState(b.state.getText().toString()));
-        return result;
+    private void sendRequest() {
+        UserInfo userInfo = new UserInfo()
+                .setCnpj(b.cnpj.getText().toString())
+                .setPassword(b.passwordText.getText().toString())
+                .setEmail(b.email.getText().toString())
+                .setPhone(b.phone.getText().toString())
+                .setCellphone(b.cellphone.getText().toString())
+                .setCompanyName(b.companyName.getText().toString())
+                .setFantasyName(b.fantasyName.getText().toString())
+                .setAddress(b.address.getText().toString())
+                .setCity(b.city.getText().toString())
+                .setCep(b.cep.getText().toString())
+                .setState(b.state.getText().toString());
+
+        Api.api.register(userInfo).enqueue(new RegistrationCallback());
     }
 
     private boolean validateForm() {
@@ -174,6 +173,25 @@ public class SignUpActivity extends AppCompatActivity {
 
         } else {
             return false;
+        }
+    }
+
+    private class RegistrationCallback extends Callback<ApiError> {
+        public RegistrationCallback() {
+            super(SignUpActivity.this);
+        }
+
+        @Override
+        public void onSuccess(ApiError response) {
+            finish();
+        }
+
+        @Override
+        public void onError(Call<ApiError> call, ApiError response) {
+            Toast.makeText(context,
+                    "Erro: " + response.getMessage(),
+                    Toast.LENGTH_SHORT
+            ).show();
         }
     }
 }

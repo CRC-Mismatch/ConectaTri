@@ -8,7 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Supplier implements Parcelable, Comparable, Serializable {
+import br.com.wemind.marketplacetribanco.api.objects.Status;
+
+public class Supplier extends Status implements Parcelable, Comparable, Serializable {
     public static final Creator<Supplier> CREATOR = new Creator<Supplier>() {
         @Override
         public Supplier createFromParcel(Parcel in) {

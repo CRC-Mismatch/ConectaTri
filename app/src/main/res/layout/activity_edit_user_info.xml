@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingBottom="72dp"
+            android:paddingTop="72dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_round_corners"
+                android:elevation="4dp"
+                android:gravity="center_horizontal|top"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/cnpj"
+                        style="@style/EditTextCNPJ"
+                        android:hint="CNPJ"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/companyName"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Razão social da empresa"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/fantasyName"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Nome de usuário"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/newPasswordText"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Nova Senha (campo não obrigatório)"
+                        android:inputType="textPassword"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/newPasswordConfText"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Confirme a nova senha"
+                        android:inputType="textPassword"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/email"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="E-mail"
+                        android:inputType="textEmailAddress"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/cep"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:digits="1234567890-"
+                        android:hint="CEP"
+                        android:inputType="number"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <br.com.wemind.marketplacetribanco.views.SelectableEditText
+                        android:id="@+id/state"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Estado"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/city"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Cidade"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/address"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Endereço"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/phone"
+                        android:hint="Telefone"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:inputType="phone"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/cellphone"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Telefone celular"
+                        android:inputType="phone"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"/>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/AppTheme.AutoAdhesionEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/currentPasswordText"
+                        style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Senha atual"
+                        android:drawableRight="@drawable/ic_eye"
+                        android:inputType="textPassword"/>
+                </android.support.design.widget.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/sendButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_round_thin_main_corners"
+                    android:text="@string/btn_activity_sign_up_submit"
+                    android:textColor="@color/main0"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </ScrollView>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

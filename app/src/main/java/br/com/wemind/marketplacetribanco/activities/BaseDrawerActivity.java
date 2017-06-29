@@ -19,6 +19,8 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.api.objects.AccessToken;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
+import br.com.wemind.marketplacetribanco.api.objects.Status;
 import br.com.wemind.marketplacetribanco.databinding.ActivityBaseDrawerBinding;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -151,14 +153,14 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
 
     protected abstract int getSelfNavDrawerItem();
 
-    private static class LogoutCallback extends Callback<String> {
+    private static class LogoutCallback extends Callback<Status> {
 
         public LogoutCallback(Context context) {
             super(context);
         }
 
         @Override
-        public void onSuccess(String response) {
+        public void onSuccess(Status response) {
             cleanUp();
             finish();
         }
@@ -168,7 +170,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
         }
 
         @Override
-        public void onError(Call<String> call, Response<String> response) {
+        public void onError(Call<Status> call, ApiError response) {
             finish();
         }
 

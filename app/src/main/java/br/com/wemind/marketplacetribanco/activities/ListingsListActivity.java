@@ -20,11 +20,12 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ListCallback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.utils.TimerManager;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class ListingsListActivity extends BaseDrawerActivity {
 
@@ -162,7 +163,7 @@ public class ListingsListActivity extends BaseDrawerActivity {
         return R.id.nav_listings;
     }
 
-    private class GetListingsCallback extends Callback<List<Listing>> {
+    private class GetListingsCallback extends ListCallback<List<Listing>> {
         public GetListingsCallback(Context context) {
             super(context);
         }
@@ -173,7 +174,7 @@ public class ListingsListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<List<Listing>> call, Response<List<Listing>> response) {
+        public void onError(Call<List<Listing>> call, ApiError response) {
             Toast.makeText(context,
                     getString(R.string.text_connection_failed),
                     Toast.LENGTH_SHORT
@@ -193,7 +194,7 @@ public class ListingsListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<Listing> call, Response<Listing> response) {
+        public void onError(Call<Listing> call, ApiError response) {
             retrieveData();
         }
     }
@@ -224,7 +225,7 @@ public class ListingsListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<Listing> call, Response<Listing> response) {
+        public void onError(Call<Listing> call, ApiError response) {
             retrieveData();
         }
     }

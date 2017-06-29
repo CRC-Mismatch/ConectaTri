@@ -10,7 +10,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Listing implements Parcelable, Comparable, Serializable {
+import br.com.wemind.marketplacetribanco.api.objects.Status;
+
+public class Listing extends Status implements Parcelable, Comparable, Serializable {
     public static final int TYPE_COMMON = 1;
     public static final int TYPE_SEASONAL = 2;
     public static final int TYPE_WEEKLY = 3;

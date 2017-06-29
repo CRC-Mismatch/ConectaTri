@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import br.com.wemind.marketplacetribanco.api.objects.Status;
+
 /**
  * Created by kmkraiker on 25/05/2017.
  */
 
-public class Quote implements Parcelable, Serializable {
+public class Quote extends Status implements Parcelable, Serializable {
     public static final int TYPE_REMOTE = 1;
     public static final int TYPE_MANUAL = 2;
     public static final Creator<Quote> CREATOR = new Creator<Quote>() {

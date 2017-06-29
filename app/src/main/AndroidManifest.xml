@@ -26,7 +26,6 @@
                     android:scheme="https"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
@@ -143,8 +142,9 @@
             android:label="@string/title_product_set_quantity"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-
         <activity android:name=".activities.QuoteCreationFlowController"/>
+        <activity android:name=".activities.EditUserInfoActivity">
+        </activity>
     </application>
 
 </manifest>

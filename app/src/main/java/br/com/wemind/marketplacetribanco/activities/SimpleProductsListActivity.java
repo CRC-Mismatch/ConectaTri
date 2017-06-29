@@ -20,11 +20,12 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SimpleProductAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ListCallback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentSimpleProductsListBinding;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.utils.TimerManager;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class SimpleProductsListActivity extends BaseDrawerActivity {
 
@@ -183,7 +184,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
         return R.id.nav_products;
     }
 
-    private class GetProductsCallback extends Callback<List<Product>> {
+    private class GetProductsCallback extends ListCallback<List<Product>> {
         public GetProductsCallback(@NonNull Context context) {
             super(context);
         }
@@ -194,7 +195,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<List<Product>> call, Response<List<Product>> response) {
+        public void onError(Call<List<Product>> call, ApiError response) {
             Toast.makeText(context,
                     getString(R.string.text_connection_failed),
                     Toast.LENGTH_SHORT
@@ -214,7 +215,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<Product> call, Response<Product> response) {
+        public void onError(Call<Product> call, ApiError response) {
             refreshData();
         }
 
@@ -234,7 +235,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<Product> call, Response<Product> response) {
+        public void onError(Call<Product> call, ApiError response) {
             refreshData();
         }
 

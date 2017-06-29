@@ -24,7 +24,7 @@
     <string name="title_activity_suppliers_list">Selecionar Fornecedor</string>
     <string name="menu_save">SALVAR</string>
     <string name="title_activity_supplier_create">Adicionar / Editar fornecedor</string>
-    <string name="content_create_supplier_edt_supplier_name">Nome do fornecedor</string>
+    <string name="content_create_supplier_edt_supplier_name">Razão social do fornecedor</string>
     <string name="content_create_supplier_edt_cnpj">CNPJ</string>
     <string name="content_create_supplier_edt_info">Informações</string>
     <string name="content_create_supplier_edt_contact_name">Nome do representante</string>
@@ -46,7 +46,7 @@
     <string name="item_listing_weekly">• Lista semanal</string>
     <string name="item_listing_common">• Lista comum</string>
     <string name="title_activity_listings_list">Minhas Listas</string>
-    <string name="title_activity_listing_create">ListingCreateActivity</string>
+    <string name="title_activity_listing_create">Criar Lista</string>
     <string name="content_create_listing_edt_info">Informações</string>
     <string name="content_create_listing_edt_name">Nome da lista</string>
     <string name="content_create_listing_edt_description">Descrição</string>

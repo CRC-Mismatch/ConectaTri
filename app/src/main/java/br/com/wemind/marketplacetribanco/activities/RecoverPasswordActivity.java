@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -20,10 +18,6 @@ import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.api.objects.PasswordRecovery;
 import br.com.wemind.marketplacetribanco.databinding.ActivityRecoverPasswordBinding;
-import br.com.wemind.marketplacetribanco.databinding.ActivitySignUpBinding;
-import br.com.wemind.marketplacetribanco.models.SignUpInfo;
-import br.com.wemind.marketplacetribanco.utils.Formatting;
-import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -96,9 +90,9 @@ public class RecoverPasswordActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onError(Call<ApiError> call, Response<ApiError> response) {
+        public void onError(Call<ApiError> call, ApiError response) {
             Toast.makeText(context,
-                    "Erro: Código " + response.code() + " " + response.message(),
+                    "Erro: " + response.getMessage(),
                     Toast.LENGTH_SHORT
             ).show();
         }

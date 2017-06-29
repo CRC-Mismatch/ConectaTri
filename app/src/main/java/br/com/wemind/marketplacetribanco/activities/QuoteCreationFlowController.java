@@ -13,6 +13,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.ListingProduct;
 import br.com.wemind.marketplacetribanco.models.Product;
@@ -297,7 +298,7 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         }
 
         @Override
-        public void onError(Call<Quote> call, Response<Quote> response) {
+        public void onError(Call<Quote> call, ApiError response) {
 
         }
     }
@@ -321,7 +322,7 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         }
 
         @Override
-        public void onError(Call<Quote> call, Response<Quote> response) {
+        public void onError(Call<Quote> call, ApiError response) {
 
         }
     }

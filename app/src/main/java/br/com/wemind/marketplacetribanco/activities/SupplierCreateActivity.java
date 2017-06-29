@@ -31,7 +31,7 @@ public class SupplierCreateActivity extends BaseCreateActivity {
 
         // Setup CNPJ text formatter
         cb.edtCnpj.addTextChangedListener(
-                new FormattingTextWatcher(new Formatting.CnpjFormatter()));
+                new FormattingTextWatcher(new Formatting.CnpjFormatter(), 18));
 
         cb.edtContactPhone.addTextChangedListener(new BrPhoneFormattingTextWatcher());
 

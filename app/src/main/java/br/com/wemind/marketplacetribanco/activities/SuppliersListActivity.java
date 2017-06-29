@@ -21,6 +21,8 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SupplierAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ListCallback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
@@ -181,7 +183,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<Supplier> call, final Response<Supplier> response) {
+        public void onError(Call<Supplier> call, ApiError response) {
             refreshData();
         }
 
@@ -192,7 +194,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         }
     }
 
-    private class GetSuppliersCallback extends Callback<List<Supplier>> {
+    private class GetSuppliersCallback extends ListCallback<List<Supplier>> {
         public GetSuppliersCallback() {
             super(SuppliersListActivity.this);
         }
@@ -204,7 +206,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
 
         @Override
         public void onError(Call<List<Supplier>> call,
-                            Response<List<Supplier>> response) {
+                            ApiError response) {
             Toast.makeText(
                     context,
                     getString(R.string.text_connection_failed),
@@ -231,7 +233,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<Supplier> call, Response<Supplier> response) {
+        public void onError(Call<Supplier> call, ApiError response) {
             refreshData();
         }
     }
@@ -251,7 +253,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         }
 
         @Override
-        public void onError(Call<Supplier> call, Response<Supplier> response) {
+        public void onError(Call<Supplier> call, ApiError response) {
             refreshData();
         }
     }

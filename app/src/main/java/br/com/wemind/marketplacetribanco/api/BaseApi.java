@@ -6,11 +6,12 @@ import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.api.objects.Login;
 import br.com.wemind.marketplacetribanco.api.objects.PasswordRecovery;
 import br.com.wemind.marketplacetribanco.api.objects.SearchQuery;
+import br.com.wemind.marketplacetribanco.api.objects.Status;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Quote;
-import br.com.wemind.marketplacetribanco.models.SignUpInfo;
 import br.com.wemind.marketplacetribanco.models.Supplier;
+import br.com.wemind.marketplacetribanco.models.UserInfo;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -30,12 +31,13 @@ public interface BaseApi {
     String baseUrl = "http://conectatri.wemind.com.br/api/";
     String QUOTE = "quote";
     String LISTING = "listing";
+    String USER_INFO = "retailer";
 
     @POST("login")
     Call<Login.Response> login(@Body Login.Request body);
 
     @DELETE("logout")
-    Call<String> logout();
+    Call<Status> logout();
 
     /*
      * PRODUCT
@@ -130,8 +132,8 @@ public interface BaseApi {
     /*
      * Sign Up
      */
-    @POST("retailer")
-    Call<ApiError> register(@Body SignUpInfo signUpInfo);
+    @POST(USER_INFO)
+    Call<ApiError> register(@Body UserInfo userInfo);
 
     @FormUrlEncoded
     @POST("recovery/begin")
@@ -141,5 +143,17 @@ public interface BaseApi {
     Call<ApiError> endRecovery(@Body PasswordRecovery data);
     /*
      * END OF Sign Up
+     */
+
+    /*
+     * User Info
+     */
+    @GET(USER_INFO)
+    Call<UserInfo> getUserInfo();
+
+    @PUT(USER_INFO)
+    Call<String> editUserInfo(@Body UserInfo.Edit.Request newUserInfo);
+    /*
+     * END OF User Info
      */
 }

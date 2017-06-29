@@ -18,6 +18,8 @@ import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.SelectionSupplierAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ListCallback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
@@ -202,7 +204,7 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
         b.fab.setEnabled(true);
     }
 
-    private class GetSuppliersCallback extends Callback<List<Supplier>> {
+    private class GetSuppliersCallback extends ListCallback<List<Supplier>> {
         public GetSuppliersCallback() {
             super(SuppliersSelectActivity.this);
         }
@@ -214,7 +216,7 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
 
         @Override
         public void onError(Call<List<Supplier>> call,
-                            Response<List<Supplier>> response) {
+                            ApiError response) {
             setResult(RESULT_CANCELED);
             finish();
         }
@@ -232,7 +234,7 @@ public class SuppliersSelectActivity extends BaseSelectActivity {
         }
 
         @Override
-        public void onError(Call<Supplier> call, Response<Supplier> response) {
+        public void onError(Call<Supplier> call, ApiError response) {
             Toast.makeText(context,
                     getString(R.string.error_creation_failed),
                     Toast.LENGTH_SHORT

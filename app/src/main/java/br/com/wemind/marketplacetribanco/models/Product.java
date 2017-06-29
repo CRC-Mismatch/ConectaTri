@@ -8,11 +8,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import br.com.wemind.marketplacetribanco.api.objects.Status;
+
 /**
  * Created by kmkraiker on 25/05/2017.
  */
 
-public class Product implements Parcelable, Comparable, Serializable {
+public class Product extends Status implements Parcelable, Comparable, Serializable {
     public static final Creator<Product> CREATOR = new Creator<Product>() {
         @Override
         public Product createFromParcel(Parcel in) {

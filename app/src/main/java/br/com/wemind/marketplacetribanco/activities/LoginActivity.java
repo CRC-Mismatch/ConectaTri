@@ -28,11 +28,9 @@ import br.com.wemind.marketplacetribanco.api.objects.AccessToken;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.api.objects.Login;
 import br.com.wemind.marketplacetribanco.databinding.ActivityLoginBinding;
-import br.com.wemind.marketplacetribanco.models.SignUpInfo;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -154,28 +152,28 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGN_UP) {
             signUpReturned(resultCode, data);
         }
-    }
+    }*/
 
     public void launchSignUp() {
         Intent signUpIntent = new Intent(this, SignUpActivity.class);
-        startActivityForResult(signUpIntent, REQUEST_SIGN_UP);
+        startActivity(signUpIntent);
     }
 
-    public void signUpReturned(int resultCode, Intent data) {
+    /*public void signUpReturned(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            SignUpInfo signUpInfo =
+            UserInfo userInfo =
                     data.getParcelableExtra(SignUpActivity.RESULT_SIGN_UP_INFO);
 
-            if (signUpInfo != null) {
-                Api.api.register(signUpInfo).enqueue(new RegisterCallback(this));
+            if (userInfo != null) {
+                Api.api.register(userInfo).enqueue(new RegisterCallback(this));
             }
         }
-    }
+    }*/
 
     protected void finishLogin() {
         runOnUiThread(new Runnable() {
@@ -237,11 +235,11 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onError(Call<Login.Response> call,
-                            Response<Login.Response> response) {
+                            ApiError response) {
             ongoingLogin = null;
 
             Toast.makeText(context,
-                    "Erro: Código " + response.code() + " " + response.message(),
+                    "Erro: " + response.getMessage(),
                     Toast.LENGTH_SHORT
             ).show();
         }
@@ -265,12 +263,19 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onSuccess(ApiError response) {
-
+            Toast.makeText(context,
+                    response.getMessage(),
+                    Toast.LENGTH_LONG
+            ).show();
         }
 
         @Override
-        public void onError(Call<ApiError> call, Response<ApiError> response) {
-
+        public void onError(Call<ApiError> call, ApiError response) {
+            Toast.makeText(
+                    context,
+                    "Erro: " + response.getMessage(),
+                    Toast.LENGTH_LONG
+            ).show();
         }
     }
 
@@ -282,16 +287,16 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onSuccess(ApiError response) {
             Toast.makeText(context,
-                    "Enviamos um e-mail com as instruções para recuperar a senha",
+                    response.getMessage(),
                     Toast.LENGTH_LONG
             ).show();
         }
 
         @Override
-        public void onError(Call<ApiError> call, Response<ApiError> response) {
+        public void onError(Call<ApiError> call, ApiError response) {
             Toast.makeText(context,
-                    "Erro: Código " + response.code() + " " + response.message(),
-                    Toast.LENGTH_SHORT
+                    "Erro: " + response.getMessage(),
+                    Toast.LENGTH_LONG
             ).show();
         }
 

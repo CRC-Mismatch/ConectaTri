@@ -1,31 +1,36 @@
 package br.com.wemind.marketplacetribanco.api;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
+
+import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
-import br.com.wemind.marketplacetribanco.api.objects.Status;
 import br.com.wemind.marketplacetribanco.api.utils.ErrorParser;
 import retrofit2.Call;
+import retrofit2.Response;
 
-public abstract class Callback<T extends Status> implements retrofit2.Callback<T> {
+public abstract class ListCallback<T extends List> implements retrofit2.Callback<T> {
 
     protected final Context context;
     protected Call<T> newCall;
-    protected int count = 0;
+    private int count = 0;
 
-    private Callback() {
+    private ListCallback() {
         context = null;
     }
 
-    public Callback(@NonNull Context context) {
+    public ListCallback(Context context) {
         this.context = context;
     }
 
+    public abstract void onSuccess(T responseBody);
+
+    public abstract void onError(Call<T> call, ApiError responseErrorBody);
+
     @Override
-    public void onResponse(Call<T> call, retrofit2.Response<T> response) {
+    public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
             T responseBody = response.body();
             if (responseBody == null) {
@@ -37,10 +42,6 @@ public abstract class Callback<T extends Status> implements retrofit2.Callback<T
             onError(call, ErrorParser.parse(response));
         }
     }
-
-    public abstract void onSuccess(T response);
-
-    public abstract void onError(Call<T> call, ApiError response);
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
@@ -55,10 +56,7 @@ public abstract class Callback<T extends Status> implements retrofit2.Callback<T
             newCall.enqueue(this);
         } else {
             newCall = null;
-            Toast.makeText(context,
-                    R.string.text_connection_failed,
-                    Toast.LENGTH_SHORT
-            ).show();
+            Toast.makeText(context, R.string.text_connection_failed, Toast.LENGTH_SHORT).show();
         }
     }
 }

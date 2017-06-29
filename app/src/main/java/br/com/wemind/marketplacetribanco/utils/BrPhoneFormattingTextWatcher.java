@@ -1,13 +1,22 @@
 package br.com.wemind.marketplacetribanco.utils;
 
-import android.os.Build;
-import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
 
 public class BrPhoneFormattingTextWatcher implements TextWatcher {
     private boolean selfChange = false;
+    private boolean hasMaxlength = false;
+    private int maxLength;
+
+    public BrPhoneFormattingTextWatcher() {
+        this(15);
+    }
+
+    public BrPhoneFormattingTextWatcher(int maxLength) {
+        this.maxLength = maxLength;
+        hasMaxlength = maxLength > 0;
+    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -23,6 +32,17 @@ public class BrPhoneFormattingTextWatcher implements TextWatcher {
     public void afterTextChanged(Editable s) {
         if (selfChange) {
             return;
+        }
+
+        int maxLength = this.maxLength;
+        if (hasMaxlength && s.length() > maxLength) {
+            // If this Editable exceeds maxLength, trim off exceeding chars
+            selfChange = true;
+            if (Formatting.onlyNumbers(s.toString()).charAt(3) != '9') {
+                maxLength -= 1;
+            }
+            s.delete(maxLength, s.length());
+            selfChange = false;
         }
 
         String formatted = Formatting.formatBrazilianPhone(s.toString());

@@ -7,17 +7,17 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class SignUpInfo implements Parcelable, Serializable {
+public class UserInfo implements Parcelable, Serializable {
 
-    public static final Creator<SignUpInfo> CREATOR = new Creator<SignUpInfo>() {
+    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
         @Override
-        public SignUpInfo createFromParcel(Parcel in) {
-            return new SignUpInfo(in);
+        public UserInfo createFromParcel(Parcel in) {
+            return new UserInfo(in);
         }
 
         @Override
-        public SignUpInfo[] newArray(int size) {
-            return new SignUpInfo[size];
+        public UserInfo[] newArray(int size) {
+            return new UserInfo[size];
         }
     };
     @SerializedName("cnpj")
@@ -43,10 +43,10 @@ public class SignUpInfo implements Parcelable, Serializable {
     @SerializedName("address")
     private String address;
 
-    public SignUpInfo() {
+    public UserInfo() {
     }
 
-    protected SignUpInfo(Parcel in) {
+    protected UserInfo(Parcel in) {
         cnpj = in.readString();
         password = in.readString();
         email = in.readString();
@@ -84,7 +84,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return cnpj;
     }
 
-    public SignUpInfo setCnpj(String cnpj) {
+    public UserInfo setCnpj(String cnpj) {
         this.cnpj = cnpj.replaceAll("[^0-9]", "");
         return this;
     }
@@ -93,7 +93,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return password;
     }
 
-    public SignUpInfo setPassword(String password) {
+    public UserInfo setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -102,7 +102,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return email;
     }
 
-    public SignUpInfo setEmail(String email) {
+    public UserInfo setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -111,7 +111,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return phone;
     }
 
-    public SignUpInfo setPhone(String phone) {
+    public UserInfo setPhone(String phone) {
         this.phone = phone;
         return this;
     }
@@ -120,7 +120,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return cellphone;
     }
 
-    public SignUpInfo setCellphone(String cellphone) {
+    public UserInfo setCellphone(String cellphone) {
         this.cellphone = cellphone;
         return this;
     }
@@ -129,7 +129,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return fantasyName;
     }
 
-    public SignUpInfo setFantasyName(String fantasyName) {
+    public UserInfo setFantasyName(String fantasyName) {
         this.fantasyName = fantasyName;
         return this;
     }
@@ -138,7 +138,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return companyName;
     }
 
-    public SignUpInfo setCompanyName(String companyName) {
+    public UserInfo setCompanyName(String companyName) {
         this.companyName = companyName;
         return this;
     }
@@ -147,7 +147,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return cep;
     }
 
-    public SignUpInfo setCep(String cep) {
+    public UserInfo setCep(String cep) {
         this.cep = cep;
         return this;
     }
@@ -156,7 +156,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return state;
     }
 
-    public SignUpInfo setState(String state) {
+    public UserInfo setState(String state) {
         this.state = state;
         return this;
     }
@@ -165,7 +165,7 @@ public class SignUpInfo implements Parcelable, Serializable {
         return city;
     }
 
-    public SignUpInfo setCity(String city) {
+    public UserInfo setCity(String city) {
         this.city = city;
         return this;
     }
@@ -174,8 +174,33 @@ public class SignUpInfo implements Parcelable, Serializable {
         return address;
     }
 
-    public SignUpInfo setAddress(String address) {
+    public UserInfo setAddress(String address) {
         this.address = address;
         return this;
+    }
+
+    public static class Edit {
+        public static class Request {
+            private String password = "";
+            private UserInfo userInfo;
+
+            public String getPassword() {
+                return password;
+            }
+
+            public Request setPassword(String password) {
+                this.password = password;
+                return this;
+            }
+
+            public UserInfo getUserInfo() {
+                return userInfo;
+            }
+
+            public Request setUserInfo(UserInfo userInfo) {
+                this.userInfo = userInfo;
+                return this;
+            }
+        }
     }
 }
