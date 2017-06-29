@@ -27,6 +27,7 @@ public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdap
     private ArrayList<Product> data;
     private SimpleProductAdapter.Filter filter = new SimpleProductAdapter.Filter();
     private ArrayList<Product> filteredData;
+    private String lastQuery = "";
 
     public SimpleProductAdapter(Context context, List<Product> data) {
         this.context = context;
@@ -74,6 +75,10 @@ public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdap
         return filter;
     }
 
+    public void refilter() {
+        getFilter().filter(lastQuery);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemSimpleProductBinding b;
 
@@ -87,6 +92,7 @@ public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdap
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            lastQuery = constraint.toString();
             ArrayList<Product> filtered = constraint.equals("") ?
                     new ArrayList<>(data)
                     : Api.syncSearchProduct(constraint);

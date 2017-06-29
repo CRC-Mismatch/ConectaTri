@@ -114,7 +114,7 @@ public class SimpleProductsListActivity extends BaseDrawerActivity {
     protected void onResume() {
         super.onResume();
         timerManager.restart();
-        /*retrieveData();*/
+        adapter.refilter();
     }
 
     /*private void retrieveData() {
