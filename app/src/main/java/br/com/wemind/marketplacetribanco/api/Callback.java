@@ -34,6 +34,13 @@ public abstract class Callback<T extends Status> implements retrofit2.Callback<T
                 onSuccess(responseBody);
             }
         } else {
+            if (response.code() == 500) {
+                Toast.makeText(context,
+                        R.string.error_internal_server_error,
+                        Toast.LENGTH_SHORT
+                ).show();
+
+            }
             onError(call, ErrorParser.parse(response));
         }
     }

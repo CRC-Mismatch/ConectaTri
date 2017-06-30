@@ -140,6 +140,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_tutorial) {
 
         } else if (id == R.id.nav_settings) {
+            Intent i = new Intent(this, EditUserInfoActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_logout) {
             // Try to log out.

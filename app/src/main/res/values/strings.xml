@@ -95,6 +95,9 @@
     <string name="menu_ok">Ok</string>
     <string name="error_name_too_short">Nome curto demais</string>
     <string name="text_content_listings_select_header_tip">Para incluir automaticamente produtos na cotação, selecione uma ou mais das listas abaixo.</string>
+    <string name="text_edit_user_success">Informações atualizadas com sucesso!</string>
+    <string name="error_internal_server_error">Erro interno do servidor</string>
+    <string name="title_activity_edit_user_info">Minhas informções</string>
 
 
 </resources>

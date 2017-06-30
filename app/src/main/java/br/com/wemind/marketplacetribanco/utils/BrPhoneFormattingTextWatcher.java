@@ -34,12 +34,12 @@ public class BrPhoneFormattingTextWatcher implements TextWatcher {
             return;
         }
 
-        int maxLength = this.maxLength;
+        int maxLength = this.maxLength - 1;
         if (hasMaxlength && s.length() > maxLength) {
             // If this Editable exceeds maxLength, trim off exceeding chars
             selfChange = true;
-            if (Formatting.onlyNumbers(s.toString()).charAt(3) != '9') {
-                maxLength -= 1;
+            if (Formatting.onlyNumbers(s.toString()).charAt(2) == '9') {
+                maxLength += 1;
             }
             s.delete(maxLength, s.length());
             selfChange = false;

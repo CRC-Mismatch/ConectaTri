@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
     >
 
     <android.support.design.widget.CoordinatorLayout
@@ -10,27 +9,12 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.ActionBar">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-        </android.support.design.widget.AppBarLayout>
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:paddingBottom="72dp"
-            android:paddingTop="72dp">
+            android:paddingBottom="72dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -175,8 +159,8 @@
 
                     <EditText
                         android:id="@+id/phone"
-                        android:hint="Telefone"
                         style="@style/AppTheme.TextInpuLayoutEditText"
+                        android:hint="Telefone"
                         android:inputType="phone"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -196,29 +180,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="32dp"/>
 
-                <android.support.design.widget.TextInputLayout
-                    style="@style/AppTheme.AutoAdhesionEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/currentPasswordText"
-                        style="@style/AppTheme.TextInpuLayoutEditText"
-                        android:hint="Senha atual"
-                        android:drawableRight="@drawable/ic_eye"
-                        android:inputType="textPassword"/>
-                </android.support.design.widget.TextInputLayout>
-
-
-                <Button
-                    android:id="@+id/sendButton"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_round_thin_main_corners"
-                    android:text="@string/btn_activity_sign_up_submit"
-                    android:textColor="@color/main0"
-                    android:textStyle="bold"/>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/AppTheme.AutoAdhesionEdit"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/currentPasswordText"
+                            style="@style/AppTheme.TextInpuLayoutEditText"
+                            android:hint="Senha atual"
+                            android:inputType="textPassword"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageButton
+                        android:id="@+id/btnShowPassword"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@null"
+                        app:srcCompat="@drawable/ic_eye"/>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </android.support.design.widget.CoordinatorLayout>

@@ -152,7 +152,7 @@ public interface BaseApi {
     Call<UserInfo> getUserInfo();
 
     @PUT(USER_INFO)
-    Call<String> editUserInfo(@Body UserInfo.Edit.Request newUserInfo);
+    Call<ApiError> editUserInfo(@Body UserInfo.Edit.Request newUserInfo);
     /*
      * END OF User Info
      */

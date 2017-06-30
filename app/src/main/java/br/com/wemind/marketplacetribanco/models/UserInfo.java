@@ -3,11 +3,18 @@ package br.com.wemind.marketplacetribanco.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
+import java.io.IOException;
 import java.io.Serializable;
 
-public class UserInfo implements Parcelable, Serializable {
+import br.com.wemind.marketplacetribanco.api.objects.Status;
+
+public class UserInfo extends Status implements Parcelable, Serializable {
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
         @Override
@@ -37,6 +44,7 @@ public class UserInfo implements Parcelable, Serializable {
     @SerializedName("cep")
     private String cep;
     @SerializedName("state")
+    @JsonAdapter(UserInfoStateAdapter.class)
     private String state;
     @SerializedName("city")
     private String city;
@@ -181,7 +189,9 @@ public class UserInfo implements Parcelable, Serializable {
 
     public static class Edit {
         public static class Request {
+            @SerializedName("password")
             private String password = "";
+            @SerializedName("retailer")
             private UserInfo userInfo;
 
             public String getPassword() {
@@ -201,6 +211,34 @@ public class UserInfo implements Parcelable, Serializable {
                 this.userInfo = userInfo;
                 return this;
             }
+        }
+    }
+
+    private class UserInfoStateAdapter extends TypeAdapter<String> {
+
+        public static final String SERIALIZED_NAME = "uf";
+
+        @Override
+        public void write(JsonWriter out, String value) throws IOException {
+            out.value(value);
+        }
+
+        @Override
+        public String read(JsonReader in) throws IOException {
+            in.beginObject();
+            String s = "";
+            while (in.hasNext() && !(s = in.nextName()).equals(SERIALIZED_NAME)) {
+                in.skipValue();
+            }
+
+            String state = null;
+            if (s.equals(SERIALIZED_NAME)) {
+                state = in.nextString();
+            }
+
+            in.endObject();
+
+            return state;
         }
     }
 }
