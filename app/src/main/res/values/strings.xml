@@ -98,6 +98,18 @@
     <string name="text_edit_user_success">Informações atualizadas com sucesso!</string>
     <string name="error_internal_server_error">Erro interno do servidor</string>
     <string name="title_activity_edit_user_info">Minhas informções</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_ongoing_quote">Cotação em Andamento</string>
+    <string name="text_tab_requests">PEDIDOS</string>
+    <string name="text_tab_status">STATUS</string>
+    <string name="text_tab_list">LISTA</string>
+    <string name="money_prefix">R$</string>
+    <string name="text_item_ongoing_quote_request_quantity">Quant. de itens:</string>
+    <string name="text_item_ongoing_quote_request_price">Preço do pedido:</string>
+    <string name="text_item_ongoing_quote_responded_true">PREENCHEU A COTAÇÃO</string>
+    <string name="text_item_ongoing_quote_responded_false">PENDENTE</string>
 
 
 </resources>

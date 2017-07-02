@@ -24,7 +24,6 @@ import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class QuotesListActivity extends BaseDrawerActivity {
 

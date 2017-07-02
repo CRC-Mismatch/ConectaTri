@@ -5,6 +5,7 @@ import android.support.v4.util.Pair;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Collection of text formatting utilities
@@ -124,6 +125,26 @@ public class Formatting {
                 formatted.insert(pair.second, pair.first);
 
         }
+
+        return formatted.toString();
+    }
+
+    public static String maskBrazilianCurrency(CharSequence seq) {
+        String cleanStr = onlyNumbers(seq).replaceAll("^0+?", "");
+
+        // Add leading zero
+        if (cleanStr.length() < 3) {
+            cleanStr = ("000" + cleanStr).substring(cleanStr.length());
+        }
+
+        // Add grouping markers
+        StringBuilder formatted = new StringBuilder(cleanStr);
+        for (int i = cleanStr.length() - 5; i > 0; i -= 3) {
+            formatted.insert(i, '.');
+        }
+
+        // Add decimal marker
+        formatted.insert(formatted.length() - 2, ',');
 
         return formatted.toString();
     }

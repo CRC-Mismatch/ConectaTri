@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.api.objects.Status;
 
@@ -129,5 +131,17 @@ public class Quote extends Status implements Parcelable, Serializable {
     public Quote setBeginningDate(Date beginningDate) {
         this.beginningDate = beginningDate;
         return this;
+    }
+
+    public ArrayList<Supplier> getSuppliers() {
+        Set<Supplier> result = new TreeSet<>();
+
+        // TODO: 01/07/2017 revisit this. Can this lead to performance issues in the future?
+        for (QuoteProduct quoteProduct : getQuoteProducts()) {
+            for (QuoteSupplier quoteSupplier : quoteProduct.getQuoteSuppliers()) {
+                result.add(quoteSupplier.getSupplier());
+            }
+        }
+        return new ArrayList<>(result);
     }
 }

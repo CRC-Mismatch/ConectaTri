@@ -73,7 +73,7 @@ public class MainButtonsAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Button b;
         if (convertView == null) {
-            b = (Button)inflater.inflate(R.layout.content_main_button, parent, false);
+            b = (Button) inflater.inflate(R.layout.content_main_button, parent, false);
         } else {
             b = (Button) convertView;
         }
@@ -85,7 +85,7 @@ public class MainButtonsAdapter extends BaseAdapter {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Activity)context).runOnUiThread(new Runnable() {
+                ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         items.get(position).click();

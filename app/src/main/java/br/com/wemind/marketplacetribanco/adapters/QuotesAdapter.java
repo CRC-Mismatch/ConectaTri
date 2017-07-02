@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
+import br.com.wemind.marketplacetribanco.activities.OngoingQuoteActivity;
 import br.com.wemind.marketplacetribanco.activities.QuoteCreateActivity;
 import br.com.wemind.marketplacetribanco.activities.QuoteProductsListActivity;
 import br.com.wemind.marketplacetribanco.activities.QuotesListActivity;
@@ -67,10 +68,10 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         holder.v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, QuoteProductsListActivity.class);
-                i.putExtra(QuoteProductsListActivity.QUOTE, (Parcelable) quote);
+                Intent i = new Intent(context, OngoingQuoteActivity.class);
+                i.putExtra(OngoingQuoteActivity.INPUT_QUOTE, (Parcelable) quote);
                 if (quote.getType() == Quote.TYPE_MANUAL) {
-                    i.putExtra(QuoteProductsListActivity.INPUT_IS_EDITABLE, true);
+                    i.putExtra(OngoingQuoteActivity.INPUT_IS_EDITABLE, true);
                 }
 
                 context.startActivity(i);

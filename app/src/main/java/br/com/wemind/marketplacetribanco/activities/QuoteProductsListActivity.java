@@ -7,10 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -29,45 +27,9 @@ public class QuoteProductsListActivity extends BaseSelectActivity {
     public static final String INPUT_IS_EDITABLE = "input_is_editable";
     public static final int REQUEST_EDIT_QUOTE_PRODUCT = 1;
     private ContentSimpleProductsListBinding cb;
-    /**
-     * Entire data payload received from retrieveData()
-     */
-    private ArrayList<QuoteProduct> data;
     private QuoteProductAdapter adapter;
     private boolean isEditable;
     private Quote quote;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_EDIT_QUOTE_PRODUCT) {
-            if (resultCode == RESULT_OK) {
-                QuoteProduct quoteProduct =
-                        data.getParcelableExtra(QuoteProductActivity.RESULT_QUOTE_PRODUCT);
-
-                if (quoteProduct != null) {
-                    List<QuoteProduct> qpList = quote.getQuoteProducts();
-                    qpList.remove(quoteProduct);
-                    qpList.add(quoteProduct);
-                    adapter = new QuoteProductAdapter(
-                            this,
-                            quote,
-                            isEditable
-                    );
-                    cb.list.setAdapter(adapter);
-                }
-            }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return false;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,22 +76,6 @@ public class QuoteProductsListActivity extends BaseSelectActivity {
 
         isEditable = getIntent().getBooleanExtra(INPUT_IS_EDITABLE, false);
 
-        if (isEditable) {
-            b.fab.setVisibility(View.VISIBLE);
-            // FIXME: 22/06/2017 replace with proper icon
-            b.fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
-
-            b.fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // FIXME: 22/06/2017
-                    Api.api.editQuote(quote, quote.getId()).enqueue(
-                            new EditQuoteCallback()
-                    );
-                }
-            });
-        }
-
         adapter = new QuoteProductAdapter(
                 this,
                 quote,
@@ -139,12 +85,51 @@ public class QuoteProductsListActivity extends BaseSelectActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return isEditable && super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_EDIT_QUOTE_PRODUCT) {
+            if (resultCode == RESULT_OK) {
+                QuoteProduct quoteProduct =
+                        data.getParcelableExtra(QuoteProductActivity.RESULT_QUOTE_PRODUCT);
+
+                if (quoteProduct != null) {
+                    List<QuoteProduct> qpList = quote.getQuoteProducts();
+                    qpList.remove(quoteProduct);
+                    qpList.add(quoteProduct);
+                    adapter = new QuoteProductAdapter(
+                            this,
+                            quote,
+                            isEditable
+                    );
+                    cb.list.setAdapter(adapter);
+                }
+            }
+        }
+    }
+
+    @Override
     protected void packResultIntent() {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_menu_ok) {
+            if (mayContinue()) {
+                Api.api.editQuote(quote, quote.getId())
+                        .enqueue(new EditQuoteCallback());
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected boolean mayContinue() {
-        return false;
+        return true;
     }
 
     private class EditQuoteCallback extends Callback<Quote> {

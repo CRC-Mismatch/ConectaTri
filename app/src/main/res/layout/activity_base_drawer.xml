@@ -25,6 +25,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
+                    android:theme="@style/AppTheme.Toolbar"
                     app:popupTheme="@style/AppTheme.PopupOverlay">
 
                     <android.support.v7.widget.SearchView
@@ -47,9 +48,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@android:drawable/ic_dialog_email"
+                android:theme="@style/AppTheme.FAB"
                 android:visibility="gone"
-                android:theme="@style/AppTheme.FAB"/>
+                app:srcCompat="@android:drawable/ic_dialog_email"/>
 
         </android.support.design.widget.CoordinatorLayout>
 
@@ -59,10 +60,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:background="@android:color/white"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer"
-            android:background="@android:color/white"/>
+            app:menu="@menu/activity_main_drawer"/>
 
     </android.support.v4.widget.DrawerLayout>
 </layout>

@@ -3,14 +3,19 @@ package br.com.wemind.marketplacetribanco.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 /**
  * Created by kmkraiker on 25/05/2017.
  */
 
-public class QuoteSupplier implements Parcelable, Comparable {
+public class QuoteSupplier implements Parcelable, Comparable<QuoteSupplier> {
     public static final Creator<QuoteSupplier> CREATOR = new Creator<QuoteSupplier>() {
         @Override
         public QuoteSupplier createFromParcel(Parcel in) {
@@ -27,9 +32,12 @@ public class QuoteSupplier implements Parcelable, Comparable {
     @SerializedName("representative")
     private Supplier supplier;
     @SerializedName("price")
-    private String price = "0,00";
+    private String price = "0.00";
     @SerializedName("quantity")
     private int quantity;
+
+    private NumberFormat brDoubleFormat =
+            NumberFormat.getNumberInstance(new Locale("pt", "BR"));
 
     public QuoteSupplier() {
     }
@@ -59,13 +67,30 @@ public class QuoteSupplier implements Parcelable, Comparable {
         return this;
     }
 
-    public double getPrice() {
-        return Double.valueOf(price.replaceAll(",", "."));
+    public String getPrice() {
+        return price;
     }
 
     public QuoteSupplier setPrice(String price) {
         this.price = price;
         return this;
+    }
+
+    public double getPriceDouble() {
+        try {
+            return brDoubleFormat.parse(price).doubleValue();
+
+        } catch (ParseException e) {
+            Log.w("QUOTE_SUPP", "String to Double parsing failed, using fallback case ", e);
+
+            try {
+                return Double.valueOf(price);
+
+            } catch (NumberFormatException e1) {
+                Log.w("QUOTE_SUPP", "Fallback failed, returning default value", e1);
+                return 0.;
+            }
+        }
     }
 
     public int getQuantity() {
@@ -91,9 +116,8 @@ public class QuoteSupplier implements Parcelable, Comparable {
     }
 
     @Override
-    public int compareTo(@NonNull Object o) {
-        QuoteSupplier that = (QuoteSupplier) o;
+    public int compareTo(@NonNull QuoteSupplier that) {
         if (this.quantity == 0 || this.price == null) return -1;
-        return (int) Math.round(Double.valueOf(this.price) - Double.valueOf(that.price));
+        return (int) Math.round(this.getPriceDouble() - that.getPriceDouble());
     }
 }
