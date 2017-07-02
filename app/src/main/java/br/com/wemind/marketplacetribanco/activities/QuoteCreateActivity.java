@@ -166,7 +166,6 @@ public class QuoteCreateActivity extends BaseCreateActivity {
 
     @Override
     protected boolean validateForm() {
-        // TODO: 02/06/2017
         // Check for empty name field
         if (cb.edtName.length() <= 0) {
             cb.edtName.setError(getString(R.string.error_field_required));
@@ -178,8 +177,11 @@ public class QuoteCreateActivity extends BaseCreateActivity {
         // Check if start date < end date
         if (dates.get(cb.edtDateFrom).getTimeInMillis()
                 >= dates.get(cb.edtDateUntil).getTimeInMillis()) {
-            Toast.makeText(this,
-                    getString(R.string.error_invalid_dates), Toast.LENGTH_SHORT).show();
+            Toast.makeText(
+                    this,
+                    getString(R.string.error_invalid_dates),
+                    Toast.LENGTH_SHORT
+            ).show();
             return false;
         }
 

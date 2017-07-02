@@ -97,7 +97,7 @@ public class MainButtonsAdapter extends BaseAdapter {
     }
 
     private Drawable getBackgroundForPosition(int position) {
-        switch (position % 4) {
+        /*switch (position % 4) {
             case 0:
                 return context.getResources().getDrawable(R.drawable.bg_button_0);
             case 1:
@@ -106,8 +106,8 @@ public class MainButtonsAdapter extends BaseAdapter {
                 return context.getResources().getDrawable(R.drawable.bg_button_2);
             case 3:
                 return context.getResources().getDrawable(R.drawable.bg_button_3);
-        }
-        return null;
+        }*/
+        return context.getResources().getDrawable(R.drawable.bg_button_3);
     }
 
     private class MenuItem {

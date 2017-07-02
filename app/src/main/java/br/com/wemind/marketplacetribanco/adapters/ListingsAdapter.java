@@ -72,7 +72,6 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         holder.listingName.setText(listing.getName());
         holder.itemCount.setText(String.valueOf(listing.getListingProducts().size()));
 
-        // FIXME: bind event handlers
         if (selection) {
             if (selectedData.contains(listing)) {
                 holder.v.setSelected(true);
@@ -165,7 +164,6 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
     public class Filter extends android.widget.Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            // TODO: inspect this
             ArrayList<Listing> filtered = constraint.equals("") ?
                     new ArrayList<>(data)
                     : Api.syncSearchListing(constraint);

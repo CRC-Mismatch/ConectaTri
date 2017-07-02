@@ -114,7 +114,6 @@ public class ListingsListActivity extends BaseDrawerActivity {
     protected void onResume() {
         super.onResume();
         timerManager.restart();
-        // FIXME: 24/05/2017 actually retrieve data
         retrieveData();
     }
 
@@ -133,7 +132,6 @@ public class ListingsListActivity extends BaseDrawerActivity {
                     Api.api.addListing(edited).enqueue(new CreateListingCallback(this));
                 }
             } else {
-                // FIXME: 27/05/2017 handle cancellation
 
             }
         } else if (requestCode == EDIT_LISTING) {
@@ -146,7 +144,6 @@ public class ListingsListActivity extends BaseDrawerActivity {
                             .enqueue(new CreateListingCallback(this));
                 }
             } else {
-                // FIXME: 27/05/2017 handle cancellation
 
             }
         }

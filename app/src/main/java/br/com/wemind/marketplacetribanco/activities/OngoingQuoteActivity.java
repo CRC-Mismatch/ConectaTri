@@ -442,7 +442,6 @@ public class OngoingQuoteActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch (Page.values()[position]) {
-                // TODO: 01/07/2017 Finish data selection
                 case Requests:
                     return RequestsFragment.newInstance(quote);
                 case Status:
