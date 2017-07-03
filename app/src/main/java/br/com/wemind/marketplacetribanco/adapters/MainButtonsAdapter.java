@@ -97,16 +97,6 @@ public class MainButtonsAdapter extends BaseAdapter {
     }
 
     private Drawable getBackgroundForPosition(int position) {
-        /*switch (position % 4) {
-            case 0:
-                return context.getResources().getDrawable(R.drawable.bg_button_0);
-            case 1:
-                return context.getResources().getDrawable(R.drawable.bg_button_1);
-            case 2:
-                return context.getResources().getDrawable(R.drawable.bg_button_2);
-            case 3:
-                return context.getResources().getDrawable(R.drawable.bg_button_3);
-        }*/
         return context.getResources().getDrawable(R.drawable.bg_button_3);
     }
 
