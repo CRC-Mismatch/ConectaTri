@@ -23,6 +23,7 @@ import br.com.wemind.marketplacetribanco.utils.BrazilianStates;
 import br.com.wemind.marketplacetribanco.utils.BrazilianStates.StateListable;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
+import br.com.wemind.marketplacetribanco.utils.Validation;
 import br.com.wemind.marketplacetribanco.views.SelectableEditText;
 import retrofit2.Call;
 
@@ -119,6 +120,22 @@ public class SignUpActivity extends AppCompatActivity {
         } else if (Formatting.onlyNumbers(b.cnpj.getText().toString()).length()
                 > Formatting.CNPJ_NUMBER_MAX_DIGITS) {
             b.cnpj.setError(getString(R.string.error_invalid_cnpj));
+            errorView = b.cnpj;
+
+        } else if (!Validation.hasValidCnpjCheckDigits(b.cnpj.getText().toString())) {
+            // If check digits are incorrect
+
+            int[] correctDigits =
+                    Validation.calcCnpjCheckDigits(b.cnpj.getText().toString());
+
+            String correctDigitsString =
+                    String.valueOf(correctDigits[0])
+                    + String.valueOf(correctDigits[1]);
+
+            b.cnpj.setError(getString(
+                    R.string.error_invalid_cnpj_check_digits_did_you_mean,
+                    correctDigitsString)
+            );
             errorView = b.cnpj;
         }
 

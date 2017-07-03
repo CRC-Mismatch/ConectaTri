@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Arrays;
+
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
@@ -21,6 +23,7 @@ import br.com.wemind.marketplacetribanco.utils.BrPhoneFormattingTextWatcher;
 import br.com.wemind.marketplacetribanco.utils.BrazilianStates;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
+import br.com.wemind.marketplacetribanco.utils.Validation;
 import br.com.wemind.marketplacetribanco.views.SelectableEditText;
 import retrofit2.Call;
 
@@ -131,7 +134,10 @@ public class EditUserInfoActivity extends AppCompatActivity {
         boolean isValid = true;
         View errorView = null;
 
-        // Validate CNPJ
+        // This shouldn't be done here.
+        // CNPJ validation must be done during sign up.
+        // Once a user is registered, it's done.
+        /*// Validate CNPJ
         if (b.cnpj.length() <= 0) {
             b.cnpj.setError(getString(R.string.error_field_required));
             errorView = b.cnpj;
@@ -140,7 +146,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                 > Formatting.CNPJ_NUMBER_MAX_DIGITS) {
             b.cnpj.setError(getString(R.string.error_invalid_cnpj));
             errorView = b.cnpj;
-        }
+        }*/
 
         // Validate passwords
         if (b.newPasswordText.length() > 0 && b.newPasswordText.length() < 8) {

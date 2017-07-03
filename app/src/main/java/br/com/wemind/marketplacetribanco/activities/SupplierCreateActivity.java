@@ -10,6 +10,7 @@ import br.com.wemind.marketplacetribanco.models.Supplier;
 import br.com.wemind.marketplacetribanco.utils.BrPhoneFormattingTextWatcher;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
+import br.com.wemind.marketplacetribanco.utils.Validation;
 
 public class SupplierCreateActivity extends BaseCreateActivity {
 
@@ -56,20 +57,31 @@ public class SupplierCreateActivity extends BaseCreateActivity {
     @Override
     protected boolean validateForm() {
         boolean errorOccurred = false;
+        // Validate CNPJ
         if (cb.edtCnpj.length() <= 0) {
             errorOccurred = true;
             cb.edtCnpj.setError(getString(R.string.error_field_required));
-            cb.edtCnpj.requestFocus();
 
-        } else {
-            boolean hasCorrectSize =
-                    cb.edtCnpj.getText().toString().replaceAll("[^0-9]", "").length()
-                            == Formatting.CNPJ_NUMBER_MAX_DIGITS;
-            if (!hasCorrectSize) {
-                errorOccurred = true;
-                cb.edtCnpj.setError(getString(R.string.error_invalid_cnpj));
-                cb.edtCnpj.requestFocus();
-            }
+        } else if (Formatting.onlyNumbers(cb.edtCnpj.getText().toString()).length()
+                > Formatting.CNPJ_NUMBER_MAX_DIGITS) {
+            errorOccurred = true;
+            cb.edtCnpj.setError(getString(R.string.error_invalid_cnpj));
+
+        } else if (!Validation.hasValidCnpjCheckDigits(cb.edtCnpj.getText().toString())) {
+            errorOccurred = true;
+            // If check digits are incorrect
+
+            int[] correctDigits =
+                    Validation.calcCnpjCheckDigits(cb.edtCnpj.getText().toString());
+
+            String correctDigitsString =
+                    String.valueOf(correctDigits[0])
+                            + String.valueOf(correctDigits[1]);
+
+            cb.edtCnpj.setError(getString(
+                    R.string.error_invalid_cnpj_check_digits_did_you_mean,
+                    correctDigitsString)
+            );
         }
 
         errorOccurred |= _setErrorIfEmpty(cb.edtSupplierName);
