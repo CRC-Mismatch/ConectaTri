@@ -9,17 +9,17 @@ public class Login implements Serializable {
     public static class Request {
 
         @SerializedName("cnpj")
-        private String email;
+        private String username;
 
         @SerializedName("password")
         private String password;
 
-        public String getEmail() {
-            return email;
+        public String getUsername() {
+            return username;
         }
 
-        public void setEmail(String email) {
-            this.email = email;
+        public void setUsername(String email) {
+            this.username = email;
         }
 
         public String getPassword() {
@@ -41,8 +41,8 @@ public class Login implements Serializable {
                 return request;
             }
 
-            public Builder setEmail(String email) {
-                request.setEmail(email);
+            public Builder setUsername(String email) {
+                request.setUsername(email);
                 return this;
             }
 

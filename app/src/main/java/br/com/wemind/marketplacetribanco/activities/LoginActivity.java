@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final int REQUEST_SIGN_UP = 1;
     public static final String ACTION_RECOVER = "RECOVER";
+    public static final String PREF_LOGIN_USERNAME = "preference_login_username";
 
     ActivityLoginBinding binding;
     private Call ongoingLogin;
@@ -52,10 +54,9 @@ public class LoginActivity extends AppCompatActivity {
         binding.user.addTextChangedListener(new FormattingTextWatcher(new Formatting.CnpjFormatter()));
         binding.user.setText(getPreferences(MODE_PRIVATE).getString(SAVED_USER, ""));
 
-        // TODO: 26/06/2017 store previous successful login username and init EditText
-        // FIXME: 26/06/2017 remove on release
-        binding.user.setText("12345678123456");
-        binding.password.setText("12345678");
+        // Get previously successfully logged in username
+        String username = getPreferences(MODE_PRIVATE).getString(PREF_LOGIN_USERNAME, "");
+        binding.user.setText(username);
 
         binding.password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -118,14 +119,15 @@ public class LoginActivity extends AppCompatActivity {
 
         // If a call is already underway, do nothing
         if (ongoingLogin == null) {
+            String username = binding.user.getText().toString().replaceAll("[^0-9]", "");
             Call<Login.Response> loginCall = Api.api.login(
                     new Login.Request.Builder()
-                            .setEmail(binding.user.getText().toString().replaceAll("[^0-9]", ""))
+                            .setUsername(username)
                             .setPassword(binding.password.getText().toString())
                             .build());
 
             ongoingLogin = loginCall;
-            loginCall.enqueue(new LoginCallback());
+            loginCall.enqueue(new LoginCallback(username));
         }
     }
 
@@ -219,8 +221,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private class LoginCallback extends Callback<Login.Response> {
 
-        public LoginCallback() {
+        private String username;
+
+        public LoginCallback(String username) {
             super(LoginActivity.this);
+            this.username = username;
         }
 
         @Override
@@ -228,6 +233,11 @@ public class LoginActivity extends AppCompatActivity {
             AccessToken at = new AccessToken();
             at.setToken(response.getToken());
             Api.setAccessToken(at);
+
+            // Save successful login username
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putString(PREF_LOGIN_USERNAME, username);
+            editor.apply();
 
             ongoingLogin = null;
             finishLogin();
