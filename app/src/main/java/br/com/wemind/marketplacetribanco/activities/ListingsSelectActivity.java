@@ -16,6 +16,7 @@ import java.util.TimerTask;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
+import br.com.wemind.marketplacetribanco.adapters.ListingsSelectAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.ListCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
@@ -29,7 +30,7 @@ public class ListingsSelectActivity extends BaseSelectActivity {
     public static final String RESULT_BUNDLE = "result_bundle";
     public static final int QUERY_CHANGED_TIMEOUT = 700;
     private ContentListingsSelectBinding cb;
-    private ListingsAdapter adapter;
+    private ListingsSelectAdapter adapter;
     private ArrayList<Listing> data;
     private TimerManager timerManager;
 
@@ -94,7 +95,7 @@ public class ListingsSelectActivity extends BaseSelectActivity {
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ListingsAdapter(this, new ArrayList<Listing>(), true);
+        adapter = new ListingsSelectAdapter(this, new ArrayList<Listing>());
     }
 
     @Override
@@ -129,7 +130,7 @@ public class ListingsSelectActivity extends BaseSelectActivity {
             data = new ArrayList<>();
         }
         this.data = new ArrayList<>(data);
-        adapter = new ListingsAdapter(this, data, true);
+        adapter = new ListingsSelectAdapter(this, data);
         cb.list.setAdapter(adapter);
     }
 

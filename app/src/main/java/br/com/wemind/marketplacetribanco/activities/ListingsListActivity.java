@@ -151,7 +151,7 @@ public class ListingsListActivity extends BaseDrawerActivity {
 
     private void onDataReceived(List<Listing> data) {
         this.data = new ArrayList<>(data);
-        adapter = new ListingsAdapter(this, data, false);
+        adapter = new ListingsAdapter(this, data);
         cb.list.setAdapter(adapter);
     }
 

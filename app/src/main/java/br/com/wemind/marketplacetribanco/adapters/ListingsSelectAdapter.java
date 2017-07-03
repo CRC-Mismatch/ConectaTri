@@ -1,40 +1,38 @@
 package br.com.wemind.marketplacetribanco.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filterable;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
-import br.com.wemind.marketplacetribanco.activities.ListingCreateActivity;
-import br.com.wemind.marketplacetribanco.activities.ListingsListActivity;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.models.Listing;
-import br.com.wemind.marketplacetribanco.utils.Alerts;
 
-public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHolder>
+public class ListingsSelectAdapter extends RecyclerView.Adapter<ListingsSelectAdapter.ViewHolder>
         implements Filterable {
 
     private Context context;
     private ArrayList<Listing> data;
     private ArrayList<Listing> filteredData;
+    private Set<Listing> selectedData;
     private Filter filter = new Filter();
 
-    public ListingsAdapter(Context context, List<Listing> data) {
+    public ListingsSelectAdapter(Context context, List<Listing> data) {
         this.context = context;
         this.data = new ArrayList<>(data);
         this.filteredData = new ArrayList<>(data);
+        this.selectedData = new TreeSet<>();
     }
 
     @Override
@@ -45,18 +43,17 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
+        int layoutId;
         if (viewType == Listing.TYPE_SEASONAL) {
-            v = LayoutInflater.from(context)
-                    .inflate(R.layout.item_listing_seasonal, parent, false);
+            layoutId = R.layout.item_selectable_listing_seasonal;
 
         } else if (viewType == Listing.TYPE_WEEKLY) {
-            v = LayoutInflater.from(context)
-                    .inflate(R.layout.item_listing_weekly, parent, false);
+            layoutId = R.layout.item_selectable_listing_weekly;
         } else {
             // Default to common type
-            v = LayoutInflater.from(context)
-                    .inflate(R.layout.item_listing_common, parent, false);
+            layoutId = R.layout.item_selectable_listing_common;
         }
+        v = LayoutInflater.from(context).inflate(layoutId, parent, false);
         return new ViewHolder(v);
     }
 
@@ -65,38 +62,28 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         final Listing listing = filteredData.get(position);
         holder.listingName.setText(listing.getName());
         holder.itemCount.setText(String.valueOf(listing.getListingProducts().size()));
-        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+
+        holder.checkBox.setChecked(selectedData.contains(listing));
+
+        holder.v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Alerts.getDeleteConfirmationAlert(listing.getName(), context,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                enqueueDeleteListing(listing.getId());
-                            }
-                        },
-                        null
-                ).show();
+                holder.checkBox.setChecked(!v.isSelected());
             }
         });
-        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Bundle toEdit = new Bundle();
-                toEdit.putParcelable(ListingCreateActivity.INPUT_LISTING, listing);
-
-                Intent edit = new Intent(context, ListingCreateActivity.class);
-                edit.putExtra(ListingCreateActivity.INPUT_BUNDLE, toEdit);
-                ((Activity) context)
-                        .startActivityForResult(edit, ListingsListActivity.EDIT_LISTING);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    selectedData.add(listing);
+                    holder.v.setSelected(true);
+                } else {
+                    selectedData.remove(listing);
+                    holder.v.setSelected(false);
+                }
             }
         });
-    }
-
-    private void enqueueDeleteListing(long id) {
-        Api.api.deleteListing(id).enqueue(
-                ((ListingsListActivity) context).new DeleteListingCallback(context)
-        );
     }
 
     @Override
@@ -109,13 +96,16 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         return filter;
     }
 
+    public ArrayList<Listing> getSelectedList() {
+        return new ArrayList<>(selectedData);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final View v;
+        private final CheckBox checkBox;
         private final TextView listingName;
         private final TextView itemCount;
-        private final ImageButton btnEdit;
-        private final ImageButton btnDelete;
 
         public ViewHolder(View v) {
             super(v);
@@ -123,8 +113,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
             this.v = v;
             listingName = (TextView) v.findViewById(R.id.txt_listing_name);
             itemCount = (TextView) v.findViewById(R.id.txt_item_count);
-            btnEdit = (ImageButton) v.findViewById(R.id.btn_edit);
-            btnDelete = (ImageButton) v.findViewById(R.id.btn_delete);
+            checkBox = (CheckBox) v.findViewById(R.id.check_box);
         }
     }
 
@@ -149,3 +138,4 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         }
     }
 }
+
