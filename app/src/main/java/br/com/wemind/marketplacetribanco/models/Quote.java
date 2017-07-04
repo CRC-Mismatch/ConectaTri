@@ -44,6 +44,8 @@ public class Quote extends Status implements Parcelable, Serializable {
     private Date beginningDate = new Date();
     @SerializedName("expires_at")
     private Date expirationDate = new Date();
+    @SerializedName("closed")
+    private boolean closed = false;
 
     public Quote() {
     }
