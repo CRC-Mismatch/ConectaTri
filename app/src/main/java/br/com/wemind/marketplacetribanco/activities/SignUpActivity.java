@@ -1,10 +1,8 @@
 package br.com.wemind.marketplacetribanco.activities;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -19,7 +17,7 @@ import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.api.ValidationCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
-import br.com.wemind.marketplacetribanco.api.objects.Status;
+import br.com.wemind.marketplacetribanco.api.objects.GetCep;
 import br.com.wemind.marketplacetribanco.databinding.ActivitySignUpBinding;
 import br.com.wemind.marketplacetribanco.models.UserInfo;
 import br.com.wemind.marketplacetribanco.utils.BrPhoneFormattingTextWatcher;
@@ -30,7 +28,6 @@ import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
 import br.com.wemind.marketplacetribanco.utils.Validation;
 import br.com.wemind.marketplacetribanco.views.SelectableEditText;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -63,6 +60,15 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        b.cep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    //   updateCep();
+                }
+            }
+        });
+
         // Setup CEP formatting
         b.cep.addTextChangedListener(new FormattingTextWatcher(
                 new Formatting.CepFormatter(), CEP_MAX_LENGTH));
@@ -87,6 +93,10 @@ public class SignUpActivity extends AppCompatActivity {
         b.agreementText.setText(text);
         b.agreementText.setClickable(true);
         b.agreementText.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void updateCep() {
+        Api.cepapi.getCepResponse(b.cep.getText().toString()).enqueue(new CepInfoCallBack());
     }
 
     private void sendRequest() {
@@ -218,6 +228,23 @@ public class SignUpActivity extends AppCompatActivity {
                     "Erro: " + response.getMessage(),
                     Toast.LENGTH_SHORT
             ).show();
+        }
+    }
+
+
+    private class CepInfoCallBack extends Callback<GetCep> {
+
+        public CepInfoCallBack() {
+            super(SignUpActivity.this);
+        }
+
+        public void onSuccess(GetCep response) {
+            b.address.setText(response.getLogradouro());
+        }
+
+        @Override
+        public void onError(Call<GetCep> call, ApiError response) {
+
         }
     }
 
