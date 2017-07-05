@@ -168,8 +168,7 @@ public interface BaseApi {
      * END OF User Info
      */
 
-    @GET("https://apidev-tribanco.sensedia.com/sandbox/v1/tricard/enderecos/{cep}/abreviado")
+    @GET("enderecos/{cep}/abreviado")
 
     Call<GetCep> getCepResponse(@Path("cep") String cep);
-
 }

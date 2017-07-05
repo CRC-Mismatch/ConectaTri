@@ -44,18 +44,18 @@ public final class Api {
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ")
                 .create();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BaseApi.baseUrl)
+        Retrofit.Builder builder = new Retrofit.Builder()
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(gson));
+
+        retrofit = builder
+                .baseUrl(BaseApi.baseUrl)
                 .build();
 
         api = retrofit.create(BaseApi.class);
 
-        Retrofit cepretro = new Retrofit.Builder()
-                .baseUrl("")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+        Retrofit cepretro = builder
+                .baseUrl("https://apidev-tribanco.sensedia.com/sandbox/v1/tricard/")
                 .build();
 
         cepapi = cepretro.create(BaseApi.class);
