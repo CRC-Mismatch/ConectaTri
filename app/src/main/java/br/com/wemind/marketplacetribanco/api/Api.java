@@ -27,6 +27,7 @@ public final class Api {
 
     public static Retrofit retrofit;
     public static BaseApi api;
+    public static BaseApi cepapi;
     private static OkHttpClient client;
     private static AccessToken accessToken = new AccessToken();
 
@@ -50,6 +51,14 @@ public final class Api {
                 .build();
 
         api = retrofit.create(BaseApi.class);
+
+        Retrofit cepretro = new Retrofit.Builder()
+                .baseUrl("")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        cepapi = cepretro.create(BaseApi.class);
     }
 
     @NonNull

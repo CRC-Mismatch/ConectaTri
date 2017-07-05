@@ -7,6 +7,7 @@ import br.com.wemind.marketplacetribanco.api.objects.Login;
 import br.com.wemind.marketplacetribanco.api.objects.PasswordRecovery;
 import br.com.wemind.marketplacetribanco.api.objects.SearchQuery;
 import br.com.wemind.marketplacetribanco.api.objects.Status;
+import br.com.wemind.marketplacetribanco.api.objects.GetCep;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Quote;
@@ -156,4 +157,9 @@ public interface BaseApi {
     /*
      * END OF User Info
      */
+
+    @GET("https://apidev-tribanco.sensedia.com/sandbox/v1/tricard/enderecos/{cep}/abreviado")
+
+    Call<GetCep> getCepResponse(@Path("cep") String cep);
+
 }
