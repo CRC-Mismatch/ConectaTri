@@ -1,8 +1,10 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -15,7 +17,9 @@ import android.widget.Toast;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ValidationCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
+import br.com.wemind.marketplacetribanco.api.objects.Status;
 import br.com.wemind.marketplacetribanco.databinding.ActivitySignUpBinding;
 import br.com.wemind.marketplacetribanco.models.UserInfo;
 import br.com.wemind.marketplacetribanco.utils.BrPhoneFormattingTextWatcher;
@@ -26,6 +30,7 @@ import br.com.wemind.marketplacetribanco.utils.FormattingTextWatcher;
 import br.com.wemind.marketplacetribanco.utils.Validation;
 import br.com.wemind.marketplacetribanco.views.SelectableEditText;
 import retrofit2.Call;
+import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -53,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateForm()) {
-                    sendRequest();
+                    validateEmail();
                 }
             }
         });
@@ -69,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
         // Setup list of brazilian states
         ((SelectableEditText<StateListable>) b.state).setItems(BrazilianStates.getList());
 
-        // Parse html text for agreement checkbox
+        // Parse html text for agreement checkboxf
         Spanned text;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             text = Html.fromHtml(
@@ -101,6 +106,10 @@ public class SignUpActivity extends AppCompatActivity {
         Api.api.register(userInfo).enqueue(new RegistrationCallback());
     }
 
+    private void validateEmail() {
+        Api.api.validateEmail(b.email.getText().toString()).enqueue(new ValidateMailCallback());
+    }
+
     private boolean validateForm() {
         boolean isValid = true;
         View errorView = null;
@@ -130,7 +139,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             String correctDigitsString =
                     String.valueOf(correctDigits[0])
-                    + String.valueOf(correctDigits[1]);
+                            + String.valueOf(correctDigits[1]);
 
             b.cnpj.setError(getString(
                     R.string.error_invalid_cnpj_check_digits_did_you_mean,
@@ -208,6 +217,34 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(context,
                     "Erro: " + response.getMessage(),
                     Toast.LENGTH_SHORT
+            ).show();
+        }
+    }
+
+    private class ValidateMailCallback extends ValidationCallback {
+
+        public ValidateMailCallback() {
+            super(SignUpActivity.this);
+        }
+
+        @Override
+        public void onSuccess(Boolean response) {
+            if (response == true) {
+                sendRequest();
+            } else {
+                Toast.makeText(context,
+                        R.string.invalid_mail,
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        }
+
+        @Override
+        public void onError(Call<Boolean> call, ApiError response) {
+            //não deveria acontecer.
+            Toast.makeText(context,
+                    R.string.error_internal_server_error,
+                    Toast.LENGTH_LONG
             ).show();
         }
     }

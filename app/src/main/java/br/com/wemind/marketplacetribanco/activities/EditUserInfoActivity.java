@@ -1,8 +1,11 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.Menu;
@@ -16,6 +19,7 @@ import java.util.Arrays;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ValidationCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ActivityEditUserInfoBinding;
 import br.com.wemind.marketplacetribanco.models.UserInfo;
@@ -29,9 +33,11 @@ import retrofit2.Call;
 
 public class EditUserInfoActivity extends AppCompatActivity {
 
+    public static final String MAIL_HAS_CHANGED = "EditUserInfoActivity.MailHasChanged";
     private ActivityEditUserInfoBinding b;
     private boolean isDataReady = false;
     private Handler retryGetDataHandler;
+    private String originalMail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,25 +110,16 @@ public class EditUserInfoActivity extends AppCompatActivity {
         return true;
     }
 
+    private void validateEmail() {
+        Api.api.validateEmail(b.email.getText().toString()).enqueue(new EmailValidationCallback());
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_menu_save) {
             if (isDataReady && validateForm()) {
-                Api.api.editUserInfo(new UserInfo.Edit.Request()
-                        .setPassword(b.currentPasswordText.getText().toString())
-                        .setUserInfo(new UserInfo()
-                                .setCompanyName(b.companyName.getText().toString())
-                                .setFantasyName(b.fantasyName.getText().toString())
-                                .setPassword(b.newPasswordText.getText().toString())
-                                .setCellphone(b.cellphone.getText().toString())
-                                .setPhone(b.phone.getText().toString())
-                                .setEmail(b.email.getText().toString())
-                                .setCep(b.cep.getText().toString())
-                                .setState(b.state.getText().toString())
-                                .setCity(b.city.getText().toString())
-                                .setAddress(b.address.getText().toString())
-                        )
-                ).enqueue(new EditUserInfoCallback());
+                validateEmail();
             }
             return true;
         } else {
@@ -199,6 +196,8 @@ public class EditUserInfoActivity extends AppCompatActivity {
     }
 
     private void bindData(UserInfo data) {
+        this.originalMail = data.getEmail();
+
         b.cnpj.setText(data.getCnpj());
         b.cellphone.setText(data.getCellphone());
         b.phone.setText(data.getPhone());
@@ -229,6 +228,12 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     R.string.text_edit_user_success,
                     Toast.LENGTH_LONG
             ).show();
+            Intent result = new Intent();
+            if (originalMail != null)
+                result.putExtra(MAIL_HAS_CHANGED, !originalMail.equals(b.email.getText().toString()));
+            else
+                result.putExtra(MAIL_HAS_CHANGED, false);
+            setResult(RESULT_OK, result);
             finish();
         }
 
@@ -266,6 +271,46 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     retrieveData();
                 }
             }, 1000);
+        }
+    }
+
+    private class EmailValidationCallback extends ValidationCallback {
+        public EmailValidationCallback() {
+            super(EditUserInfoActivity.this);
+        }
+
+        @Override
+        public void onSuccess(Boolean response) {
+            if (response == true) {
+                Api.api.editUserInfo(new UserInfo.Edit.Request()
+                        .setPassword(b.currentPasswordText.getText().toString())
+                        .setUserInfo(new UserInfo()
+                                .setCompanyName(b.companyName.getText().toString())
+                                .setFantasyName(b.fantasyName.getText().toString())
+                                .setPassword(b.newPasswordText.getText().toString())
+                                .setCellphone(b.cellphone.getText().toString())
+                                .setPhone(b.phone.getText().toString())
+                                .setEmail(b.email.getText().toString())
+                                .setCep(b.cep.getText().toString())
+                                .setState(b.state.getText().toString())
+                                .setCity(b.city.getText().toString())
+                                .setAddress(b.address.getText().toString())
+                        )
+                ).enqueue(new EditUserInfoCallback());
+            } else {
+                Toast.makeText(context,
+                        R.string.invalid_mail,
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        }
+
+        @Override
+        public void onError(Call<Boolean> call, ApiError response) {
+            Toast.makeText(context,
+                    R.string.error_internal_server_error,
+                    Toast.LENGTH_LONG
+            ).show();
         }
     }
 }

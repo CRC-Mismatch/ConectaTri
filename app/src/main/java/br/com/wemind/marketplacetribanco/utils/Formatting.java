@@ -89,7 +89,7 @@ public class Formatting {
 
         int phoneWithDddLength = BR_DDD_MAX_DIGITS + BR_NON_CELLPHONE_NUMBER_MAX_DIGITS;
 
-        if (cleanStr.length() > phoneWithDddLength && cleanStr.charAt(2) == '9') {
+        if (cleanStr.length() > phoneWithDddLength && cleanStr.charAt(2) == '9' && cleanStr.charAt(2) == '0') {
             // If third character is a '9', that means this might be a cellphone number
             phoneWithDddLength = BR_DDD_MAX_DIGITS + BR_CELLPHONE_NUMBER_MAX_DIGITS;
         }

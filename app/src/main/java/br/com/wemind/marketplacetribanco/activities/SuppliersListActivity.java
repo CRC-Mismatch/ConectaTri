@@ -1,5 +1,6 @@
 package br.com.wemind.marketplacetribanco.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -14,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import br.com.wemind.marketplacetribanco.adapters.SupplierAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.api.ListCallback;
+import br.com.wemind.marketplacetribanco.api.ValidationCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
@@ -107,29 +110,18 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         Api.api.getAllSuppliers().enqueue(new GetSuppliersCallback());
     }
 
+    void validateEmail(Supplier edited, int requestCode) {
+        Api.api.validateEmail(edited.getContactEmail()).enqueue(new EmailValidation(edited, requestCode));
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EDIT_SUPPLIER) {
+        if (requestCode == EDIT_SUPPLIER || requestCode == CREATE_SUPPLIER) {
             if (resultCode == RESULT_OK) {
                 Supplier edited = data.getBundleExtra(SupplierCreateActivity.RESULT_BUNDLE)
                         .getParcelable(SupplierCreateActivity.RESULT_SUPPLIER);
-
                 if (edited != null) {
-                    Api.api.editSupplier(edited, edited.getId())
-                            .enqueue(new EditSupplierCallback(this));
-                }
-            } else {
-
-            }
-        } else if (requestCode == CREATE_SUPPLIER) {
-            if (resultCode == RESULT_OK) {
-                Supplier edited = data.getBundleExtra(SupplierCreateActivity.RESULT_BUNDLE)
-                        .getParcelable(SupplierCreateActivity.RESULT_SUPPLIER);
-
-                if (edited != null) {
-                    Api.api.addSupplier(edited).enqueue(
-                            new CreateSupplierCallback(this)
-                    );
+                    validateEmail(edited, requestCode);
                 }
             } else {
 
@@ -255,6 +247,51 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         @Override
         public void onError(Call<Supplier> call, ApiError response) {
             refreshData();
+        }
+    }
+
+    private class EmailValidation extends ValidationCallback {
+        private final int requestCode;
+        private final Supplier edited;
+
+        public EmailValidation(Supplier edited, int requestCode) {
+            super(SuppliersListActivity.this);
+            this.edited = edited;
+            this.requestCode = requestCode;
+        }
+
+        @Override
+        public void onSuccess(Boolean response) {
+            if (response == true) {
+                switch (requestCode) {
+                    case EDIT_SUPPLIER:
+                        Api.api.editSupplier(edited, edited.getId())
+                                .enqueue(new EditSupplierCallback(context));
+                        break;
+                    case CREATE_SUPPLIER:
+                        Api.api.addSupplier(edited).enqueue(
+                                new CreateSupplierCallback(context));
+                        break;
+                }
+            } else {
+                //show error message
+                Toast.makeText(context,
+                        R.string.invalid_mail,
+                        Toast.LENGTH_LONG
+                ).show();
+                //return to edit/create supplier activity.
+                Bundle toEdit = new Bundle();
+                toEdit.putParcelable(SupplierCreateActivity.INPUT_SUPPLIER, edited);
+                Intent edit = new Intent(context, SupplierCreateActivity.class);
+                edit.putExtra(SupplierCreateActivity.INPUT_BUNDLE, toEdit);
+                ((Activity) context).startActivityForResult(edit, SuppliersListActivity.EDIT_SUPPLIER);
+
+            }
+        }
+
+        @Override
+        public void onError(Call<Boolean> call, ApiError response) {
+
         }
     }
 }
