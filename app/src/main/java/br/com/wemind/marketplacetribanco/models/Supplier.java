@@ -59,6 +59,17 @@ public class Supplier extends Status implements Parcelable, Comparable, Serializ
         companyId = in.readLong();
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeString(contactName);
+        dest.writeString(contactEmail);
+        dest.writeString(contactPhone);
+        dest.writeString(cnpj);
+        dest.writeLong(companyId);
+    }
+
     public String getName() {
         return name;
     }
@@ -131,16 +142,7 @@ public class Supplier extends Status implements Parcelable, Comparable, Serializ
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(name);
-        dest.writeString(contactName);
-        dest.writeString(contactEmail);
-        dest.writeString(contactPhone);
-        dest.writeString(cnpj);
-        dest.writeLong(companyId);
-    }
+
 
     @Override
     public boolean equals(Object obj) {

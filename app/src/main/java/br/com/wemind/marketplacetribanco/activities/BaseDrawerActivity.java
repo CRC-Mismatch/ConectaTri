@@ -25,6 +25,8 @@ import br.com.wemind.marketplacetribanco.databinding.ActivityBaseDrawerBinding;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static br.com.wemind.marketplacetribanco.activities.EditUserInfoActivity.MAIL_HAS_CHANGED;
+
 /**
  * Base class for all activities which require the side navigation drawer
  */
@@ -43,6 +45,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
     public static final int ID_NONE_VOLATILE = -2;
     private static final long MAIN_CONTENT_FADEOUT_DURATION = 300;
     public static final String WWW_TRIBANCO_HOMEPAGE = "http://www.tribanco.com.br/";
+    private static final int EDIT_USER_INFO = 1;
     protected ActivityBaseDrawerBinding b;
 
     @Override
@@ -141,7 +144,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_settings) {
             Intent i = new Intent(this, EditUserInfoActivity.class);
-            startActivity(i);
+            startActivityForResult(i, EDIT_USER_INFO);
 
         } else if (id == R.id.nav_logout) {
             // Try to log out.
@@ -154,6 +157,19 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
     }
 
     protected abstract int getSelfNavDrawerItem();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == EDIT_USER_INFO) {
+            if (resultCode == RESULT_OK) {
+                boolean mailHasChanged = data.getBooleanExtra(MAIL_HAS_CHANGED, false);
+                if (mailHasChanged) {
+                    Api.api.logout().enqueue(new LogoutCallback(this));
+                }
+            }
+        }
+    }
 
     private static class LogoutCallback extends Callback<Status> {
 

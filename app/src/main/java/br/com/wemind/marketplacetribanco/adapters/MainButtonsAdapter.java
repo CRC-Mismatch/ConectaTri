@@ -77,9 +77,9 @@ public class MainButtonsAdapter extends BaseAdapter {
         } else {
             b = (Button) convertView;
         }
-        Drawable icon = context.getResources().getDrawable(context.getResources().getIdentifier(items.get(position).icon, "drawable", context.getPackageName()));
-        icon.setBounds(0, 0, Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics())), Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics())));
-        b.setCompoundDrawables(null, icon, null, null);
+        Drawable icon = context.getResources().getDrawable(R.drawable.bg_button_3);
+        icon.setBounds(0, 0, Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics())), Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics())));
+        b.setCompoundDrawables(icon, null, null, null);
         b.setText(items.get(position).title);
         b.setBackground(getBackgroundForPosition(position));
         b.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +97,27 @@ public class MainButtonsAdapter extends BaseAdapter {
     }
 
     private Drawable getBackgroundForPosition(int position) {
-        return context.getResources().getDrawable(R.drawable.bg_button_3);
+        switch (position){
+            case 0:
+                return context.getResources().getDrawable(R.drawable.bg_ini_cota_xxxhdpi);
+            case 1:
+
+                return context.getResources().getDrawable(R.drawable.bg_cota_em_anda_xxxhdpi);
+            case 2:
+
+                return context.getResources().getDrawable(R.drawable.bg_criar_lista_xxxhdpi);
+            case 3:
+
+                return context.getResources().getDrawable(R.drawable.bg_minhas_lista_xxxhdpi);
+            case 4:
+
+                return context.getResources().getDrawable(R.drawable.bg_gere_prod_xxxhdpi);
+            case 5:
+
+                return context.getResources().getDrawable(R.drawable.bg_meus_forne_xxxhdpi);
+
+        }
+        return context.getResources().getDrawable(R.drawable.bg_button_2);
     }
 
     private class MenuItem {

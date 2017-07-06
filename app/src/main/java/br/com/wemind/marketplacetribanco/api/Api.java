@@ -27,6 +27,7 @@ public final class Api {
 
     public static Retrofit retrofit;
     public static BaseApi api;
+    public static BaseApi cepapi;
     private static OkHttpClient client;
     private static AccessToken accessToken = new AccessToken();
 
@@ -43,13 +44,21 @@ public final class Api {
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ")
                 .create();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BaseApi.baseUrl)
+        Retrofit.Builder builder = new Retrofit.Builder()
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(gson));
+
+        retrofit = builder
+                .baseUrl(BaseApi.baseUrl)
                 .build();
 
         api = retrofit.create(BaseApi.class);
+
+        Retrofit cepretro = builder
+                .baseUrl("https://apidev-tribanco.sensedia.com/sandbox/v1/tricard/")
+                .build();
+
+        cepapi = cepretro.create(BaseApi.class);
     }
 
     @NonNull

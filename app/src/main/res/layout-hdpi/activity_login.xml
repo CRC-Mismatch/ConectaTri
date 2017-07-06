@@ -5,7 +5,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login_background"
+        android:background="@drawable/login_background_new"
         android:clipChildren="false"
         android:gravity="center"
         tools:context="br.com.wemind.marketplacetribanco.activities.LoginActivity">
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ScrollView
             android:id="@+id/login_form"
@@ -53,7 +53,7 @@
                         android:alpha="0.7"
                         android:text="@string/text_login"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                             android:layout_gravity="center_vertical|start"
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="16dp"
-                            app:srcCompat="@drawable/ic_user"/>
+                            app:srcCompat="@drawable/ic_user" />
 
                         <br.com.wemind.marketplacetribanco.views.TextInputLayout
                             style="@style/AppTheme.LoginLayout"
@@ -96,7 +96,7 @@
                                 android:paddingBottom="12dp"
                                 android:paddingEnd="10dp"
                                 android:singleLine="true"
-                                android:textSize="16sp"/>
+                                android:textSize="16sp" />
 
                         </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
@@ -121,7 +121,7 @@
                             android:layout_gravity="center_vertical|start"
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="16dp"
-                            app:srcCompat="@drawable/ic_password"/>
+                            app:srcCompat="@drawable/ic_password" />
 
                         <br.com.wemind.marketplacetribanco.views.TextInputLayout
                             style="@style/AppTheme.LoginLayout"
@@ -146,7 +146,7 @@
                                 android:paddingBottom="12dp"
                                 android:paddingEnd="10dp"
                                 android:singleLine="true"
-                                android:textSize="16sp"/>
+                                android:textSize="16sp" />
                         </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
                         <ImageView
@@ -159,16 +159,16 @@
                             android:scaleX="0.66"
                             android:scaleY="0.66"
                             android:tint="@color/loginLtGray"
-                            app:srcCompat="@drawable/ic_eye"/>
+                            app:srcCompat="@drawable/ic_eye" />
                     </LinearLayout>
 
                     <TextView
-                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:gravity="center"
+                        android:onClick="forgotPassword"
                         android:text="@string/login_forgot_password"
-                        android:onClick="forgotPassword"/>
+                        android:textColor="@android:color/white" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -183,7 +183,7 @@
                             android:layout_height="72dp"
                             android:alpha="0.5"
                             android:scaleType="fitXY"
-                            android:src="@drawable/penumbra_gradient"/>
+                            android:src="@drawable/penumbra_gradient" />
 
                         <Button
                             android:id="@+id/user_sign_in_button"
@@ -202,7 +202,7 @@
                             android:text="@string/action_sign_in"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white"
-                            android:textSize="18sp"/>
+                            android:textSize="18sp" />
                     </RelativeLayout>
 
                     <TextView
@@ -217,12 +217,12 @@
                         android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <android.support.v4.widget.Space
                         android:id="@+id/button_bottom_space"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"/>
+                        android:layout_height="48dp" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -231,10 +231,14 @@
                     android:layout_above="@id/login_fields"
                     android:layout_alignParentTop="true"
                     android:clipChildren="false"
-                    android:minHeight="60dp">
+                    android:minHeight="60dp"
+                    android:padding="25dp">
 
-                    <include layout="@layout/logo_large"/>
-
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/logo_conectatri" />
                 </RelativeLayout>
             </RelativeLayout>
         </ScrollView>

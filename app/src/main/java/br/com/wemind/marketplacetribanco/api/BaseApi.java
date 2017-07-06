@@ -7,6 +7,7 @@ import br.com.wemind.marketplacetribanco.api.objects.Login;
 import br.com.wemind.marketplacetribanco.api.objects.PasswordRecovery;
 import br.com.wemind.marketplacetribanco.api.objects.SearchQuery;
 import br.com.wemind.marketplacetribanco.api.objects.Status;
+import br.com.wemind.marketplacetribanco.api.objects.GetCep;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Product;
 import br.com.wemind.marketplacetribanco.models.Quote;
@@ -23,6 +24,8 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
+import static br.com.wemind.marketplacetribanco.api.BaseApi.EMAIL;
+
 public interface BaseApi {
 
     //String baseUrl = "https://demo8948757.mockable.io/";
@@ -32,12 +35,20 @@ public interface BaseApi {
     String QUOTE = "quote";
     String LISTING = "listing";
     String USER_INFO = "retailer";
+    String EMAIL = "email";
 
     @POST("login")
     Call<Login.Response> login(@Body Login.Request body);
 
     @DELETE("logout")
     Call<Status> logout();
+
+
+    /*
+     * VALIDATION
+     */
+    @GET(EMAIL + "/{email}")
+    Call<Boolean> validateEmail(@Path("email") String email);
 
     /*
      * PRODUCT
@@ -156,4 +167,8 @@ public interface BaseApi {
     /*
      * END OF User Info
      */
+
+    @GET("enderecos/{cep}/abreviado")
+
+    Call<GetCep> getCepResponse(@Path("cep") String cep);
 }

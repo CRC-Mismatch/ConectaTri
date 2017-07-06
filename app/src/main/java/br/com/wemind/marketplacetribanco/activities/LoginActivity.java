@@ -8,9 +8,12 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -41,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
     public static final int REQUEST_SIGN_UP = 1;
     public static final String ACTION_RECOVER = "RECOVER";
     public static final String PREF_LOGIN_USERNAME = "preference_login_username";
+
+    private GestureDetectorCompat detector;
 
     ActivityLoginBinding binding;
     private Call ongoingLogin;
@@ -113,7 +118,16 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT
             ).show();
         }
+
+        detector = new GestureDetectorCompat(this, new GestureHandler());
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent me) {
+        detector.onTouchEvent(me);
+        return super.onTouchEvent(me);
+    }
+
 
     protected void attemptLogin() {
 
@@ -317,6 +331,16 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT
             ).show();
 
+        }
+    }
+
+    class GestureHandler extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
+            Toast.makeText(LoginActivity.this, "funfou", Toast.LENGTH_SHORT).show();
+
+            return false;
         }
     }
 }

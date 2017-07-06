@@ -5,10 +5,13 @@
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_background"
+    android:background="@drawable/login_background_new"
+    android:clipChildren="false"
     android:gravity="center"
-    tools:context="br.com.wemind.marketplacetribanco.activities.SplashActivity"
-    android:clipChildren="false">
+    tools:context="br.com.wemind.marketplacetribanco.activities.SplashActivity">
 
-    <include layout="@layout/logo_large"/>
+    <include
+        layout="@layout/logo_large"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true" />
 </RelativeLayout>
