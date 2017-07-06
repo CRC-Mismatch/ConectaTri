@@ -227,12 +227,14 @@ public class UserInfo extends Status implements Parcelable, Serializable {
         public String read(JsonReader in) throws IOException {
             in.beginObject();
             String s = "";
+            String state = null;
             while (in.hasNext()) {
                 s = in.nextName();
-                if (s.equals(SERIALIZED_NAME))
+                if (s.equals(SERIALIZED_NAME)) {
                     state = in.nextString();
-                else
+                } else {
                     in.skipValue();
+                }
             }
             in.endObject();
 
