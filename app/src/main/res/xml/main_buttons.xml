@@ -8,7 +8,7 @@
     <item
         id="main_track_quote"
         icon="ic_check"
-        title="Cotação em\nAndamento"
+        title="Minhas\nCotações"
         onClick="br.com.wemind.marketplacetribanco.activities.QuotesListActivity"/>
     <item
         id="main_list_create"
