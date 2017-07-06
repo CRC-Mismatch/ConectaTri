@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.NumberFormat;
@@ -36,7 +37,8 @@ public class QuoteSupplier implements Parcelable, Comparable<QuoteSupplier> {
     @SerializedName("quantity")
     private int quantity;
 
-    private NumberFormat brDoubleFormat =
+    @Expose(serialize = false, deserialize = false)
+    private static final NumberFormat brDoubleFormat =
             NumberFormat.getNumberInstance(new Locale("pt", "BR"));
 
     public QuoteSupplier() {
