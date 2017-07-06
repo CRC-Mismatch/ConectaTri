@@ -24,11 +24,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.QuoteProductAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
+import br.com.wemind.marketplacetribanco.api.ListCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ActivityOngoingQuoteBinding;
 import br.com.wemind.marketplacetribanco.databinding.FragmentOngoingQuoteListBinding;
@@ -55,6 +57,7 @@ public class OngoingQuoteActivity extends AppCompatActivity {
     private ActivityOngoingQuoteBinding b;
     private boolean isEditable = false;
     private Quote quote;
+    private TreeSet<Supplier> suppliers = new TreeSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,33 @@ public class OngoingQuoteActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_ongoing_quote, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (suppliers == null || suppliers.size() <= 0) {
+            Api.api.getAllSuppliers().enqueue(new ListCallback<List<Supplier>>(this) {
+                @Override
+                public void onSuccess(List<Supplier> responseBody) {
+                    suppliers = new TreeSet<>(responseBody);
+                    onSuppliersReady(suppliers);
+                }
+
+                @Override
+                public void onError(Call<List<Supplier>> call, ApiError responseErrorBody) {
+
+                }
+            });
+        }
+    }
+
+    private void onSuppliersReady(TreeSet<Supplier> suppliers) {
+        sectionsPagerAdapter.requestsFragment.setSupplierData(suppliers);
+        sectionsPagerAdapter.requestsFragment.adapter.notifyDataSetChanged();
+        sectionsPagerAdapter.statusFragment.setSupplierData(suppliers);
+        sectionsPagerAdapter.statusFragment.adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -145,6 +175,8 @@ public class OngoingQuoteActivity extends AppCompatActivity {
         public static final String INPUT_SUPPLIERS = "input_suppliers";
         private FragmentOngoingQuoteRequestsBinding b;
         private ArrayList<PurchaseOrder> purchaseOrders = new ArrayList<>();
+        private RequestsAdapter adapter;
+        private TreeSet<Supplier> suppliers = new TreeSet<>();
 
         public static RequestsFragment newInstance(Quote quote) {
             // Build each Offer, which consists of a certain Supplier's
@@ -208,9 +240,15 @@ public class OngoingQuoteActivity extends AppCompatActivity {
             b.list.setHasFixedSize(true);
             FragmentActivity context = getActivity();
             b.list.setLayoutManager(new LinearLayoutManager(context));
-            b.list.setAdapter(new RequestsAdapter());
+            adapter = new RequestsAdapter();
+            b.list.setAdapter(adapter);
 
             return b.getRoot();
+        }
+
+        public void setSupplierData(TreeSet<Supplier> suppliers) {
+            this.suppliers = suppliers;
+            adapter.notifyDataSetChanged();
         }
 
         private class RequestsAdapter
@@ -231,7 +269,12 @@ public class OngoingQuoteActivity extends AppCompatActivity {
             public void onBindViewHolder(ViewHolder vh, int position) {
                 PurchaseOrder purchaseOrder = purchaseOrders.get(position);
                 vh.b.swSupplier.setChecked(true);
-                vh.b.txtSupplierName.setText(purchaseOrder.getSupplier().getName());
+                Supplier tempSup = suppliers.floor(purchaseOrder.getSupplier());
+                if (tempSup != null) {
+                    vh.b.txtSupplierName.setText(
+                            tempSup.getSupplierName()
+                    );
+                }
                 vh.b.txtPrice.setText(String.format(
                         locale,
                         getString(R.string.money),
@@ -309,6 +352,8 @@ public class OngoingQuoteActivity extends AppCompatActivity {
         public static final String INPUT_STATUSES = "input_statuses";
         private QuoteStatus statuses;
         private FragmentOngoingQuoteStatusBinding b;
+        private QuoteStatusAdapter adapter;
+        private TreeSet<Supplier> suppliers = new TreeSet<>();
 
         public static StatusFragment newInstance(Quote quote) {
 
@@ -363,9 +408,15 @@ public class OngoingQuoteActivity extends AppCompatActivity {
 
             b.list.setHasFixedSize(true);
             b.list.setLayoutManager(new LinearLayoutManager(getActivity()));
-            b.list.setAdapter(new QuoteStatusAdapter(statuses));
+            adapter = new QuoteStatusAdapter(statuses);
+            b.list.setAdapter(adapter);
 
             return b.getRoot();
+        }
+
+        public void setSupplierData(TreeSet<Supplier> suppliers) {
+            this.suppliers = suppliers;
+            adapter.notifyDataSetChanged();
         }
 
         private class QuoteStatusAdapter
@@ -387,7 +438,11 @@ public class OngoingQuoteActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(ViewHolder vh, int position) {
-                vh.b.companyName.setText(status.getSupplier(position).getName());
+
+                Supplier tempSup = suppliers.floor(status.getSupplier(position));
+                if (tempSup != null) {
+                    vh.b.companyName.setText(tempSup.getSupplierName());
+                }
                 vh.b.contactName.setText(status.getSupplier(position).getContactName());
                 vh.b.status.setText(status.getHasResponded(position) ?
                         R.string.text_item_ongoing_quote_responded_true

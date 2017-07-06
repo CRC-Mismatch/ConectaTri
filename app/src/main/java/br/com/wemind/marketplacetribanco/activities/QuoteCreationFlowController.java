@@ -22,7 +22,6 @@ import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class QuoteCreationFlowController extends AppCompatActivity {
 
@@ -312,10 +311,10 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         public void onSuccess(Quote response) {
             Intent i = new Intent(
                     QuoteCreationFlowController.this,
-                    QuoteProductsListActivity.class);
+                    OngoingQuoteActivity.class);
 
-            i.putExtra(QuoteProductsListActivity.QUOTE, (Parcelable) response);
-            i.putExtra(QuoteProductsListActivity.INPUT_IS_EDITABLE, isManualQuote);
+            i.putExtra(OngoingQuoteActivity.INPUT_QUOTE, (Parcelable) response);
+            i.putExtra(OngoingQuoteActivity.INPUT_IS_EDITABLE, isManualQuote);
 
             startActivity(i);
             finish();
@@ -323,6 +322,10 @@ public class QuoteCreationFlowController extends AppCompatActivity {
 
         @Override
         public void onError(Call<Quote> call, ApiError response) {
+            Toast.makeText(context,
+                    "Erro: " + response.getMessage(),
+                    Toast.LENGTH_SHORT
+            ).show();
 
         }
     }

@@ -7,10 +7,18 @@ import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 
+import java.util.List;
+import java.util.TreeSet;
+
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.QuoteSupplierAdapter;
+import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.ListCallback;
+import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ActivityQuoteProductBinding;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
+import br.com.wemind.marketplacetribanco.models.Supplier;
+import retrofit2.Call;
 
 public class QuoteProductActivity extends BaseCreateActivity {
 
@@ -21,6 +29,8 @@ public class QuoteProductActivity extends BaseCreateActivity {
     ActivityQuoteProductBinding b;
     private boolean isEditable;
     private QuoteProduct quoteProduct;
+    public TreeSet<Supplier> suppliers = new TreeSet<>();
+    private QuoteSupplierAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +43,29 @@ public class QuoteProductActivity extends BaseCreateActivity {
         b.productEan.setText(quoteProduct.getProduct().getEAN());
 
         isEditable = getIntent().getBooleanExtra(INPUT_IS_EDITABLE, false);
-        b.quotes.setAdapter(new QuoteSupplierAdapter(this, quoteProduct, isEditable));
+        adapter = new QuoteSupplierAdapter(this, quoteProduct, isEditable, suppliers);
+        b.quotes.setAdapter(adapter);
 
         b.quotes.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Api.api.getAllSuppliers().enqueue(new ListCallback<List<Supplier>>(this) {
+
+            @Override
+            public void onSuccess(List<Supplier> responseBody) {
+                suppliers = new TreeSet<>(responseBody);
+                adapter.setSupplierData(suppliers);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Call<List<Supplier>> call, ApiError responseErrorBody) {
+
+            }
+        });
     }
 
     @Override

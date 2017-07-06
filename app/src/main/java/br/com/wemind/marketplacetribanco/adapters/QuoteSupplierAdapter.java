@@ -14,11 +14,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.TreeSet;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.databinding.ItemQuoteSupplierBinding;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
+import br.com.wemind.marketplacetribanco.models.Supplier;
 import br.com.wemind.marketplacetribanco.utils.Formatting;
 
 public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdapter.ViewHolder> {
@@ -26,9 +28,10 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
     private final boolean isEditable;
     private Context context;
     private List<QuoteSupplier> data;
+    private TreeSet<Supplier> suppliers = new TreeSet<>();
 
     public QuoteSupplierAdapter(Context context, QuoteProduct product,
-                                boolean isEditable) {
+                                boolean isEditable, TreeSet<Supplier> suppliers) {
         this.context = context;
         this.data = product.getQuoteSuppliers();
         Collections.sort(this.data, new Comparator<QuoteSupplier>() {
@@ -38,6 +41,10 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
             }
         });
         this.isEditable = isEditable;
+        if (suppliers == null) {
+            suppliers = new TreeSet<>();
+        }
+        this.suppliers = suppliers;
     }
 
     @Override
@@ -59,7 +66,10 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
                 quoteSupplier.getPriceDouble()
         ));
         vh.b.qty.setText(String.valueOf(quoteSupplier.getQuantity()));
-        vh.b.supplier.setText(quoteSupplier.getSupplier().getSupplierName());
+        Supplier supplier = suppliers.floor(quoteSupplier.getSupplier());
+        if (supplier != null) {
+            vh.b.supplier.setText(supplier.getSupplierName());
+        }
 
         vh.b.price.setEnabled(isEditable);
         vh.b.qty.setEnabled(isEditable);
@@ -136,6 +146,10 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void setSupplierData(TreeSet<Supplier> suppliers) {
+        this.suppliers = suppliers;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
