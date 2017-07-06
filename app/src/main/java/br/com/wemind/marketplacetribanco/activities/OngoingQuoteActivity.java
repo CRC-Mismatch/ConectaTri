@@ -35,7 +35,7 @@ import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.api.ListCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ActivityOngoingQuoteBinding;
-import br.com.wemind.marketplacetribanco.databinding.FragmentOngoingQuoteListBinding;
+import br.com.wemind.marketplacetribanco.databinding.FragmentOngoingQuoteProductListBinding;
 import br.com.wemind.marketplacetribanco.databinding.FragmentOngoingQuoteRequestsBinding;
 import br.com.wemind.marketplacetribanco.databinding.FragmentOngoingQuoteStatusBinding;
 import br.com.wemind.marketplacetribanco.databinding.ItemOngoingQuoteRequestBinding;
@@ -45,6 +45,7 @@ import br.com.wemind.marketplacetribanco.models.PurchaseOrder;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.QuoteStatus;
+import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import br.com.wemind.marketplacetribanco.utils.QuoteAnalyser;
 import retrofit2.Call;
@@ -293,6 +294,7 @@ public class OngoingQuoteActivity extends AppCompatActivity {
             public void onBindViewHolder(ViewHolder vh, int position) {
                 PurchaseOrder purchaseOrder = purchaseOrders.get(position);
                 vh.b.swSupplier.setChecked(true);
+
                 Supplier tempSup = suppliers.floor(purchaseOrder.getSupplier());
                 if (tempSup != null) {
                     vh.b.txtSupplierName.setText(
@@ -334,7 +336,7 @@ public class OngoingQuoteActivity extends AppCompatActivity {
     public static class ListFragment extends Fragment {
         public static final String INPUT_QUOTE = "input_quote";
         public static final String INPUT_IS_EDITABLE = "input_is_editable";
-        private FragmentOngoingQuoteListBinding b;
+        private FragmentOngoingQuoteProductListBinding b;
 
         private Quote quote = new Quote();
         private boolean isEditable = false;
@@ -367,7 +369,8 @@ public class OngoingQuoteActivity extends AppCompatActivity {
                                  @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
 
-            b = FragmentOngoingQuoteListBinding.inflate(inflater, container, false);
+            b = FragmentOngoingQuoteProductListBinding
+                    .inflate(inflater, container, false);
 
             b.list.setHasFixedSize(true);
             b.list.setLayoutManager(new LinearLayoutManager(getActivity()));
