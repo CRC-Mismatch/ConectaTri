@@ -206,7 +206,7 @@ public class SignUpActivity extends AppCompatActivity {
         @Override
         public void onError(Call<ApiError> call, ApiError response) {
             Toast.makeText(context,
-                    "Erro: " + response.getMessage(),
+                    response.getMessage(),
                     Toast.LENGTH_SHORT
             ).show();
         }

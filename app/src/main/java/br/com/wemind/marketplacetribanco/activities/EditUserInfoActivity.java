@@ -235,7 +235,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         @Override
         public void onError(Call<ApiError> call, ApiError response) {
             Toast.makeText(context,
-                    "Erro: " + response.getMessage(),
+                    response.getMessage(),
                     Toast.LENGTH_LONG
             ).show();
         }
@@ -254,7 +254,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         @Override
         public void onError(Call<UserInfo> call, ApiError response) {
             Toast.makeText(context,
-                    "Erro: " + response.getMessage(),
+                    response.getMessage(),
                     Toast.LENGTH_SHORT
             ).show();
 

@@ -249,7 +249,7 @@ public class LoginActivity extends AppCompatActivity {
             ongoingLogin = null;
 
             Toast.makeText(context,
-                    "Erro: " + response.getMessage(),
+                    response.getMessage(),
                     Toast.LENGTH_SHORT
             ).show();
         }
@@ -283,7 +283,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onError(Call<ApiError> call, ApiError response) {
             Toast.makeText(
                     context,
-                    "Erro: " + response.getMessage(),
+                    response.getMessage(),
                     Toast.LENGTH_LONG
             ).show();
         }
@@ -305,7 +305,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onError(Call<ApiError> call, ApiError response) {
             Toast.makeText(context,
-                    "Erro: " + response.getMessage(),
+                    response.getMessage(),
                     Toast.LENGTH_LONG
             ).show();
         }
