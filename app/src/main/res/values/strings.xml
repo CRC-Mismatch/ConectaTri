@@ -112,6 +112,8 @@
     <string name="text_item_ongoing_quote_responded_false">PENDENTE</string>
     <string name="error_invalid_cnpj_check_digits_did_you_mean">Dígitos de verificação inválidos. Você quis dizer: %1s ?</string>
     <string name="invalid_mail">Erro: E-mail inválido</string>
+    <string name="text_tab_ongoing_quotes">EM ANDAMENTO</string>
+    <string name="text_tab_closed_quotes">FINALIZADAS</string>
 
 
 </resources>
