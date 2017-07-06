@@ -101,6 +101,12 @@ public interface BaseApi {
     @GET(QUOTE)
     Call<List<Quote>> getAllQuotes();
 
+    @GET(QUOTE + "/current")
+    Call<List<Quote>> getCurrentQuotes();
+
+    @GET(QUOTE + "/closed")
+    Call<List<Quote>> getClosedQuotes();
+
     @GET(QUOTE + "/{id}")
     Call<Quote> getQuote(@Path("id") Long id);
 
