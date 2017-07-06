@@ -18,6 +18,7 @@ public class Formatting {
     public static final int BR_DDD_MAX_DIGITS = 2;
     public static final int BR_NON_CELLPHONE_NUMBER_MAX_DIGITS = 8;
     public static final int BR_CELLPHONE_NUMBER_MAX_DIGITS = 9;
+    public static final int BR_0800_NUMBER_MAX_DIGITS = 11;
     private static final List<Pair<String, Integer>> cpfPairs = Arrays.asList(
             new Pair<>("-", 9),
             new Pair<>(".", 6),
@@ -89,19 +90,28 @@ public class Formatting {
 
         int phoneWithDddLength = BR_DDD_MAX_DIGITS + BR_NON_CELLPHONE_NUMBER_MAX_DIGITS;
 
-        if (cleanStr.length() > phoneWithDddLength
-                && cleanStr.charAt(2) == '9'
-                && cleanStr.charAt(0) == '0') {
-            // If third character is a '9', that means this might be a cellphone number
-            phoneWithDddLength = BR_DDD_MAX_DIGITS + BR_CELLPHONE_NUMBER_MAX_DIGITS;
-        }
-        List<Pair<String, Integer>> dddPairs = Arrays.asList(
-                new Pair<>("-", phoneWithDddLength - 4),
-                new Pair<>(") ", 2),
-                new Pair<>("(", 0)
-        );
+        if (cleanStr.length() > 0 && cleanStr.charAt(0) == '0') {
+            // 0800 toll-free number
 
-        return formatWithPairs(cleanStr, dddPairs);
+            List<Pair<String, Integer>> dddPairs = Arrays.asList(
+                    new Pair<>(" ", 7),
+                    new Pair<>(" ", 4)
+            );
+            return formatWithPairs(cleanStr, dddPairs);
+        } else {
+            if (cleanStr.length() > phoneWithDddLength
+                    && cleanStr.charAt(2) == '9') {
+                // If third character is a '9', that means this might be a cellphone number
+                phoneWithDddLength = BR_DDD_MAX_DIGITS + BR_CELLPHONE_NUMBER_MAX_DIGITS;
+            }
+            List<Pair<String, Integer>> dddPairs = Arrays.asList(
+                    new Pair<>("-", phoneWithDddLength - 4),
+                    new Pair<>(") ", 2),
+                    new Pair<>("(", 0)
+            );
+            return formatWithPairs(cleanStr, dddPairs);
+        }
+
     }
 
     public static String onlyNumbers(CharSequence seq) {
