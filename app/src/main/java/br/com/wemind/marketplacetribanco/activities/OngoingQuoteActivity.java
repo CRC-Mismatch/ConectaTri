@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -43,7 +45,6 @@ import br.com.wemind.marketplacetribanco.models.PurchaseOrder;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.QuoteStatus;
-import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import br.com.wemind.marketplacetribanco.utils.QuoteAnalyser;
 import retrofit2.Call;
@@ -78,6 +79,7 @@ public class OngoingQuoteActivity extends AppCompatActivity {
 
         quote = getIntent().getParcelableExtra(INPUT_QUOTE);
         if (quote == null) quote = new Quote();
+        Collections.sort(quote.getQuoteProducts(), new QuoteProductComparator());
 
         if (quote.getName().length() > 0) {
             setTitle(quote.getName());
@@ -135,7 +137,7 @@ public class OngoingQuoteActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_EDIT_QUOTE_PRODUCT) {
+        if (isEditable && requestCode == REQUEST_EDIT_QUOTE_PRODUCT) {
             if (resultCode == RESULT_OK) {
                 QuoteProduct quoteProduct = data.getParcelableExtra(
                         QuoteProductActivity.RESULT_QUOTE_PRODUCT);
@@ -144,10 +146,23 @@ public class OngoingQuoteActivity extends AppCompatActivity {
                     qpList.remove(quoteProduct);
                     qpList.add(quoteProduct);
 
+                    Collections.sort(quote.getQuoteProducts(),
+                            new QuoteProductComparator());
+
+                    // Update List adapter
                     QuoteProductAdapter adapter =
                             sectionsPagerAdapter.listFragment.adapter;
                     adapter.setData(quote);
                     adapter.notifyDataSetChanged();
+
+                    // Update Status adapter
+                    sectionsPagerAdapter.statusFragment
+                            .inputStatus(QuoteStatus.fromQuote(quote));
+
+                    // Update Requests adapter
+                    QuoteAnalyser qa = new QuoteAnalyser(quote);
+                    sectionsPagerAdapter.requestsFragment
+                            .inputOffers(quote.getSuppliers(), qa.getBestOffers());
                 }
             }
         }
@@ -207,22 +222,31 @@ public class OngoingQuoteActivity extends AppCompatActivity {
                 ArrayList<Supplier> suppliers =
                         args.getParcelableArrayList(INPUT_SUPPLIERS);
                 ArrayList<Offer> offers = args.getParcelableArrayList(INPUT_OFFERS);
-                purchaseOrders = new ArrayList<>();
-                if (suppliers != null && offers != null) {
-                    Map<Supplier, PurchaseOrder> supOrders = new TreeMap<>();
-                    for (Supplier supplier : suppliers) {
-                        supOrders.put(
-                                supplier,
-                                new PurchaseOrder().setSupplier(supplier)
-                        );
-                    }
 
-                    for (Offer offer : offers) {
-                        supOrders.get(offer.getSupplier())
-                                .addItem(offer.getProduct(), offer.getPrice());
-                    }
-                    purchaseOrders.addAll(supOrders.values());
+                inputOffers(suppliers, offers);
+            }
+        }
+
+        public void inputOffers(List<Supplier> suppliers, List<Offer> offers) {
+            purchaseOrders = new ArrayList<>();
+            if (suppliers != null && offers != null) {
+                Map<Supplier, PurchaseOrder> supOrders = new TreeMap<>();
+                for (Supplier supplier : suppliers) {
+                    supOrders.put(
+                            supplier,
+                            new PurchaseOrder().setSupplier(supplier)
+                    );
                 }
+
+                for (Offer offer : offers) {
+                    supOrders.get(offer.getSupplier())
+                            .addItem(offer.getProduct(), offer.getPrice());
+                }
+                purchaseOrders.addAll(supOrders.values());
+            }
+
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
             }
         }
 
@@ -275,12 +299,20 @@ public class OngoingQuoteActivity extends AppCompatActivity {
                             tempSup.getSupplierName()
                     );
                 }
+
+                String contactName = purchaseOrder.getSupplier().getContactName();
+                if (contactName == null || contactName.length() == 0) {
+                    contactName = purchaseOrder.getSupplier().getSupplierName();
+                }
+
+                vh.b.txtContactName.setText(contactName);
+
                 vh.b.txtPrice.setText(String.format(
                         locale,
                         getString(R.string.money),
                         purchaseOrder.getPriceSum())
                 );
-                vh.b.txtQuantity.setText(String.valueOf(purchaseOrder.getQuantitySum()));
+                vh.b.txtQuantity.setText(String.valueOf(purchaseOrder.getItems().size()));
             }
 
             @Override
@@ -350,7 +382,7 @@ public class OngoingQuoteActivity extends AppCompatActivity {
     public static class StatusFragment extends Fragment {
 
         public static final String INPUT_STATUSES = "input_statuses";
-        private QuoteStatus statuses;
+        private QuoteStatus statuses = new QuoteStatus();
         private FragmentOngoingQuoteStatusBinding b;
         private QuoteStatusAdapter adapter;
         private TreeSet<Supplier> suppliers = new TreeSet<>();
@@ -360,26 +392,20 @@ public class OngoingQuoteActivity extends AppCompatActivity {
             Bundle args = new Bundle();
 
             // FIXME: 02/07/2017 this is placeholder code while there's no API for getting the statuses
-            QuoteStatus statuses = new QuoteStatus();
-            List<QuoteSupplier> quoteSuppliers =
-                    quote.getQuoteProducts().get(0).getQuoteSuppliers();
-            Supplier[] suppliers = new Supplier[quoteSuppliers.size()];
-            boolean[] hasResponded = new boolean[quoteSuppliers.size()];
-            for (int i = 0; i < suppliers.length; i++) {
-                suppliers[i] = quoteSuppliers.get(i).getSupplier();
-                hasResponded[i] = quoteSuppliers.get(i).getPriceDouble() != 0.;
-            }
-
-            statuses.setItems(
-                    suppliers,
-                    hasResponded
-            );
+            QuoteStatus statuses = QuoteStatus.fromQuote(quote);
             args.putParcelable(INPUT_STATUSES, statuses);
             // end of placeholder code
 
             StatusFragment fragment = new StatusFragment();
             fragment.setArguments(args);
             return fragment;
+        }
+
+        public void inputStatus(QuoteStatus status) {
+            this.statuses = status;
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -408,7 +434,7 @@ public class OngoingQuoteActivity extends AppCompatActivity {
 
             b.list.setHasFixedSize(true);
             b.list.setLayoutManager(new LinearLayoutManager(getActivity()));
-            adapter = new QuoteStatusAdapter(statuses);
+            adapter = new QuoteStatusAdapter();
             b.list.setAdapter(adapter);
 
             return b.getRoot();
@@ -421,11 +447,6 @@ public class OngoingQuoteActivity extends AppCompatActivity {
 
         private class QuoteStatusAdapter
                 extends RecyclerView.Adapter<QuoteStatusAdapter.ViewHolder> {
-            private QuoteStatus status;
-
-            public QuoteStatusAdapter(QuoteStatus status) {
-                this.status = status;
-            }
 
             @Override
             public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -439,12 +460,12 @@ public class OngoingQuoteActivity extends AppCompatActivity {
             @Override
             public void onBindViewHolder(ViewHolder vh, int position) {
 
-                Supplier tempSup = suppliers.floor(status.getSupplier(position));
+                Supplier tempSup = suppliers.floor(statuses.getSupplier(position));
                 if (tempSup != null) {
                     vh.b.companyName.setText(tempSup.getSupplierName());
                 }
-                vh.b.contactName.setText(status.getSupplier(position).getContactName());
-                vh.b.status.setText(status.getHasResponded(position) ?
+                vh.b.contactName.setText(statuses.getSupplier(position).getContactName());
+                vh.b.status.setText(statuses.getHasResponded(position) ?
                         R.string.text_item_ongoing_quote_responded_true
                         : R.string.text_item_ongoing_quote_responded_false
                 );
@@ -452,7 +473,7 @@ public class OngoingQuoteActivity extends AppCompatActivity {
 
             @Override
             public int getItemCount() {
-                return status.size();
+                return statuses.size();
             }
 
             public class ViewHolder extends RecyclerView.ViewHolder {
@@ -537,6 +558,13 @@ public class OngoingQuoteActivity extends AppCompatActivity {
         @Override
         public void onError(Call<Quote> call, ApiError response) {
             finish();
+        }
+    }
+
+    private class QuoteProductComparator implements Comparator<QuoteProduct> {
+        @Override
+        public int compare(QuoteProduct o1, QuoteProduct o2) {
+            return (int) (o1.getId() - o2.getId());
         }
     }
 }

@@ -2,6 +2,11 @@ package br.com.wemind.marketplacetribanco.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class QuoteStatus implements Parcelable {
     public static final Creator<QuoteStatus> CREATOR = new Creator<QuoteStatus>() {
@@ -25,6 +30,44 @@ public class QuoteStatus implements Parcelable {
     protected QuoteStatus(Parcel in) {
         suppliers = in.createTypedArray(Supplier.CREATOR);
         hasResponded = in.createBooleanArray();
+    }
+
+    @NonNull
+    public static QuoteStatus fromQuote(Quote quote) {
+        QuoteStatus statuses = new QuoteStatus();
+
+        TreeMap<Supplier, Boolean> supHasResponded = new TreeMap<>();
+
+        for (QuoteProduct quoteProduct : quote.getQuoteProducts()) {
+            for (QuoteSupplier quoteSupplier : quoteProduct.getQuoteSuppliers()) {
+                Supplier supplier = quoteSupplier.getSupplier();
+
+                if (!supHasResponded.containsKey(supplier)) {
+                    supHasResponded.put(supplier, false);
+                }
+
+                supHasResponded.put(
+                        supplier,
+                        supHasResponded.get(supplier) || quoteSupplier.getPriceDouble() != 0
+                );
+            }
+        }
+
+        Set<Supplier> keys = supHasResponded.keySet();
+        Supplier[] suppliers = new Supplier[keys.size()];
+        boolean[] hasResponded = new boolean[suppliers.length];
+        Iterator<Supplier> iterator = keys.iterator();
+        for (int i = 0; iterator.hasNext(); ++i) {
+            Supplier key = iterator.next();
+            suppliers[i] = key;
+            hasResponded[i] = supHasResponded.get(key);
+        }
+
+        statuses.setItems(
+                suppliers,
+                hasResponded
+        );
+        return statuses;
     }
 
     public Supplier getSupplier(int i) {

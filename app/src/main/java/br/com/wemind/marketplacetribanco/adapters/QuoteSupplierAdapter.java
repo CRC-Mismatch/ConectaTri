@@ -68,12 +68,13 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
         vh.b.qty.setText(String.valueOf(quoteSupplier.getQuantity()));
         Supplier supplier = suppliers.floor(quoteSupplier.getSupplier());
         if (supplier != null) {
-            vh.b.supplier.setText(supplier.getSupplierName());
+            vh.b.supplierName.setText(supplier.getSupplierName());
         }
+
+        vh.b.contactName.setText(quoteSupplier.getSupplier().getContactName());
 
         vh.b.price.setEnabled(isEditable);
         vh.b.qty.setEnabled(isEditable);
-        vh.b.supplier.setEnabled(isEditable);
 
         if (isEditable) {
             vh.b.price.addTextChangedListener(new TextWatcher() {

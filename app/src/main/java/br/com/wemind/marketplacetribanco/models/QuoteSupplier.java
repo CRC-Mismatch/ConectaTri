@@ -117,7 +117,16 @@ public class QuoteSupplier implements Parcelable, Comparable<QuoteSupplier> {
 
     @Override
     public int compareTo(@NonNull QuoteSupplier that) {
-        if (this.quantity == 0 || this.price == null) return -1;
-        return (int) Math.round(this.getPriceDouble() - that.getPriceDouble());
+        boolean thisIsInvalid = this.getPriceDouble() == 0 || this.getQuantity() == 0;
+        boolean thatIsInvalid = that.getPriceDouble() == 0 || that.getQuantity() == 0;
+
+        if (thisIsInvalid && thatIsInvalid) return 0;
+        if (thisIsInvalid) return 1;
+        if (thatIsInvalid) return -1;
+
+        double delta = this.getPriceDouble() - that.getPriceDouble();
+        if (delta > 0) return 1;
+        else if (delta < 0) return -1;
+        else return 0;
     }
 }

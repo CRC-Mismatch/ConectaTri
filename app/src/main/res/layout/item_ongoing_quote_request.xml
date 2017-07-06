@@ -41,6 +41,16 @@
                 android:theme="@style/AppTheme.Switch"/>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/txt_contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="Representante X "/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

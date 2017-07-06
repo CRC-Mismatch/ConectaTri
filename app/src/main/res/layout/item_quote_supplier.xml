@@ -67,12 +67,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/supplier"
+                    android:id="@+id/supplier_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     tools:text="Fornecedor 1"/>
+
+                <TextView
+                    android:id="@+id/contact_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="14sp"
+                    tools:text="Representante X"/>
             </LinearLayout>
 
         </LinearLayout>

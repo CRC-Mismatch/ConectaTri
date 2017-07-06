@@ -39,7 +39,7 @@ public class Quote extends Status implements Parcelable, Serializable {
     @SerializedName("type")
     private int type;
     @SerializedName("quote_products")
-    private List<QuoteProduct> quoteProducts;
+    private List<QuoteProduct> quoteProducts = new ArrayList<>();
     @SerializedName("begins_at")
     private Date beginningDate = new Date();
     @SerializedName("expires_at")
