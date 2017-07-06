@@ -38,7 +38,8 @@ public class BrPhoneFormattingTextWatcher implements TextWatcher {
         if (hasMaxlength && s.length() > maxLength) {
             // If this Editable exceeds maxLength, trim off exceeding chars
             selfChange = true;
-            if (Formatting.onlyNumbers(s.toString()).charAt(2) == '9' || Formatting.onlyNumbers(s.toString()).charAt(2) == '0') {
+            if (Formatting.onlyNumbers(s.toString()).charAt(2) == '9'
+                    || Formatting.onlyNumbers(s.toString()).charAt(0) == '0') {
                 maxLength += 1;
             }
             s.delete(maxLength, s.length());
