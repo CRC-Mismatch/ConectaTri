@@ -45,7 +45,6 @@ import br.com.wemind.marketplacetribanco.models.PurchaseOrder;
 import br.com.wemind.marketplacetribanco.models.Quote;
 import br.com.wemind.marketplacetribanco.models.QuoteProduct;
 import br.com.wemind.marketplacetribanco.models.QuoteStatus;
-import br.com.wemind.marketplacetribanco.models.QuoteSupplier;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import br.com.wemind.marketplacetribanco.utils.QuoteAnalyser;
 import retrofit2.Call;
@@ -79,7 +78,8 @@ public class OngoingQuoteActivity extends AppCompatActivity {
         isEditable = getIntent().getBooleanExtra(INPUT_IS_EDITABLE, false);
 
         quote = getIntent().getParcelableExtra(INPUT_QUOTE);
-        if (quote == null) quote = new Quote();
+        if (quote == null)
+            throw new IllegalStateException("INPUT_QUOTE must not be null");
         Collections.sort(quote.getQuoteProducts(), new QuoteProductComparator());
 
         if (quote.getName().length() > 0) {
