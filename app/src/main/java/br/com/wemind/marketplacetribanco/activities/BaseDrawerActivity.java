@@ -18,12 +18,10 @@ import android.view.MenuItem;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
-import br.com.wemind.marketplacetribanco.api.objects.AccessToken;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.api.objects.Status;
 import br.com.wemind.marketplacetribanco.databinding.ActivityBaseDrawerBinding;
 import retrofit2.Call;
-import retrofit2.Response;
 
 import static br.com.wemind.marketplacetribanco.activities.EditUserInfoActivity.MAIL_HAS_CHANGED;
 
@@ -43,8 +41,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
      * and should be finished when a drawer navigation button is selected
      */
     public static final int ID_NONE_VOLATILE = -2;
-    private static final long MAIN_CONTENT_FADEOUT_DURATION = 300;
     public static final String WWW_TRIBANCO_HOMEPAGE = "http://www.tribanco.com.br/";
+    private static final long MAIN_CONTENT_FADEOUT_DURATION = 300;
     private static final int EDIT_USER_INFO = 1;
     protected ActivityBaseDrawerBinding b;
 
@@ -113,8 +111,11 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
     }
 
     private void goToNavDrawerItem(int id) {
-        // FIXME: 27/05/2017 There's no option to go to the home panel
-        if (id == R.id.nav_listings) {
+        if (id == R.id.nav_main) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+
+        } else if (id == R.id.nav_listings) {
             Intent i = new Intent(this, ListingsListActivity.class);
             startActivity(i);
 
