@@ -117,6 +117,7 @@
     <string name="content_quote_create_txt_close_quote">Declarar esta cotação como finalizada</string>
     <string name="item_quote_supplier_txt_price">Preço por unidade</string>
     <string name="item_quote_supplier_txt_quantity">Unidades</string>
+    <string name="text_create_quote_success">Cotação criada com sucesso!</string>
 
 
 </resources>

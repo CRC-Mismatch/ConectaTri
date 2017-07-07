@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.api.Api;
+import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.ListingProduct;
@@ -234,7 +236,6 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         if (!isManualQuote) {
             quote.setType(Quote.TYPE_REMOTE);
             Api.api.addQuote(quote).enqueue(new CreateQuoteCallback(this));
-            finish();
 
         } else {
             quote.setType(Quote.TYPE_MANUAL);
@@ -286,6 +287,13 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         currentStep = REQUEST_SELECT_SUPPLIER;
     }
 
+    private void showApiError(ApiError response) {
+        Toast.makeText(this,
+                "" + response.getMessage(),
+                Toast.LENGTH_SHORT
+        ).show();
+    }
+
     private class CreateQuoteCallback extends br.com.wemind.marketplacetribanco.api.Callback<Quote> {
         public CreateQuoteCallback(Context context) {
             super(context);
@@ -293,12 +301,29 @@ public class QuoteCreationFlowController extends AppCompatActivity {
 
         @Override
         public void onSuccess(Quote response) {
+            Toast.makeText(
+                    context,
+                    R.string.text_create_quote_success,
+                    Toast.LENGTH_LONG
+            ).show();
+            Api.api.sendAccessUrls(response.getId()).enqueue(
+                    new Callback<ApiError>(QuoteCreationFlowController.this) {
+                        @Override
+                        public void onSuccess(ApiError response) {
+                            finish();
+                        }
 
+                        @Override
+                        public void onError(Call<ApiError> call, ApiError response) {
+                            showApiError(response);
+                            finish();
+                        }
+                    });
         }
 
         @Override
         public void onError(Call<Quote> call, ApiError response) {
-
+            showApiError(response);
         }
     }
 

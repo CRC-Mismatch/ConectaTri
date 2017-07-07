@@ -110,6 +110,9 @@ public interface BaseApi {
     @GET(QUOTE + "/{id}")
     Call<Quote> getQuote(@Path("id") Long id);
 
+    @PATCH(QUOTE + "/{id}")
+    Call<ApiError> sendAccessUrls(@Path("id") Long id);
+
     @POST(QUOTE)
     Call<Quote> addQuote(@Body Quote Quote);
 
