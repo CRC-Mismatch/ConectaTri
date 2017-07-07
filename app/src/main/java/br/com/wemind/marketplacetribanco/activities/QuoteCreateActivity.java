@@ -62,24 +62,26 @@ public class QuoteCreateActivity extends BaseCreateActivity {
         if (inputBundle != null) {
             Quote inputQuote = inputBundle.getParcelable(INPUT_QUOTE);
             if (inputQuote != null) {
+                quote = inputQuote;
+
                 // If there's an input quote, initialize fields
-                cb.edtName.setText(inputQuote.getName());
+                cb.edtName.setText(quote.getName());
 
                 // Initialize dates and times
                 Calendar inputCalendar = (Calendar) calendar.clone();
-                inputCalendar.setTimeInMillis(inputQuote.getBeginningDate().getTime());
+                inputCalendar.setTimeInMillis(quote.getBeginningDate().getTime());
                 updateDateEditText(inputCalendar, cb.edtDateFrom);
                 cb.edtTimeFrom.setText(formatHour(
                         inputCalendar.get(Calendar.HOUR_OF_DAY),
                         inputCalendar.get(Calendar.MINUTE)));
 
-                inputCalendar.setTimeInMillis(inputQuote.getExpirationDate().getTime());
+                inputCalendar.setTimeInMillis(quote.getExpirationDate().getTime());
                 updateDateEditText(inputCalendar, cb.edtDateUntil);
                 cb.edtTimeUntil.setText(formatHour(
                         inputCalendar.get(Calendar.HOUR_OF_DAY),
                         inputCalendar.get(Calendar.MINUTE)));
 
-                quote = inputQuote;
+                cb.swCloseQuote.setChecked(quote.isClosed());
             }
         } else {
             cb.edtTimeFrom.setText(formatHour(
@@ -201,6 +203,8 @@ public class QuoteCreateActivity extends BaseCreateActivity {
         quote.setName(cb.edtName.getText().toString())
                 .setBeginningDate(dates.get(cb.edtDateFrom).getTime())
                 .setExpirationDate(dates.get(cb.edtDateUntil).getTime());
+
+        quote.setClosed(cb.swCloseQuote.isChecked());
 
         Bundle b = new Bundle();
         b.putParcelable(RESULT_QUOTE, quote);

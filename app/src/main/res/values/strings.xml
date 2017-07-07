@@ -114,6 +114,7 @@
     <string name="invalid_mail">Erro: E-mail inválido</string>
     <string name="text_tab_ongoing_quotes">EM ANDAMENTO</string>
     <string name="text_tab_closed_quotes">FINALIZADAS</string>
+    <string name="content_quote_create_txt_close_quote">Declarar esta cotação como finalizada</string>
 
 
 </resources>

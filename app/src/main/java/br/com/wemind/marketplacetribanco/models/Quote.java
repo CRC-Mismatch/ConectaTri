@@ -64,6 +64,7 @@ public class Quote extends Status implements Parcelable, Serializable {
         quoteProducts = in.createTypedArrayList(QuoteProduct.CREATOR);
         beginningDate = (Date) in.readSerializable();
         expirationDate = (Date) in.readSerializable();
+        closed = in.readInt() == 1;
     }
 
     @Override
@@ -79,6 +80,7 @@ public class Quote extends Status implements Parcelable, Serializable {
         dest.writeTypedList(quoteProducts);
         dest.writeSerializable(beginningDate);
         dest.writeSerializable(expirationDate);
+        dest.writeInt(closed ? 1 : 0);
     }
 
     public long getId() {
@@ -145,5 +147,14 @@ public class Quote extends Status implements Parcelable, Serializable {
             }
         }
         return new ArrayList<>(result);
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public Quote setClosed(boolean closed) {
+        this.closed = closed;
+        return this;
     }
 }
