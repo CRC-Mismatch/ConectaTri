@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -385,10 +386,12 @@ public class OngoingQuoteActivity extends AppCompatActivity {
     public static class StatusFragment extends Fragment {
 
         public static final String INPUT_STATUSES = "input_statuses";
+        public static final String INPUT_QUOTE_ID = "input_quote_id";
         private QuoteStatus statuses = new QuoteStatus();
         private FragmentOngoingQuoteStatusBinding b;
         private QuoteStatusAdapter adapter;
         private TreeSet<Supplier> suppliers = new TreeSet<>();
+        private long quoteId = 0L;
 
         public static StatusFragment newInstance(Quote quote) {
 
@@ -398,6 +401,7 @@ public class OngoingQuoteActivity extends AppCompatActivity {
             QuoteStatus statuses = QuoteStatus.fromQuote(quote);
             args.putParcelable(INPUT_STATUSES, statuses);
             // end of placeholder code
+            args.putLong(INPUT_QUOTE_ID, quote.getId());
 
             StatusFragment fragment = new StatusFragment();
             fragment.setArguments(args);
@@ -421,6 +425,8 @@ public class OngoingQuoteActivity extends AppCompatActivity {
                 if (statuses != null) {
                     this.statuses = statuses;
                 }
+
+                quoteId = args.getLong(INPUT_QUOTE_ID);
             }
         }
 
@@ -439,6 +445,33 @@ public class OngoingQuoteActivity extends AppCompatActivity {
             b.list.setLayoutManager(new LinearLayoutManager(getActivity()));
             adapter = new QuoteStatusAdapter();
             b.list.setAdapter(adapter);
+
+            b.btnResendQuoteRequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Api.api.sendAccessUrls(quoteId).enqueue(
+                            new Callback<ApiError>(getContext()) {
+                                @Override
+                                public void onSuccess(ApiError response) {
+                                    showApiError(response);
+                                }
+
+                                @Override
+                                public void onError(Call<ApiError> call,
+                                                    ApiError response) {
+                                    showApiError(response);
+                                }
+
+                                public void showApiError(ApiError response) {
+                                    Toast.makeText(
+                                            context,
+                                            response.getMessage(),
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                }
+                            });
+                }
+            });
 
             return b.getRoot();
         }
