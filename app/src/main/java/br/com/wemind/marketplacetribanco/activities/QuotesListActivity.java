@@ -1,6 +1,7 @@
 package br.com.wemind.marketplacetribanco.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -31,6 +32,7 @@ import br.com.wemind.marketplacetribanco.databinding.FragmentOngoingQuotesListBi
 import br.com.wemind.marketplacetribanco.databinding.ItemQuoteManualBinding;
 import br.com.wemind.marketplacetribanco.databinding.ItemQuoteRemoteBinding;
 import br.com.wemind.marketplacetribanco.models.Quote;
+import br.com.wemind.marketplacetribanco.utils.Alerts;
 import retrofit2.Call;
 
 public class QuotesListActivity extends BaseDrawerActivity {
@@ -228,6 +230,10 @@ public class QuotesListActivity extends BaseDrawerActivity {
             public void startQuoteDetailsActivity(Quote data) {
                 Intent i = new Intent(getActivity(), OngoingQuoteActivity.class);
                 i.putExtra(OngoingQuoteActivity.INPUT_QUOTE, (Parcelable) data);
+                i.putExtra(
+                        OngoingQuoteActivity.INPUT_IS_EDITABLE,
+                        data.getType() == Quote.TYPE_MANUAL
+                );
                 startActivity(i);
             }
 
@@ -262,8 +268,18 @@ public class QuotesListActivity extends BaseDrawerActivity {
                     b.btnDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Api.api.deleteQuote(data.getId())
-                                    .enqueue(new DeleteQuoteCallback());
+                            Alerts.getDeleteConfirmationAlert(
+                                    data.getName(),
+                                    getContext(),
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Api.api.deleteQuote(data.getId())
+                                                    .enqueue(new DeleteQuoteCallback());
+                                        }
+                                    },
+                                    null
+                            ).show();
                         }
                     });
 
@@ -299,8 +315,18 @@ public class QuotesListActivity extends BaseDrawerActivity {
                     b.btnDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Api.api.deleteQuote(data.getId())
-                                    .enqueue(new DeleteQuoteCallback());
+                            Alerts.getDeleteConfirmationAlert(
+                                    data.getName(),
+                                    getContext(),
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Api.api.deleteQuote(data.getId())
+                                                    .enqueue(new DeleteQuoteCallback());
+                                        }
+                                    },
+                                    null
+                            ).show();
                         }
                     });
 
