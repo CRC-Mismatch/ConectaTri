@@ -509,8 +509,18 @@ public class QuotesListActivity extends BaseDrawerActivity {
                     b.btnDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Api.api.deleteQuote(data.getId())
-                                    .enqueue(new DeleteQuoteCallback());
+                            Alerts.getDeleteConfirmationAlert(
+                                    data.getName(),
+                                    getContext(),
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Api.api.deleteQuote(data.getId())
+                                                    .enqueue(new DeleteQuoteCallback());
+                                        }
+                                    },
+                                    null
+                            ).show();
                         }
                     });
 
@@ -546,8 +556,18 @@ public class QuotesListActivity extends BaseDrawerActivity {
                     b.btnDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Api.api.deleteQuote(data.getId())
-                                    .enqueue(new DeleteQuoteCallback());
+                            Alerts.getDeleteConfirmationAlert(
+                                    data.getName(),
+                                    getContext(),
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Api.api.deleteQuote(data.getId())
+                                                    .enqueue(new DeleteQuoteCallback());
+                                        }
+                                    },
+                                    null
+                            ).show();
                         }
                     });
 
