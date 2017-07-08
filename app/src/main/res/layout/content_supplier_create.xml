@@ -36,7 +36,7 @@
                     android:id="@+id/edt_supplier_name"
                     style="@style/AppTheme.TextInpuLayoutEditText"
                     android:hint="@string/content_create_supplier_edt_supplier_name"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:maxLines="1"
                     android:textSize="24sp"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
