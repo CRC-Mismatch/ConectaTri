@@ -7,6 +7,8 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
