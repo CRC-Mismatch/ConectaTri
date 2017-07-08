@@ -3,6 +3,7 @@ package br.com.wemind.marketplacetribanco.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -11,8 +12,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,19 +77,25 @@ public class QuotesListActivity extends BaseDrawerActivity {
     }
 
     @Override
+    protected void bindViews() {
+        cb = DataBindingUtil.setContentView(this, R.layout.content_quotes_list);
+        contentFrame = cb.contentFrame;
+        toolbar = cb.toolbar;
+        drawerLayout = cb.drawerLayout;
+        navView = cb.navView;
+        search = cb.search;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         remoteOnly = getIntent().getBooleanExtra(REMOTE_ONLY, false);
-
-        // Setup content view
-        cb = ContentQuotesListBinding
-                .inflate(getLayoutInflater(), b.contentFrame, true);
-
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         cb.pager.setAdapter(sectionsPagerAdapter);
 
         cb.tabLayout.setupWithViewPager(cb.pager);
+
     }
 
     @Override
