@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "524975645932",
+    "firebase_url": "https://ctri-c144d.firebaseio.com",
+    "project_id": "ctri-c144d",
+    "storage_bucket": "ctri-c144d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524975645932:android:cd59f3d10ddf5346",
+        "android_client_info": {
+          "package_name": "br.com.wemind.marketplacetribanco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524975645932-2j0i8g7aqt0c27frrm2289bo40kqc57r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCAhDglZ0xIiH5ddZc0RhF7uJnmIGFBxw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
