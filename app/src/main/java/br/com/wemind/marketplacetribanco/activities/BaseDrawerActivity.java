@@ -82,17 +82,6 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
             return true;
         }
 
-        /*
-        // TODO: Possibly use this approach for a smoother transition
-        // launch the target Activity after a short delay, to allow the close animation to play
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                goToNavDrawerItem(id);
-            }
-        }, NAVDRAWER_LAUNCH_DELAY);
-        */
-
         // fade out the main content
         b.contentFrame.animate().alpha(0).setDuration(MAIN_CONTENT_FADEOUT_DURATION);
 
@@ -152,7 +141,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity
             Api.api.logout().enqueue(new LogoutCallback(this));
         }
 
-        if (getSelfNavDrawerItem() != ID_NONE_PERSISTENT) {
+        if (getSelfNavDrawerItem() == ID_NONE_VOLATILE) {
             finish();
         }
     }

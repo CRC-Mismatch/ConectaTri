@@ -47,6 +47,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.QuoteTypeActivity"
@@ -60,6 +61,7 @@
         <activity
             android:name=".activities.RemoteQuotesActivity"
             android:label="@string/title_remote_quotes"
+            android:launchMode="singleTask"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -69,6 +71,7 @@
         <activity
             android:name=".activities.SuppliersListActivity"
             android:label="@string/title_activity_suppliers_list"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.SuppliersSelectActivity"
@@ -77,6 +80,7 @@
         <activity
             android:name=".activities.SimpleProductsListActivity"
             android:label="@string/title_products_list"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.SupplierCreateActivity"
@@ -99,6 +103,7 @@
         <activity
             android:name=".activities.ListingsListActivity"
             android:label="@string/title_activity_listings_list"
+            android:launchMode="singleTask"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
@@ -118,6 +123,7 @@
         <activity
             android:name=".activities.QuotesListActivity"
             android:label="@string/title_quotes_list"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.QuoteProductsListActivity"

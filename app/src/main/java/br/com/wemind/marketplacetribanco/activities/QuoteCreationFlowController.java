@@ -3,11 +3,8 @@ package br.com.wemind.marketplacetribanco.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
-
-import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -312,6 +309,11 @@ public class QuoteCreationFlowController extends AppCompatActivity {
                     new Callback<ApiError>(QuoteCreationFlowController.this) {
                         @Override
                         public void onSuccess(ApiError response) {
+                            Intent i = new Intent(
+                                    QuoteCreationFlowController.this,
+                                    QuotesListActivity.class);
+
+                            startActivity(i);
                             finish();
                         }
 
@@ -338,10 +340,7 @@ public class QuoteCreationFlowController extends AppCompatActivity {
         public void onSuccess(Quote response) {
             Intent i = new Intent(
                     QuoteCreationFlowController.this,
-                    OngoingQuoteActivity.class);
-
-            i.putExtra(OngoingQuoteActivity.INPUT_QUOTE, (Parcelable) response);
-            i.putExtra(OngoingQuoteActivity.INPUT_IS_EDITABLE, isManualQuote);
+                    QuotesListActivity.class);
 
             startActivity(i);
             finish();

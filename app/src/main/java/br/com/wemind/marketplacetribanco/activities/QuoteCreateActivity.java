@@ -158,6 +158,10 @@ public class QuoteCreateActivity extends BaseCreateActivity {
             }
         });
 
+        if (quote == null) {
+            cb.swCloseQuote.setEnabled(false);
+        }
+
     }
 
     private void updateDateEditText(Calendar calendar, EditText target) {
