@@ -61,11 +61,13 @@ public class SupplierCreateActivity extends BaseCreateActivity {
         if (cb.edtCnpj.length() <= 0) {
             errorOccurred = true;
             cb.edtCnpj.setError(getString(R.string.error_field_required));
+            cb.edtCnpj.requestFocus();
 
         } else if (Formatting.onlyNumbers(cb.edtCnpj.getText().toString()).length()
                 > Formatting.CNPJ_NUMBER_MAX_DIGITS) {
             errorOccurred = true;
             cb.edtCnpj.setError(getString(R.string.error_invalid_cnpj));
+            cb.edtCnpj.requestFocus();
 
         } else if (!Validation.hasValidCnpjCheckDigits(cb.edtCnpj.getText().toString())) {
             errorOccurred = true;
@@ -82,6 +84,7 @@ public class SupplierCreateActivity extends BaseCreateActivity {
                     R.string.error_invalid_cnpj_check_digits_did_you_mean,
                     correctDigitsString)
             );
+            cb.edtCnpj.requestFocus();
         }
 
         errorOccurred |= _setErrorIfEmpty(cb.edtSupplierName);

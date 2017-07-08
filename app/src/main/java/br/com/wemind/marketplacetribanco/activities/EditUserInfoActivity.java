@@ -78,8 +78,16 @@ public class EditUserInfoActivity extends AppCompatActivity {
                 new Formatting.CepFormatter(), 9));
 
         // Setup states list
-        ((SelectableEditText<BrazilianStates.StateListable>) b.state)
-                .setItems(BrazilianStates.getList());
+        final SelectableEditText<BrazilianStates.StateListable> stateEditText = b.state;
+        stateEditText.setItems(BrazilianStates.getList());
+        stateEditText.setOnItemSelectedListener(
+                new SelectableEditText.OnItemSelectedListener<BrazilianStates.StateListable>() {
+                    @Override
+                    public void onItemSelectedListener(BrazilianStates.StateListable item,
+                                                       int selectedIndex) {
+                        stateEditText.setError(null);
+                    }
+                });
     }
 
     @Override
@@ -145,17 +153,14 @@ public class EditUserInfoActivity extends AppCompatActivity {
             errorView = b.cnpj;
         }*/
 
-        // Validate passwords
-        if (b.newPasswordText.length() > 0 && b.newPasswordText.length() < 8) {
-            // If password is not at least 8 characters long
-            b.newPasswordText.setError(getString(R.string.error_invalid_password_min_chars));
 
-        } else if (!b.newPasswordConfText.getText().toString()
-                .equals(b.newPasswordConfText.getText().toString())) {
-            // If passwords don't match
-            b.newPasswordConfText.setError(getString(R.string.error_passwords_dont_match));
-            errorView = b.newPasswordConfText;
-        }
+        errorView = setErrorIfEmpty(b.currentPasswordText) ? b.currentPasswordText : errorView;
+        errorView = setErrorIfEmpty(b.cellphone) ? b.cellphone : errorView;
+        errorView = setErrorIfEmpty(b.phone) ? b.phone : errorView;
+        errorView = setErrorIfEmpty(b.address) ? b.address : errorView;
+        errorView = setErrorIfEmpty(b.city) ? b.city : errorView;
+        errorView = setErrorIfEmpty(b.state) ? b.state : errorView;
+        errorView = setErrorIfEmpty(b.cep) ? b.cep : errorView;
 
         // Validate e-mail
         if (b.email.length() <= 0) {
@@ -167,19 +172,23 @@ public class EditUserInfoActivity extends AppCompatActivity {
             errorView = b.email;
         }
 
-        errorView = setErrorIfEmpty(b.currentPasswordText) ? b.currentPasswordText : errorView;
-        errorView = setErrorIfEmpty(b.cep) ? b.cep : errorView;
-        errorView = setErrorIfEmpty(b.state) ? b.state : errorView;
-        errorView = setErrorIfEmpty(b.city) ? b.city : errorView;
-        errorView = setErrorIfEmpty(b.address) ? b.address : errorView;
-        errorView = setErrorIfEmpty(b.companyName) ? b.companyName : errorView;
+        // Validate passwords
+        if (b.newPasswordText.length() > 0 && b.newPasswordText.length() < 8) {
+            // If password is not at least 8 characters long
+            b.newPasswordText.setError(getString(R.string.error_invalid_password_min_chars));
+
+        } else if (!b.newPasswordConfText.getText().toString()
+                .equals(b.newPasswordConfText.getText().toString())) {
+            // If passwords don't match
+            b.newPasswordConfText.setError(getString(R.string.error_passwords_dont_match));
+            errorView = b.newPasswordConfText;
+        }
         errorView = setErrorIfEmpty(b.fantasyName) ? b.fantasyName : errorView;
-        errorView = setErrorIfEmpty(b.phone) ? b.phone : errorView;
-        errorView = setErrorIfEmpty(b.cellphone) ? b.cellphone : errorView;
+        errorView = setErrorIfEmpty(b.companyName) ? b.companyName : errorView;
 
         if (errorView != null) {
             isValid = false;
-            errorView.requestFocus();
+            errorView.getParent().requestChildFocus(errorView, errorView);
         }
 
         return isValid;

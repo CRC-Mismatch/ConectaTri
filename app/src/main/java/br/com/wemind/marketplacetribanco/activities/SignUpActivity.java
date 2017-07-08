@@ -78,7 +78,16 @@ public class SignUpActivity extends AppCompatActivity {
         b.cellphone.addTextChangedListener(new BrPhoneFormattingTextWatcher());
 
         // Setup list of brazilian states
-        ((SelectableEditText<StateListable>) b.state).setItems(BrazilianStates.getList());
+        final SelectableEditText<StateListable> stateEditText = b.state;
+        stateEditText.setItems(BrazilianStates.getList());
+        stateEditText.setOnItemSelectedListener(
+                new SelectableEditText.OnItemSelectedListener<StateListable>() {
+                    @Override
+                    public void onItemSelectedListener(StateListable item,
+                                                       int selectedIndex) {
+                        stateEditText.setError(null);
+                    }
+                });
 
         // Parse html text for agreement checkboxf
         Spanned text;
@@ -93,6 +102,14 @@ public class SignUpActivity extends AppCompatActivity {
         b.agreementText.setText(text);
         b.agreementText.setClickable(true);
         b.agreementText.setMovementMethod(LinkMovementMethod.getInstance());
+
+
+        b.agreementCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b.agreementCheckBox.setError(null);
+            }
+        });
     }
 
     private void updateCep() {
@@ -131,31 +148,21 @@ public class SignUpActivity extends AppCompatActivity {
             errorView = b.agreementCheckBox;
         }
 
-        // Validate CNPJ
-        if (b.cnpj.length() <= 0) {
-            b.cnpj.setError(getString(R.string.error_field_required));
-            errorView = b.cnpj;
+        errorView = setErrorIfEmpty(b.cellphone) ? b.cellphone : errorView;
+        errorView = setErrorIfEmpty(b.phone) ? b.phone : errorView;
+        errorView = setErrorIfEmpty(b.address) ? b.address : errorView;
+        errorView = setErrorIfEmpty(b.city) ? b.city : errorView;
+        errorView = setErrorIfEmpty(b.state) ? b.state : errorView;
+        errorView = setErrorIfEmpty(b.cep) ? b.cep : errorView;
 
-        } else if (Formatting.onlyNumbers(b.cnpj.getText().toString()).length()
-                > Formatting.CNPJ_NUMBER_MAX_DIGITS) {
-            b.cnpj.setError(getString(R.string.error_invalid_cnpj));
-            errorView = b.cnpj;
+        // Validate e-mail
+        if (b.email.length() <= 0) {
+            b.email.setError(getString(R.string.error_field_required));
+            errorView = b.email;
 
-        } else if (!Validation.hasValidCnpjCheckDigits(b.cnpj.getText().toString())) {
-            // If check digits are incorrect
-
-            int[] correctDigits =
-                    Validation.calcCnpjCheckDigits(b.cnpj.getText().toString());
-
-            String correctDigitsString =
-                    String.valueOf(correctDigits[0])
-                            + String.valueOf(correctDigits[1]);
-
-            b.cnpj.setError(getString(
-                    R.string.error_invalid_cnpj_check_digits_did_you_mean,
-                    correctDigitsString)
-            );
-            errorView = b.cnpj;
+        } else if (!b.email.getText().toString().contains("@")) {
+            b.email.setError(getString(R.string.error_invalid_email));
+            errorView = b.email;
         }
 
         // Validate passwords
@@ -175,24 +182,29 @@ public class SignUpActivity extends AppCompatActivity {
             errorView = b.passwordConfText;
         }
 
-        // Validate e-mail
-        if (b.email.length() <= 0) {
-            b.email.setError(getString(R.string.error_field_required));
-            errorView = b.email;
-
-        } else if (!b.email.getText().toString().contains("@")) {
-            b.email.setError(getString(R.string.error_invalid_email));
-            errorView = b.email;
-        }
-
-        errorView = setErrorIfEmpty(b.cep) ? b.cep : errorView;
-        errorView = setErrorIfEmpty(b.state) ? b.state : errorView;
-        errorView = setErrorIfEmpty(b.city) ? b.city : errorView;
-        errorView = setErrorIfEmpty(b.address) ? b.address : errorView;
-        errorView = setErrorIfEmpty(b.companyName) ? b.companyName : errorView;
         errorView = setErrorIfEmpty(b.fantasyName) ? b.fantasyName : errorView;
-        errorView = setErrorIfEmpty(b.phone) ? b.phone : errorView;
-        errorView = setErrorIfEmpty(b.cellphone) ? b.cellphone : errorView;
+        errorView = setErrorIfEmpty(b.companyName) ? b.companyName : errorView;
+
+        // Validate CNPJ
+        if (b.cnpj.length() <= 0) {
+            b.cnpj.setError(getString(R.string.error_field_required));
+            errorView = b.cnpj;
+
+        } else if (Formatting.onlyNumbers(b.cnpj.getText().toString()).length()
+                != Formatting.CNPJ_NUMBER_MAX_DIGITS) {
+            b.cnpj.setError(getString(R.string.error_invalid_cnpj));
+            errorView = b.cnpj;
+
+        } else if (!Validation.hasValidCnpjCheckDigits(b.cnpj.getText().toString())) {
+            // If check digits are incorrect
+
+            int[] correctDigits =
+                    Validation.calcCnpjCheckDigits(b.cnpj.getText().toString());
+
+            b.cnpj.setError(getString(R.string.error_invalid_cnpj)
+            );
+            errorView = b.cnpj;
+        }
 
         if (errorView != null) {
             isValid = false;
