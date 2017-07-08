@@ -48,6 +48,9 @@ public class QuoteCreateActivity extends BaseCreateActivity {
 
         cb = ContentQuoteCreateBinding.inflate(getLayoutInflater(), b.contentFrame, true);
 
+        dates.put(cb.edtDateFrom, Calendar.getInstance());
+        dates.put(cb.edtDateUntil, Calendar.getInstance());
+
         // Setup DatePickerDialog
         final Calendar calendar = Calendar.getInstance();
         final OnDateSetListener dateListener = new OnDateSetListener(calendar);
@@ -167,6 +170,13 @@ public class QuoteCreateActivity extends BaseCreateActivity {
     private void updateDateEditText(Calendar calendar, EditText target) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy");
         target.setText(dateFormat.format(calendar.getTime()));
+
+        Calendar oldCalendar = dates.get(target);
+        int hour = oldCalendar.get(Calendar.HOUR_OF_DAY);
+        int minute = oldCalendar.get(Calendar.MINUTE);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+
         dates.put(target, (Calendar) calendar.clone());
     }
 
