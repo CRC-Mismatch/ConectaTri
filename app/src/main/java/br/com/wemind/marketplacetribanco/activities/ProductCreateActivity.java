@@ -42,6 +42,32 @@ public class ProductCreateActivity extends BaseCreateActivity {
                 .inflate(getLayoutInflater(), b.contentFrame, true);
 
         cb.edtType.setItems(DummyProductTypes.list);
+
+        final EditText text1 = (EditText) findViewById(R.id.edt_unit);
+        final EditText text2 = (EditText) findViewById(R.id.edt_quantity);
+        final TextView text = (TextView) findViewById(R.id.value_unit_symbol);
+        text.setPaintFlags(View.INVISIBLE);
+
+        text1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+                text.setText(text1.getText());
+
+            }
+
+
+
+        });
+
         Intent input = getIntent();
         if (input.getBundleExtra(INPUT_BUNDLE) != null) {
             Product product =

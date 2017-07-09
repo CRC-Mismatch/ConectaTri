@@ -84,17 +84,35 @@
                     android:inputType="text"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+
             <br.com.wemind.marketplacetribanco.views.TextInputLayout
                 style="@style/LinearInputFormComponent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
+
                 <EditText
                     android:id="@+id/edt_quantity"
                     style="@style/AppTheme.TextInpuLayoutEditText"
+                    android:layout_width="259dp"
+                    android:layout_height="wrap_content"
                     android:hint="@string/content_product_create_quantity"
                     android:inputType="numberDecimal"/>
+
+                    <TextView
+                        android:id="@+id/value_unit_symbol"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_height="20dp"
+                        android:background="@null"
+                        android:text="" />
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+            </LinearLayout>
 
 
         </LinearLayout>
