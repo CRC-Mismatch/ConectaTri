@@ -7,10 +7,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filterable;
+import android.widget.Toast;
+import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +27,7 @@ import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.databinding.ItemSupplierBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import br.com.wemind.marketplacetribanco.utils.Alerts;
+import android.view.GestureDetector.SimpleOnGestureListener;
 
 public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHolder>
         implements Filterable {
@@ -30,6 +36,8 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
     private ArrayList<Supplier> data;
     private Filter filter = new Filter();
     private ArrayList<Supplier> filteredData;
+
+
 
     public SupplierAdapter(Context context, List<Supplier> data) {
         this.context = context;
@@ -56,20 +64,8 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
         vh.b.txtContactPhone.setText(supplier.getContactPhone());
 
         final long id = data.get(position).getId();
-        vh.b.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Alerts.getDeleteConfirmationAlert(supplier.getName(), context,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                enqueueDeleteSupplier(supplier.getId());
-                            }
-                        },
-                        null
-                ).show();
-            }
-        });
+
+
 
         vh.b.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,10 +82,27 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
 
     }
 
+
+
+
+
     private void enqueueDeleteSupplier(long id) {
+        Log.d("Button",""+id);
         Api.api.deleteSupplier(id).enqueue(
                 ((SuppliersListActivity) context)
                         .new DeleteSupplierCallback());
+    }
+
+    public void dismissItem (int position){
+
+        final long id = data.get(position).getId();
+        Log.d("Swipeid",""+id);
+        Api.api.deleteSupplier(id).enqueue(
+                ((SuppliersListActivity) context)
+                        .new DeleteSupplierCallback());
+
+
+
     }
 
     @Override
@@ -101,6 +114,8 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
     public Filter getFilter() {
         return filter;
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemSupplierBinding b;

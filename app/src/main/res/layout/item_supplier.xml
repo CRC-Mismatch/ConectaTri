@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:id="@+id/btn_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
@@ -62,22 +63,6 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/btn_edit"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@android:color/white"
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_pencil"/>
-
-            <ImageButton
-                android:id="@+id/btn_delete"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginTop="8dp"
-                android:background="@android:color/white"
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_delete"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

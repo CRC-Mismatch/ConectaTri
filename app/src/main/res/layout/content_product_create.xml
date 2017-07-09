@@ -78,10 +78,10 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/edt_quantity"
+                    android:id="@+id/edt_unit"
                     style="@style/AppTheme.TextInpuLayoutEditText"
-                    android:hint="@string/content_product_create_quantity"
-                    android:inputType="numberDecimal"/>
+                    android:hint="@string/content_product_create_unit"
+                    android:inputType="text"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
 
             <br.com.wemind.marketplacetribanco.views.TextInputLayout
@@ -90,11 +90,13 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/edt_unit"
+                    android:id="@+id/edt_quantity"
                     style="@style/AppTheme.TextInpuLayoutEditText"
-                    android:hint="@string/content_product_create_unit"
-                    android:inputType="text"/>
+                    android:hint="@string/content_product_create_quantity"
+                    android:inputType="numberDecimal"/>
             </br.com.wemind.marketplacetribanco.views.TextInputLayout>
+
+
         </LinearLayout>
     </ScrollView>
 </layout>

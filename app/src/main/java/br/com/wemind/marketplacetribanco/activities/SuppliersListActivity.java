@@ -2,15 +2,25 @@ package br.com.wemind.marketplacetribanco.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -28,6 +38,7 @@ import br.com.wemind.marketplacetribanco.api.ValidationCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentSuppliersListBinding;
 import br.com.wemind.marketplacetribanco.models.Supplier;
+import br.com.wemind.marketplacetribanco.utils.Alerts;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -41,6 +52,7 @@ public class SuppliersListActivity extends BaseDrawerActivity {
      */
     private ArrayList<Supplier> data;
     private SupplierAdapter adapter;
+    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +106,9 @@ public class SuppliersListActivity extends BaseDrawerActivity {
                 b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
+
+
+
     }
 
     @Override
@@ -136,7 +151,14 @@ public class SuppliersListActivity extends BaseDrawerActivity {
 
         // Data's ready, enable FAB
         b.fab.setEnabled(true);
+
+        ItemTouchHelper.Callback callback = new SwipeHelper(adapter);
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(cb.list);
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
