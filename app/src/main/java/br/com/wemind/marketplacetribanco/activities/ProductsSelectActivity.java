@@ -96,7 +96,7 @@ public class ProductsSelectActivity extends BaseSelectActivity {
                         @Override
                         public void run() {
                             adapter.getFilter().filter(newText);
-                        }
+                        }   
                     });
                 }
                 return true;

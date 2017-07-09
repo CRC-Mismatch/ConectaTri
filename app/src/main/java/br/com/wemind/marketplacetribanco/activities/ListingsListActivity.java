@@ -90,17 +90,12 @@ public class ListingsListActivity extends BaseDrawerActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                if (newText.length() > 2 || newText.length() <= 0) {
-                    timerManager.schedule(TIMER_DELAY, new TimerTask() {
-                        @Override
-                        public void run() {
-                            adapter.getFilter().filter(newText);
-                        }
-                    });
-                }
 
-                return true;
-            }
+                       adapter.getFilter().filter(newText);
+                        return true;
+
+
+                        }
         });
         // End of search view setup
 

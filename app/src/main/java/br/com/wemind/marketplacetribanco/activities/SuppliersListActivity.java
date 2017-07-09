@@ -96,7 +96,9 @@ public class SuppliersListActivity extends BaseDrawerActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+
+                adapter.getFilter().filter(newText);
+                return true;
             }
         });
         // End of search view setup
