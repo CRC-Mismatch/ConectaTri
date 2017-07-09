@@ -3,6 +3,7 @@ package br.com.wemind.marketplacetribanco.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,14 +53,15 @@ public class QuoteProductAdapter
     }
 
     @Override
-    public void onBindViewHolder(QuoteProductAdapter.ViewHolder vh, int position) {
+    public void onBindViewHolder(QuoteProductAdapter.ViewHolder vh, final int position) {
         final QuoteProduct product = filteredData.get(position);
         vh.b.product.setText(product.getProduct().getName());
         vh.b.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, QuoteProductActivity.class);
-                i.putExtra(QuoteProductActivity.QUOTE_PRODUCT, product);
+                i.putExtra(QuoteProductActivity.INPUT_QUOTE, (Parcelable) quote);
+                i.putExtra(QuoteProductActivity.INPUT_INITIAL_POSITION, position);
                 i.putExtra(QuoteProductActivity.INPUT_IS_EDITABLE, isEditable);
                 ((OngoingQuoteActivity) context).startActivityForResult(i,
                         OngoingQuoteActivity.REQUEST_EDIT_QUOTE_PRODUCT);

@@ -141,12 +141,10 @@ public class OngoingQuoteActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (isEditable && requestCode == REQUEST_EDIT_QUOTE_PRODUCT) {
             if (resultCode == RESULT_OK) {
-                QuoteProduct quoteProduct = data.getParcelableExtra(
-                        QuoteProductActivity.RESULT_QUOTE_PRODUCT);
-                if (quoteProduct != null) {
-                    List<QuoteProduct> qpList = quote.getQuoteProducts();
-                    qpList.remove(quoteProduct);
-                    qpList.add(quoteProduct);
+                Quote resultQuote = data.getParcelableExtra(
+                        QuoteProductActivity.RESULT_QUOTE);
+                if (resultQuote != null) {
+                    quote.setQuoteProducts(resultQuote.getQuoteProducts());
 
                     Collections.sort(quote.getQuoteProducts(),
                             new QuoteProductComparator());

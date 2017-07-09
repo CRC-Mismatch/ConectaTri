@@ -22,63 +22,10 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <RelativeLayout
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="48dp">
-
-            <RelativeLayout
-                android:id="@+id/product"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:padding="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/product_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Produto"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        />
-
-                    <TextView
-                        android:id="@+id/product_ean"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="7 123465 879654"
-                        />
-
-                    <TextView
-                        android:id="@+id/product_type"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tipo do produto"/>
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/quotes"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/product"
-                android:layout_centerHorizontal="true"
-                android:clipToPadding="false"
-                android:paddingBottom="16dp"
-                android:paddingTop="16dp"
-                tools:listItem="@layout/item_quote_supplier"/>
-        </RelativeLayout>
-
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

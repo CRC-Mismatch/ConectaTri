@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -27,12 +28,21 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
 
     private final boolean isEditable;
     private Context context;
-    private List<QuoteSupplier> data;
+    private List<QuoteSupplier> data = new ArrayList<>();
     private TreeSet<Supplier> suppliers = new TreeSet<>();
 
-    public QuoteSupplierAdapter(Context context, QuoteProduct product,
-                                boolean isEditable, TreeSet<Supplier> suppliers) {
+    public QuoteSupplierAdapter(Context context, QuoteProduct quoteProduct, boolean isEditable,
+                                TreeSet<Supplier> suppliers) {
         this.context = context;
+        this.isEditable = isEditable;
+        setQuoteProduct(quoteProduct);
+        if (suppliers == null) {
+            suppliers = new TreeSet<>();
+        }
+        this.suppliers = suppliers;
+    }
+
+    public void setQuoteProduct(QuoteProduct product) {
         this.data = product.getQuoteSuppliers();
         Collections.sort(this.data, new Comparator<QuoteSupplier>() {
             @Override
@@ -40,11 +50,6 @@ public class QuoteSupplierAdapter extends RecyclerView.Adapter<QuoteSupplierAdap
                 return o1.compareTo(o2);
             }
         });
-        this.isEditable = isEditable;
-        if (suppliers == null) {
-            suppliers = new TreeSet<>();
-        }
-        this.suppliers = suppliers;
     }
 
     @Override
