@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,9 +26,16 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
@@ -43,6 +52,9 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class SuppliersListActivity extends BaseDrawerActivity {
+
+    public static final String PREFS_NAME = "ConectaTri";
+    public static final String SUPPLIERS = "Suppliers";
 
     public static final int EDIT_SUPPLIER = 1;
     private static final int CREATE_SUPPLIER = 2;
@@ -103,13 +115,21 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         });
         // End of search view setup
 
+
+
         // Setup content view
         cb = DataBindingUtil.inflate(getLayoutInflater(), R.layout.content_suppliers_list,
                 b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
 
+        ArrayList<Supplier> fromLocal = loadSuppliers(this);
 
+        adapter = new SupplierAdapter(this, fromLocal);
+        cb.list.setAdapter(adapter);
+
+        // Data's ready, enable FAB
+        b.fab.setEnabled(true);
 
     }
 
@@ -148,6 +168,13 @@ public class SuppliersListActivity extends BaseDrawerActivity {
 
     private void onDataReceived(ArrayList<Supplier> data) {
         this.data = data;
+
+        Log.d("Data", ""+data.get(0).getContactEmail());
+
+
+        storeSuppliers(this, data);
+
+
         adapter = new SupplierAdapter(this, data);
         cb.list.setAdapter(adapter);
 
@@ -317,5 +344,27 @@ public class SuppliersListActivity extends BaseDrawerActivity {
         public void onError(Call<Boolean> call, ApiError response) {
 
         }
+
+
+    }
+
+    public void storeSuppliers(Context context, ArrayList<Supplier> data) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        Gson gson = new Gson();
+
+        String json = gson.toJson(data);
+
+        editor.putString(SUPPLIERS, json);
+        editor.commit();
+    }
+
+    public ArrayList<Supplier> loadSuppliers(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString(SUPPLIERS, null);
+        Type type = new TypeToken<ArrayList<Supplier>>() {}.getType();
+        ArrayList<Supplier> arrayList = gson.fromJson(json, type);
+        return arrayList;
     }
 }
