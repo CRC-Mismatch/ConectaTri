@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.util.List;
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.activities.ListingCreateActivity;
 import br.com.wemind.marketplacetribanco.activities.ListingsListActivity;
+import br.com.wemind.marketplacetribanco.activities.SuppliersListActivity;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.utils.Alerts;
@@ -65,20 +67,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         final Listing listing = filteredData.get(position);
         holder.listingName.setText(listing.getName());
         holder.itemCount.setText(String.valueOf(listing.getListingProducts().size()));
-        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Alerts.getDeleteConfirmationAlert(listing.getName(), context,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                enqueueDeleteListing(listing.getId());
-                            }
-                        },
-                        null
-                ).show();
-            }
-        });
+
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,8 +103,7 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
         private final View v;
         private final TextView listingName;
         private final TextView itemCount;
-        private final ImageButton btnEdit;
-        private final ImageButton btnDelete;
+        private final View btnEdit;
 
         public ViewHolder(View v) {
             super(v);
@@ -123,11 +111,18 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
             this.v = v;
             listingName = (TextView) v.findViewById(R.id.txt_listing_name);
             itemCount = (TextView) v.findViewById(R.id.txt_item_count);
-            btnEdit = (ImageButton) v.findViewById(R.id.btn_edit);
-            btnDelete = (ImageButton) v.findViewById(R.id.btn_delete);
+            btnEdit = v.findViewById(R.id.btn_edit);
         }
     }
 
+    public void dismissItem (int position){
+
+        final long id = data.get(position).getId();
+        Log.d("Swipeid",""+id);
+        Api.api.deleteListing(id).enqueue(
+                ((ListingsListActivity) context).new DeleteListingCallback(context)
+        );
+    }
     public class Filter extends android.widget.Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -141,6 +136,8 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingsAdapter.ViewHo
             result.values = filtered;
             return result;
         }
+
+
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -153,6 +154,10 @@ public class ListingsListActivity extends BaseDrawerActivity {
         this.data = new ArrayList<>(data);
         adapter = new ListingsAdapter(this, data);
         cb.list.setAdapter(adapter);
+
+        ItemTouchHelper.Callback callback = new SwipeHelperListing(adapter);
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(cb.list);
     }
 
     @Override
