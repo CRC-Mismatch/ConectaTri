@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.InputType;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -46,6 +47,28 @@ public class SignUpActivity extends AppCompatActivity {
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
+
+        b.showPasswordBtn.setOnClickListener(new View.OnClickListener() {
+            private boolean isShowing = false;
+
+            @Override
+            public void onClick(View v) {
+                int sStart = b.passwordText.getSelectionStart();
+                int sEnd = b.passwordText.getSelectionEnd();
+
+                if (isShowing) {
+                    isShowing = false;
+                    b.passwordText.setInputType(InputType.TYPE_CLASS_TEXT
+                            | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                    isShowing = true;
+                    b.passwordText.setInputType(InputType.TYPE_CLASS_TEXT
+                            | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
+
+                b.passwordText.setSelection(sStart, sEnd);
+            }
+        });
 
         // Setup CNPJ formatting
         b.cnpj.addTextChangedListener(new FormattingTextWatcher(
