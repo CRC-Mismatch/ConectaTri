@@ -21,10 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wemind.marketplacetribanco.R;
+import br.com.wemind.marketplacetribanco.activities.ListingsListActivity;
 import br.com.wemind.marketplacetribanco.activities.SupplierCreateActivity;
 import br.com.wemind.marketplacetribanco.activities.SuppliersListActivity;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.databinding.ItemSupplierBinding;
+import br.com.wemind.marketplacetribanco.models.Listing;
 import br.com.wemind.marketplacetribanco.models.Supplier;
 import br.com.wemind.marketplacetribanco.utils.Alerts;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -44,6 +46,8 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
         this.data = new ArrayList<>(data);
         this.filteredData = new ArrayList<>(data);
     }
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

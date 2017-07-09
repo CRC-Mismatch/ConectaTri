@@ -2,7 +2,9 @@ package br.com.wemind.marketplacetribanco.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -13,18 +15,24 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
 import br.com.wemind.marketplacetribanco.R;
 import br.com.wemind.marketplacetribanco.adapters.ListingsAdapter;
+import br.com.wemind.marketplacetribanco.adapters.SupplierAdapter;
 import br.com.wemind.marketplacetribanco.api.Api;
 import br.com.wemind.marketplacetribanco.api.Callback;
 import br.com.wemind.marketplacetribanco.api.ListCallback;
 import br.com.wemind.marketplacetribanco.api.objects.ApiError;
 import br.com.wemind.marketplacetribanco.databinding.ContentListingsListBinding;
 import br.com.wemind.marketplacetribanco.models.Listing;
+import br.com.wemind.marketplacetribanco.models.Supplier;
 import br.com.wemind.marketplacetribanco.utils.TimerManager;
 import retrofit2.Call;
 
@@ -37,6 +45,8 @@ public class ListingsListActivity extends BaseDrawerActivity {
     private ListingsAdapter adapter;
     private ArrayList<Listing> data;
     private TimerManager timerManager;
+    public static final String PREFS_NAME = "ConectaTri";
+    public static final String LISTINGS = "Listings";
 
     @Override
     protected void onPause() {
@@ -91,11 +101,11 @@ public class ListingsListActivity extends BaseDrawerActivity {
             @Override
             public boolean onQueryTextChange(final String newText) {
 
-                       adapter.getFilter().filter(newText);
-                        return true;
+                adapter.getFilter().filter(newText);
+                return true;
 
 
-                        }
+            }
         });
         // End of search view setup
 
@@ -104,6 +114,17 @@ public class ListingsListActivity extends BaseDrawerActivity {
                 .inflate(getLayoutInflater(), b.contentFrame, true);
 
         cb.list.setLayoutManager(new LinearLayoutManager(this));
+
+        if (loadListings(this) != null) {
+
+        List<Listing> fromLocal = loadListings(this);
+        adapter = new ListingsAdapter(this, fromLocal);
+        cb.list.setAdapter(adapter);
+
+        // Data's ready, enable FAB
+        b.fab.setEnabled(true);
+
+    }
     }
 
     @Override
@@ -149,6 +170,8 @@ public class ListingsListActivity extends BaseDrawerActivity {
         this.data = new ArrayList<>(data);
         adapter = new ListingsAdapter(this, data);
         cb.list.setAdapter(adapter);
+
+        storeListings(this, data);
 
         ItemTouchHelper.Callback callback = new SwipeHelperListing(adapter);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
@@ -225,5 +248,25 @@ public class ListingsListActivity extends BaseDrawerActivity {
         public void onError(Call<Listing> call, ApiError response) {
             retrieveData();
         }
+    }
+
+    public void storeListings(Context context, List<Listing> data) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        Gson gson = new Gson();
+
+        String json = gson.toJson(data);
+
+        editor.putString(LISTINGS, json);
+        editor.commit();
+    }
+
+    public List<Listing> loadListings(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString(LISTINGS, null);
+        Type type = new TypeToken<List<Listing>>() {}.getType();
+        List<Listing> arrayList = gson.fromJson(json, type);
+        return arrayList;
     }
 }
